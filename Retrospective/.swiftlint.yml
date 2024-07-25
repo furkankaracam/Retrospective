@@ -1,0 +1,73 @@
+excluded:
+  - Carthage
+  - Pods
+  - ${PWD}/Pods
+  - Tv/Frameworks
+  - TVTests
+  - TVUITests
+  - TVCoreTests
+  - TVPlusTests
+
+disabled_rules:
+  - nesting
+  - todo
+  - trailing_whitespace
+  - unused_closure_parameter
+  - unused_setter_value
+  - unused_optional_binding
+  - void_function_in_ternary
+  - blanket_disable_command
+  - unneeded_override
+  - switch_case_alignment
+  - for_where
+  - legacy_random
+  - unneeded_synthesized_initializer
+  - unavailable_condition
+  - empty_enum_arguments
+  - colon
+
+line_length:
+  warning: 230
+  error: 250
+  ignores_function_declarations: true
+  ignores_comments: true
+  ignores_urls: true
+
+file_length:
+  warning: 1000
+  error: 1500
+  ignore_comment_only_lines: true
+  
+type_body_length:
+  warning: 350
+  error: 500
+
+identifier_name:
+  min_length: 2
+  max_length:
+    warning: 50
+    error: 60
+
+function_body_length:
+  warning: 300
+  error: 500
+
+function_parameter_count:
+  warning: 8
+  error: 10
+  
+type_name:
+  min_length: 2
+  max_length:
+    warning: 50
+    error: 60
+
+large_tuple: # warn user when using 4 values in tuple, give error if there are 5
+   - 15
+   - 20
+   
+cyclomatic_complexity:
+  warning: 20
+  error: 25
+  
+reporter: "xcode"
