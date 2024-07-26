@@ -18,7 +18,7 @@ struct SelectColumnsView: View {
                 .padding(.vertical)
             ForEach(columns.indices, id: \.self) { index in
                 Text("Kolon \(index + 1)")
-                HStack{
+                HStack {
                     TextField("Kolon metni girin", text: $columns[index])
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .padding()
@@ -36,7 +36,7 @@ struct SelectColumnsView: View {
                     .cornerRadius(10)
             }
             .padding()
-            NavigationButtons(checkFunction: .columns)
+            NavigationButtons(checkFunction: .columns(columns: ["selam"]))
         }
         .padding()
     }

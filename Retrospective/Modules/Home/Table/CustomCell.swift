@@ -17,7 +17,7 @@ struct CustomCell: View {
                 Text(session.name)
                 Spacer()
                 Text(session.isActive ? "Aktif" : "Pasif")
-                    .foregroundColor(session.isActive ? .green : .red)
+                    .foregroundColor(session.isActive ? .blue : .gray)
                 Spacer()
                 if session.isShowable {
                     Button(action: {

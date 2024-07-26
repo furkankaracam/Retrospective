@@ -7,16 +7,39 @@
 
 import SwiftUI
 
+enum AddSessionPages: CaseIterable {
+    case name
+    case time
+    case columns
+    case result
+}
+
 struct AddSessionView: View {
+    @Binding var pageIndex: AddSessionPages
     var body: some View {
-        VStack {
-            PaginationView(selectedPage: .constant(3))
-            ResultView()
-            Spacer()
-        }
+        NavigationView {
+            VStack {
+                switch pageIndex {
+                case .name:
+                    PaginationView(selectedPage: .constant(.name))
+                    SelectNameView()
+                case .time:
+                    PaginationView(selectedPage: .constant(.time))
+                    SelectTimeView()
+                case .columns:
+                    PaginationView(selectedPage: .constant(.columns))
+                    SelectColumnsView()
+                case .result:
+                    PaginationView(selectedPage: .constant(.result))
+                    ResultView()
+                }
+                Spacer()
+            }
+        }.navigationBarBackButtonHidden(true)
+        
     }
 }
 
 #Preview {
-    AddSessionView()
+    AddSessionView(pageIndex: .constant(.name))
 }

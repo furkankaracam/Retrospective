@@ -22,14 +22,14 @@ struct SelectTimeView: View {
             HStack {
                 Text("Süre")
                 Spacer()
-                Picker("Select a paint color", selection: $time) {
-                                ForEach(times, id: \.self) {
-                                    Text($0)
-                                }
-                            }
-                            .pickerStyle(.menu)
+                Picker("Süre Seçimi", selection: $time) {
+                    ForEach(times, id: \.self) { time in
+                        Text(time)
+                    }
+                }
+                .pickerStyle(.inline)
             }
-            NavigationButtons(index: 2, checkFunction: .name(name: "name"))
+            NavigationButtons(index: 2, checkFunction: .time)
         }.padding(.horizontal)
     }
 }

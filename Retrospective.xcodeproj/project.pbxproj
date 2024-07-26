@@ -18,7 +18,6 @@
 		879FB9C82C4E8D4400770753 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 879FB9C72C4E8D4400770753 /* GoogleService-Info.plist */; };
 		879FB9C92C4E8D4400770753 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 879FB9C72C4E8D4400770753 /* GoogleService-Info.plist */; };
 		879FB9CA2C4E8D4400770753 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 879FB9C72C4E8D4400770753 /* GoogleService-Info.plist */; };
-		879FB9D82C4E91EB00770753 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 879FB9D72C4E91EB00770753 /* FirebaseAuth */; };
 		879FB9DB2C4FAA0700770753 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 879FB9DA2C4FAA0700770753 /* .swiftlint.yml */; };
 		879FB9DC2C4FAA0700770753 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 879FB9DA2C4FAA0700770753 /* .swiftlint.yml */; };
 		879FB9DD2C4FAA0700770753 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 879FB9DA2C4FAA0700770753 /* .swiftlint.yml */; };
@@ -31,7 +30,6 @@
 		87A3A9952C52678F00C39550 /* PaginationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87A3A9942C52678F00C39550 /* PaginationView.swift */; };
 		87A3A9972C526F2600C39550 /* SelectNameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87A3A9962C526F2600C39550 /* SelectNameView.swift */; };
 		87A3A9992C52720900C39550 /* NavigationButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87A3A9982C52720900C39550 /* NavigationButtons.swift */; };
-		87A3A99C2C528D3200C39550 /* Navigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87A3A99B2C528D3200C39550 /* Navigator.swift */; };
 		87A3A99F2C528E4900C39550 /* SelectColumnsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87A3A99E2C528E4900C39550 /* SelectColumnsView.swift */; };
 		87A3A9A12C5296B000C39550 /* ResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87A3A9A02C5296B000C39550 /* ResultView.swift */; };
 		87A3A9A32C5297A100C39550 /* SelectTimeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87A3A9A22C5297A100C39550 /* SelectTimeView.swift */; };
@@ -77,7 +75,6 @@
 		87A3A9942C52678F00C39550 /* PaginationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaginationView.swift; sourceTree = "<group>"; };
 		87A3A9962C526F2600C39550 /* SelectNameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectNameView.swift; sourceTree = "<group>"; };
 		87A3A9982C52720900C39550 /* NavigationButtons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationButtons.swift; sourceTree = "<group>"; };
-		87A3A99B2C528D3200C39550 /* Navigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Navigator.swift; sourceTree = "<group>"; };
 		87A3A99E2C528E4900C39550 /* SelectColumnsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectColumnsView.swift; sourceTree = "<group>"; };
 		87A3A9A02C5296B000C39550 /* ResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultView.swift; sourceTree = "<group>"; };
 		87A3A9A22C5297A100C39550 /* SelectTimeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectTimeView.swift; sourceTree = "<group>"; };
@@ -88,7 +85,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				879FB9D82C4E91EB00770753 /* FirebaseAuth in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -132,7 +128,6 @@
 		879FB98B2C4E70A700770753 /* Retrospective */ = {
 			isa = PBXGroup;
 			children = (
-				87A3A99A2C528D1F00C39550 /* Helpers */,
 				879FB9B72C4E733000770753 /* Modules */,
 				879FB9902C4E70A700770753 /* Assets.xcassets */,
 				879FB9C72C4E8D4400770753 /* GoogleService-Info.plist */,
@@ -218,14 +213,6 @@
 			path = AddSession;
 			sourceTree = "<group>";
 		};
-		87A3A99A2C528D1F00C39550 /* Helpers */ = {
-			isa = PBXGroup;
-			children = (
-				87A3A99B2C528D3200C39550 /* Navigator.swift */,
-			);
-			path = Helpers;
-			sourceTree = "<group>";
-		};
 		87A3A99D2C528E2900C39550 /* SubPages */ = {
 			isa = PBXGroup;
 			children = (
@@ -255,7 +242,6 @@
 			);
 			name = Retrospective;
 			packageProductDependencies = (
-				879FB9D72C4E91EB00770753 /* FirebaseAuth */,
 			);
 			productName = Retrospective;
 			productReference = 879FB9892C4E70A700770753 /* Retrospective.app */;
@@ -330,7 +316,6 @@
 			);
 			mainGroup = 879FB9802C4E70A600770753;
 			packageReferences = (
-				879FB9D62C4E8E9800770753 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			productRefGroup = 879FB98A2C4E70A700770753 /* Products */;
 			projectDirPath = "";
@@ -405,7 +390,6 @@
 				87A3A9992C52720900C39550 /* NavigationButtons.swift in Sources */,
 				87A3A9A12C5296B000C39550 /* ResultView.swift in Sources */,
 				87A3A98E2C524D0A00C39550 /* Model.swift in Sources */,
-				87A3A99C2C528D3200C39550 /* Navigator.swift in Sources */,
 				879FB9C22C4E79C800770753 /* HomeView.swift in Sources */,
 				87A3A98A2C524A6100C39550 /* TableHeader.swift in Sources */,
 				87A3A99F2C528E4900C39550 /* SelectColumnsView.swift in Sources */,
@@ -746,24 +730,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		879FB9D62C4E8E9800770753 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 10.29.0;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		879FB9D72C4E91EB00770753 /* FirebaseAuth */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = FirebaseAuth;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 879FB9812C4E70A600770753 /* Project object */;
 }

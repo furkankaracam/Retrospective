@@ -6,12 +6,11 @@
 //
 
 import SwiftUI
-import FirebaseCore
 
 class AppDelegate: NSObject, UIApplicationDelegate {
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
-        FirebaseApp.configure()
+        // FirebaseApp.configure()
         return true
     }
 }
@@ -27,7 +26,7 @@ struct RetrospectiveApp: App {
                         Label("Oturumlar", systemImage: "list.dash")
                     }
                 
-                AddSessionView()
+                AddSessionView(pageIndex: .constant(.name))
                     .tabItem {
                         Label("Oturum Ekle", systemImage: "plus")
                     }
