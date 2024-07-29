@@ -16,6 +16,8 @@ enum AddSessionPages: CaseIterable {
 
 struct AddSessionView: View {
     @Binding var pageIndex: AddSessionPages
+    @StateObject var viewModel = AddSessionViewModel()
+    
     var body: some View {
         NavigationView {
             VStack {
@@ -41,5 +43,5 @@ struct AddSessionView: View {
 }
 
 #Preview {
-    AddSessionView(pageIndex: .constant(.name))
+    AddSessionView(pageIndex: .constant(.name), viewModel: AddSessionViewModel())
 }
