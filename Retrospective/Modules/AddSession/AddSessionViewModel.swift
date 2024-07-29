@@ -6,7 +6,8 @@
 //
 
 import Foundation
+import Firebase
 
 final class AddSessionViewModel: ObservableObject {
-    
+
 }

@@ -20,5 +20,5 @@ struct SessionsTable: View {
 }
 
 #Preview {
-    SessionsTable(sessions: [Session(id: 1, name: "Deneme", isActive: true, isEditable: true, isShowable: true, isDeletable: true)])
+    SessionsTable(sessions: [])
 }
