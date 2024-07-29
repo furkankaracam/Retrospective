@@ -17,18 +17,29 @@ struct SelectColumnsView: View {
                 .bold()
             Text("Oluşturmak istediğin kolonları ekle")
                 .padding(.vertical)
-            ForEach(columns.indices, id: \.self) { index in
-                Text("Kolon \(index + 1)")
-                HStack {
-                    TextField("Kolon metni girin", text: $columns[index])
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .padding()
-                    Button("Sil") {
-                        deleteColumn(index: index)
-                    }.tint(.red)
+            ScrollViewReader { proxy in
+                ScrollView {
+                    VStack(alignment: .leading, spacing: 16) {
+                        ForEach(columns.indices, id: \.self) { index in
+                            HStack {
+                                TextField("Kolon metni girin", text: $columns[index])
+                                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                                    .padding()
+                                Button("Sil") {
+                                    deleteColumn(index: index)
+                                }
+                                .tint(.red)
+                            }
+                            .padding(.horizontal)
+                        }
+                    }
+                }
+                .onChange(of: columns) {
+                    withAnimation {
+                        proxy.scrollTo(columns.indices.last, anchor: .bottom)
+                    }
                 }
             }
-            
             Button(action: addColumn) {
                 Text("Yeni Kolon Ekle")
                     .padding()
