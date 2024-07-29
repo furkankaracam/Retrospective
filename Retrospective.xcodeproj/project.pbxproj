@@ -182,6 +182,7 @@
 				87A3A9852C5167AB00C39550 /* Table */,
 				879FB9C12C4E79C800770753 /* HomeView.swift */,
 				879FB9C52C4E7E5500770753 /* HomeViewModel.swift */,
+				87A3A9A92C53ACB800C39550 /* Model.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -213,7 +214,6 @@
 				87A3A9922C5262C900C39550 /* AddSessionViewModel.swift */,
 				87A3A9942C52678F00C39550 /* PaginationView.swift */,
 				87A3A9982C52720900C39550 /* NavigationButtons.swift */,
-				87A3A9A92C53ACB800C39550 /* Model.swift */,
 			);
 			path = AddSession;
 			sourceTree = "<group>";

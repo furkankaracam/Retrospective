@@ -5,8 +5,6 @@
 //  Created by Furkan Karaçam on 26.07.2024.
 //
 
-import Foundation
-
 struct SessionResponse: Decodable {
     let sessions: [String: Session]
 }
@@ -29,13 +27,13 @@ struct Session: Identifiable, Decodable {
     let createdBy: String
     let name: String
     let password: String
-    let participants: [String: Int] // JSON'daki değer türüne göre Int olarak kalmalı
+    let participants: [String: Int]
     let settings: Settings
     let columns: [String: Column]
-    let isActive: Bool // JSON'da integer olarak tanımlanmış
+    let isActive: Bool
 }
 
 struct Settings: Decodable {
-    let anonymous: Bool // JSON'da integer olarak tanımlanmış
+    let anonymous: Bool
     let timer: Int
 }

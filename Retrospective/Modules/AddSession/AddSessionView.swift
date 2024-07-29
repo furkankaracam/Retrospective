@@ -9,14 +9,14 @@ import SwiftUI
 
 enum AddSessionPages: CaseIterable {
     case name
-    case time
+    case options
     case columns
     case result
 }
 
 struct AddSessionView: View {
     @Binding var pageIndex: AddSessionPages
-    @StateObject var viewModel = AddSessionViewModel()
+    @StateObject private var viewModel = AddSessionViewModel()
     
     var body: some View {
         NavigationView {
@@ -25,8 +25,8 @@ struct AddSessionView: View {
                 case .name:
                     PaginationView(selectedPage: .constant(.name))
                     SelectNameView()
-                case .time:
-                    PaginationView(selectedPage: .constant(.time))
+                case .options:
+                    PaginationView(selectedPage: .constant(.options))
                     SelectTimeView()
                 case .columns:
                     PaginationView(selectedPage: .constant(.columns))
@@ -37,11 +37,12 @@ struct AddSessionView: View {
                 }
                 Spacer()
             }
-        }.navigationBarBackButtonHidden(true)
-        
+        }.navigationBarBackButtonHidden(false)
+            
     }
 }
 
 #Preview {
-    AddSessionView(pageIndex: .constant(.name), viewModel: AddSessionViewModel())
+    AddSessionView(pageIndex: .constant(.name))
+        .environmentObject(SessionData())
 }
