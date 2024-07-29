@@ -8,7 +8,12 @@
 import SwiftUI
 
 struct SelectTimeView: View {
-    @State var time: String = ""
+    
+    @State private var time: String = ""
+    @State private var password: String = ""
+    @State private var isHidden: Bool = false
+    
+    @EnvironmentObject private var newSession: SessionData
     let times = ["5 Min", "10 Min", "15 Min", "30 Min", "1 H", "2 H", "4 H"]
     
     var body: some View {
@@ -17,7 +22,7 @@ struct SelectTimeView: View {
                 .bold()
                 .padding(.top)
                 .padding(.bottom)
-            Text("Oluşturmak istediğin oturumun süresini belirle")
+            Text("Oluşturmak istediğin oturumun ayarlarını belirle")
             HStack {
                 Text("Süre")
                 Spacer()
@@ -28,11 +33,35 @@ struct SelectTimeView: View {
                 }
                 .pickerStyle(.inline)
             }
-            NavigationButtons(index: 2, checkFunction: .time)
+            Toggle(isOn: $isHidden) {
+                Text("Gizli oturum")
+            }
+            .toggleStyle(.switch)
+            SecureField("Parola (İsteğe Bağlı)", text: $password)
+                .padding()
+                .background(Color.black.opacity(0.1))
+                .cornerRadius(15)
+                .padding()
+            
+            NavigationButtons(index: 2, checkFunction: .options(duration: time, isHidden: isHidden, password: password))
         }.padding(.horizontal)
+            .onAppear {
+                if !newSession.time.isEmpty {
+                    self.time = newSession.time
+                }
+                if !newSession.password.isEmpty {
+                    self.password = newSession.password
+                }
+                if !newSession.isHidden {
+                    self.isHidden = newSession.isHidden
+                }
+            }
+            .onChange(of: time, {newSession.time = time})
+            .onChange(of: password, {newSession.password = password})
+            .onChange(of: isHidden, {newSession.isHidden = isHidden})
     }
 }
 
 #Preview {
-    SelectTimeView()
+    SelectTimeView().environmentObject(SessionData())
 }

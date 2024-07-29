@@ -33,8 +33,8 @@ struct HomeView: View {
                 
             }
             .navigationTitle("Oturumlar")
-            .onAppear {
-                viewModel.fetchData()
+            .task {
+                await viewModel.fetchData()
             }
         }
     }

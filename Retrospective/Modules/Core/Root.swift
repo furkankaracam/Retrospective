@@ -16,9 +16,20 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     }
 }
 
+final class SessionData: ObservableObject {
+    @Published var name: String = ""
+    @Published var password: String = ""
+    @Published var time: String = ""
+    @Published var isHidden: Bool = false
+    @Published var columns: [String] = []
+}
+
 @main
 struct RetrospectiveApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
+    
+    @StateObject private var newSession = SessionData()
+    
     var body: some Scene {
         WindowGroup {
             TabView {
@@ -30,7 +41,7 @@ struct RetrospectiveApp: App {
                 AddSessionView(pageIndex: .constant(.name))
                     .tabItem {
                         Label("Oturum Ekle", systemImage: "plus")
-                    }
+                    }.environmentObject(newSession)
                 
                 EmptyView()
                     .tabItem {

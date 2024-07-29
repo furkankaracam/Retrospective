@@ -9,6 +9,7 @@ import SwiftUI
 
 struct SelectColumnsView: View {
     @State private var columns: [String] = [""]
+    @EnvironmentObject private var newSession: SessionData
     
     var body: some View {
         VStack {
@@ -39,6 +40,12 @@ struct SelectColumnsView: View {
             NavigationButtons(checkFunction: .columns(columns: ["selam"]))
         }
         .padding()
+        .onAppear {
+            if newSession.columns.count > 0 {
+                self.columns = newSession.columns
+            }
+        }
+        .onChange(of: columns, {newSession.columns = columns})
     }
     
     private func addColumn() {
@@ -55,4 +62,5 @@ struct SelectColumnsView: View {
 
 #Preview {
     SelectColumnsView()
+        .environmentObject(SessionData())
 }
