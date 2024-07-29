@@ -15,15 +15,27 @@ struct HomeView: View {
         NavigationView {
             VStack(spacing: 0) {
                 TableHeader()
-                SessionsTable(sessions: viewModel.sessions)
+                if viewModel.sessions.isEmpty {
+                    CustomEmptyTableView()
+                } else {
+                    SessionsTable(sessions: viewModel.sessions)
+                }
                 Text("Geçmiş Oturumlar")
                     .font(.title2)
                     .bold()
                     .multilineTextAlignment(.leading)   // TODO: BAŞA GELMEDİ
                     .frame(width: UIScreen.main.bounds.width)
-                SessionsTable(sessions: viewModel.oldSessions)
+                if viewModel.oldSessions.isEmpty {
+                    CustomEmptyTableView()
+                } else {
+                    SessionsTable(sessions: viewModel.oldSessions)
+                }
+                
             }
             .navigationTitle("Oturumlar")
+            .onAppear {
+                viewModel.fetchData()
+            }
         }
     }
 }

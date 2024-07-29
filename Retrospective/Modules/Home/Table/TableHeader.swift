@@ -11,7 +11,7 @@ struct TableHeader: View {
     var body: some View {
         GeometryReader { geometry in
             Rectangle()
-                .fill(Color.red)
+                .fill(Color.blue)
                 .frame(width: geometry.size.width - 20, height: 50)
                 .padding(.horizontal, 10)
                 .cornerRadius(30)

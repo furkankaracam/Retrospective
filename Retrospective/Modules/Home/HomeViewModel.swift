@@ -6,19 +6,45 @@
 //
 
 import Foundation
+import Firebase
 
 final class HomeViewModel: ObservableObject {
     
-    @Published var sessions: [Session] = [
-        Session(id: 1, name: "Oturum 1", isActive: true, isEditable: true, isShowable: true, isDeletable: false),
-        Session(id: 2, name: "Oturum 2", isActive: false, isEditable: true, isShowable: true, isDeletable: false),
-        Session(id: 3, name: "Oturum 3", isActive: true, isEditable: true, isShowable: true, isDeletable: false),
-        Session(id: 4, name: "Oturum 4", isActive: false, isEditable: true, isShowable: true, isDeletable: false)
-    ]
+    @Published var sessions: [Session] = []
+    @Published var oldSessions: [Session] = []
+
+    private let ref = Database.database().reference()
     
-    @Published var oldSessions: [Session] = [
-        Session(id: 5, name: "Oturum 1", isActive: false, isEditable: false, isShowable: true, isDeletable: true),
-        Session(id: 6, name: "Oturum 2", isActive: false, isEditable: false, isShowable: true, isDeletable: true)
-    ]
-    
+    func fetchData() {
+        ref.child("sessions").observe(.value) { snapshot in
+            guard let value = snapshot.value as? [String: Any] else {
+                print("Error: Unable to cast snapshot value")
+                return
+            }
+
+            do {
+                let data = try JSONSerialization.data(withJSONObject: value, options: [])
+                let decoder = JSONDecoder()
+                
+                let sessionsResponse = try decoder.decode([String: Session].self, from: data)
+                
+                DispatchQueue.main.async {
+                    self.sessions = []
+                    self.oldSessions = []
+                    sessionsResponse.values.forEach { session in
+                        if session.isActive {
+                            self.sessions.append(session)
+                        } else {
+                            self.oldSessions.append(session)
+                        }
+                    }
+                }
+                
+            } catch {
+                print("Error decoding data: \(error)")
+            }
+        } withCancel: { error in
+            print(error.localizedDescription)
+        }
+    }
 }
