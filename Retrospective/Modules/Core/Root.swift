@@ -27,7 +27,7 @@ struct RetrospectiveApp: App {
                         Label("Oturumlar", systemImage: "list.dash")
                     }
                 
-                EmptyView()
+                AddSessionView(pageIndex: .constant(.name))
                     .tabItem {
                         Label("Oturum Ekle", systemImage: "plus")
                     }
