@@ -23,7 +23,7 @@ struct HomeView: View {
                 Text("Geçmiş Oturumlar")
                     .font(.title2)
                     .bold()
-                    .multilineTextAlignment(.leading)   // TODO: BAŞA GELMEDİ
+                    .multilineTextAlignment(.leading)
                     .frame(width: UIScreen.main.bounds.width)
                 if viewModel.oldSessions.isEmpty {
                     CustomEmptyTableView()

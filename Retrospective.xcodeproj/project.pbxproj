@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		872ED6BA2C58EE3D001868F1 /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 872ED6B92C58EE3D001868F1 /* Enums.swift */; };
 		87642D6F2C57CC5300292F22 /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = 87642D6E2C57CC5300292F22 /* FirebaseDatabase */; };
 		878CFCA12C53C62900A71D6F /* EmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878CFCA02C53C62900A71D6F /* EmptyView.swift */; };
 		879FB98D2C4E70A700770753 /* Root.swift in Sources */ = {isa = PBXBuildFile; fileRef = 879FB98C2C4E70A700770753 /* Root.swift */; };
@@ -55,6 +56,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		872ED6B92C58EE3D001868F1 /* Enums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enums.swift; sourceTree = "<group>"; };
 		878CFCA02C53C62900A71D6F /* EmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyView.swift; sourceTree = "<group>"; };
 		879FB9892C4E70A700770753 /* Retrospective.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Retrospective.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		879FB98C2C4E70A700770753 /* Root.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Root.swift; sourceTree = "<group>"; };
@@ -214,6 +216,7 @@
 				87A3A9922C5262C900C39550 /* AddSessionViewModel.swift */,
 				87A3A9942C52678F00C39550 /* PaginationView.swift */,
 				87A3A9982C52720900C39550 /* NavigationButtons.swift */,
+				872ED6B92C58EE3D001868F1 /* Enums.swift */,
 			);
 			path = AddSession;
 			sourceTree = "<group>";
@@ -398,6 +401,7 @@
 				87A3A9A12C5296B000C39550 /* ResultView.swift in Sources */,
 				879FB9C22C4E79C800770753 /* HomeView.swift in Sources */,
 				878CFCA12C53C62900A71D6F /* EmptyView.swift in Sources */,
+				872ED6BA2C58EE3D001868F1 /* Enums.swift in Sources */,
 				87A3A98A2C524A6100C39550 /* TableHeader.swift in Sources */,
 				87A3A99F2C528E4900C39550 /* SelectColumnsView.swift in Sources */,
 				87A3A9AA2C53ACB800C39550 /* Model.swift in Sources */,

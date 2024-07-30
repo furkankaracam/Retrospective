@@ -8,8 +8,9 @@
 import SwiftUI
 
 struct SelectColumnsView: View {
-    @State private var columns: [String] = [""]
+    
     @EnvironmentObject private var newSession: SessionData
+    @StateObject private var viewModel = AddSessionViewModel()
     
     var body: some View {
         VStack {
@@ -20,13 +21,13 @@ struct SelectColumnsView: View {
             ScrollViewReader { proxy in
                 ScrollView {
                     VStack(alignment: .leading, spacing: 16) {
-                        ForEach(columns.indices, id: \.self) { index in
+                        ForEach(viewModel.columns.indices, id: \.self) { index in
                             HStack {
-                                TextField("Kolon metni girin", text: $columns[index])
+                                TextField("Kolon metni girin", text: $viewModel.columns[index])
                                     .textFieldStyle(RoundedBorderTextFieldStyle())
                                     .padding()
                                 Button("Sil") {
-                                    deleteColumn(index: index)
+                                    viewModel.deleteColumn(at: index)
                                 }
                                 .tint(.red)
                             }
@@ -34,13 +35,13 @@ struct SelectColumnsView: View {
                         }
                     }
                 }
-                .onChange(of: columns) {
+                .onChange(of: viewModel.columns) {
                     withAnimation {
-                        proxy.scrollTo(columns.indices.last, anchor: .bottom)
+                        proxy.scrollTo(viewModel.columns.indices.last, anchor: .bottom)
                     }
                 }
             }
-            Button(action: addColumn) {
+            Button(action: viewModel.addColumn) {
                 Text("Yeni Kolon Ekle")
                     .padding()
                     .background(Color.blue)
@@ -48,27 +49,17 @@ struct SelectColumnsView: View {
                     .cornerRadius(10)
             }
             .padding()
-            NavigationButtons(checkFunction: .columns(columns: ["selam"]))
         }
         .padding()
         .onAppear {
             if newSession.columns.count > 0 {
-                self.columns = newSession.columns
+                viewModel.columns = newSession.columns
             }
         }
-        .onChange(of: columns, {newSession.columns = columns})
-    }
-    
-    private func addColumn() {
-        if columns.last != "" {
-            columns.append("")
+        .onChange(of: viewModel.columns) {
+            newSession.columns = viewModel.columns
         }
     }
-    
-    private func deleteColumn(index: Int) {
-        columns.remove(at: index)
-    }
-    
 }
 
 #Preview {

@@ -24,7 +24,6 @@ struct SelectNameView: View {
                 .background(Color.black.opacity(0.1))
                 .cornerRadius(15)
                 .padding()
-            NavigationButtons(index: 0, checkFunction: .name(name: name))
         }.onAppear {
             if !newSession.name.isEmpty {
                 self.name = newSession.name

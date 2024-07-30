@@ -9,12 +9,12 @@ import SwiftUI
 
 struct SelectTimeView: View {
     
-    @State private var time: String = ""
+    @State private var time: Int = 0
     @State private var password: String = ""
     @State private var isHidden: Bool = false
     
     @EnvironmentObject private var newSession: SessionData
-    let times = ["5 Min", "10 Min", "15 Min", "30 Min", "1 H", "2 H", "4 H"]
+    let times = [15, 30, 45, 60, 90]
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -28,7 +28,7 @@ struct SelectTimeView: View {
                 Spacer()
                 Picker("Süre Seçimi", selection: $time) {
                     ForEach(times, id: \.self) { time in
-                        Text(time)
+                        Text("\(time)")
                     }
                 }
                 .pickerStyle(.inline)
@@ -43,22 +43,21 @@ struct SelectTimeView: View {
                 .cornerRadius(15)
                 .padding()
             
-            NavigationButtons(index: 2, checkFunction: .options(duration: time, isHidden: isHidden, password: password))
         }.padding(.horizontal)
             .onAppear {
-                if !newSession.time.isEmpty {
-                    self.time = newSession.time
+                if newSession.settings.time == 0 {
+                    self.time = newSession.settings.time
                 }
-                if !newSession.password.isEmpty {
-                    self.password = newSession.password
+                if !newSession.settings.password.isEmpty {
+                    self.password = newSession.settings.password
                 }
-                if !newSession.isHidden {
-                    self.isHidden = newSession.isHidden
+                if !newSession.settings.authorVisibility {
+                    self.isHidden = newSession.settings.authorVisibility
                 }
             }
-            .onChange(of: time, {newSession.time = time})
-            .onChange(of: password, {newSession.password = password})
-            .onChange(of: isHidden, {newSession.isHidden = isHidden})
+            .onChange(of: time, {newSession.settings.time = time})
+            .onChange(of: password, {newSession.settings.password = password})
+            .onChange(of: isHidden, {newSession.settings.authorVisibility = isHidden})
     }
 }
 

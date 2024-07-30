@@ -11,7 +11,7 @@ struct SessionsTable: View {
     var sessions: [Session]
     var body: some View {
         List {
-            ForEach(sessions) { session in
+            ForEach(sessions, id: \.name) { session in
                 CustomCell(session: session)
             }
         }

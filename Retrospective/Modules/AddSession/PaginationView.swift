@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct PaginationView: View {
-    @Binding var selectedPage: AddSessionPages
+    
+    @ObservedObject var viewModel: AddSessionViewModel
     
     var body: some View {
         HStack(spacing: 0) {
@@ -19,8 +20,8 @@ struct PaginationView: View {
                         .foregroundColor(.blue)
                 }
                 Circle()
-                    .stroke(selectedPage == page ? Color.blue : Color.gray, lineWidth: 2)
-                    .background(Circle().fill(selectedPage == page ? Color.blue : Color.clear))
+                    .stroke(viewModel.pageIndex == page ? Color.blue : Color.gray, lineWidth: 2)
+                    .background(Circle().fill(viewModel.pageIndex == page ? Color.blue : Color.clear))
                     .frame(width: 20, height: 20)
             }
         }
@@ -30,5 +31,5 @@ struct PaginationView: View {
 }
 
 #Preview {
-    PaginationView(selectedPage: .constant(.name))
+    PaginationView(viewModel: AddSessionViewModel())
 }

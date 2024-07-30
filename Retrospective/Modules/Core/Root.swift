@@ -17,11 +17,45 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 }
 
 final class SessionData: ObservableObject {
-    @Published var name: String = ""
-    @Published var password: String = ""
-    @Published var time: String = ""
-    @Published var isHidden: Bool = false
     @Published var columns: [String] = []
+    @Published var createdBy: String = ""
+    @Published var isActive: Bool = true
+    @Published var name: String = ""
+    @Published var participants: [String: Int] = ["Kullanıcım":4]
+    @Published var settings: Settings = Settings()
+    
+    struct Settings {
+        var anonymous, authorVisibility: Bool
+        var time: Int
+        var password: String
+        
+        init(anonymous: Bool = false, authorVisibility: Bool = true, time: Int = 0, password: String = "password") {
+            self.anonymous = anonymous
+            self.authorVisibility = anonymous
+            self.time = time
+            self.password = password
+        }
+        
+        func toDictionary() -> [String: Any] {
+            return [
+                "anonymous": anonymous,
+                "authorVisibility": authorVisibility,
+                "time": time,
+                "password": password
+            ]
+        }
+    }
+    
+    func toDictionary() -> [String: Any] {
+        return [
+            "columns": columns,
+            "createdBy": createdBy,
+            "isActive": isActive,
+            "name": name,
+            "participants": participants,
+            "settings": settings.toDictionary()
+        ]
+    }
 }
 
 @main
@@ -37,8 +71,7 @@ struct RetrospectiveApp: App {
                     .tabItem {
                         Label("Oturumlar", systemImage: "list.dash")
                     }
-                
-                AddSessionView(pageIndex: .constant(.name))
+                AddSessionView()
                     .tabItem {
                         Label("Oturum Ekle", systemImage: "plus")
                     }.environmentObject(newSession)
