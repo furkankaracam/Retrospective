@@ -9,7 +9,7 @@ import SwiftUI
 
 enum CheckFunctions {
     case name(name: String)
-    case time
+    case options(duration: String, isHidden: Bool, password: String)
     case columns(columns: [String])
     case result
 }
@@ -22,6 +22,9 @@ struct NavigationButtons: View {
     
     @State private var isActive = false
     @State private var destinationView: AnyView?
+    
+    @EnvironmentObject var vm: AddSessionViewModel
+    @StateObject var viewModel = AddSessionViewModel()
     
     var body: some View {
         VStack {
@@ -36,8 +39,8 @@ struct NavigationButtons: View {
                         switch checkFunction {
                         case .name(let name):
                             checkName(name: name)
-                        case .time:
-                            checkTime(options: "")
+                        case .options(let duration, let isHidden, let password):
+                            checkOptions(duration: duration, isHidden: isHidden, password: password)
                         case .columns(columns: _):
                             checkColumns(options: "")
                         case .result:
@@ -61,8 +64,7 @@ struct NavigationButtons: View {
     
     private func checkName(name: String) {
         if !name.isEmpty {
-            print("İsimden Geçti \(name)")
-            destinationView = AnyView(AddSessionView(pageIndex: .constant(.time)))
+            destinationView = AnyView(AddSessionView(pageIndex: .constant(.options)))
             isActive = true
         } else {
             alertMessage = "İsim boş olamaz!"
@@ -70,13 +72,13 @@ struct NavigationButtons: View {
         }
     }
     
-    private func checkTime(options: String) {
-        destinationView = AnyView(AddSessionView(pageIndex: .constant(.columns)))  //
+    private func checkOptions(duration: String, isHidden: Bool, password: String) {
+        destinationView = AnyView(AddSessionView(pageIndex: .constant(.columns)))
         isActive = true
     }
     
     private func checkColumns(options: String) {
-        destinationView = AnyView(AddSessionView(pageIndex: .constant(.result)))  //
+        destinationView = AnyView(AddSessionView(pageIndex: .constant(.result)))
         isActive = true
     }
     

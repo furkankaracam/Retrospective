@@ -9,6 +9,7 @@ import SwiftUI
 
 struct SelectColumnsView: View {
     @State private var columns: [String] = [""]
+    @EnvironmentObject private var newSession: SessionData
     
     var body: some View {
         VStack {
@@ -16,18 +17,29 @@ struct SelectColumnsView: View {
                 .bold()
             Text("Oluşturmak istediğin kolonları ekle")
                 .padding(.vertical)
-            ForEach(columns.indices, id: \.self) { index in
-                Text("Kolon \(index + 1)")
-                HStack {
-                    TextField("Kolon metni girin", text: $columns[index])
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .padding()
-                    Button("Sil") {
-                        deleteColumn(index: index)
-                    }.tint(.red)
+            ScrollViewReader { proxy in
+                ScrollView {
+                    VStack(alignment: .leading, spacing: 16) {
+                        ForEach(columns.indices, id: \.self) { index in
+                            HStack {
+                                TextField("Kolon metni girin", text: $columns[index])
+                                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                                    .padding()
+                                Button("Sil") {
+                                    deleteColumn(index: index)
+                                }
+                                .tint(.red)
+                            }
+                            .padding(.horizontal)
+                        }
+                    }
+                }
+                .onChange(of: columns) {
+                    withAnimation {
+                        proxy.scrollTo(columns.indices.last, anchor: .bottom)
+                    }
                 }
             }
-            
             Button(action: addColumn) {
                 Text("Yeni Kolon Ekle")
                     .padding()
@@ -39,6 +51,12 @@ struct SelectColumnsView: View {
             NavigationButtons(checkFunction: .columns(columns: ["selam"]))
         }
         .padding()
+        .onAppear {
+            if newSession.columns.count > 0 {
+                self.columns = newSession.columns
+            }
+        }
+        .onChange(of: columns, {newSession.columns = columns})
     }
     
     private func addColumn() {
@@ -55,4 +73,5 @@ struct SelectColumnsView: View {
 
 #Preview {
     SelectColumnsView()
+        .environmentObject(SessionData())
 }

@@ -13,8 +13,8 @@ struct TableHeader: View {
             Rectangle()
                 .fill(Color.blue)
                 .frame(width: geometry.size.width - 20, height: 50)
+                .cornerRadius(15)
                 .padding(.horizontal, 10)
-                .cornerRadius(30)
                 .overlay(
                     HStack(alignment: .center) {
                         Text("Retro İsmi")

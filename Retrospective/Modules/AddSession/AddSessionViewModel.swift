@@ -9,5 +9,5 @@ import Foundation
 import Firebase
 
 final class AddSessionViewModel: ObservableObject {
-
+    @Published var sessionData = SessionData()
 }

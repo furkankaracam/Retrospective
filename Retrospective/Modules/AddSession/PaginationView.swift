@@ -22,9 +22,6 @@ struct PaginationView: View {
                     .stroke(selectedPage == page ? Color.blue : Color.gray, lineWidth: 2)
                     .background(Circle().fill(selectedPage == page ? Color.blue : Color.clear))
                     .frame(width: 20, height: 20)
-                    .onTapGesture {
-                        selectedPage = page
-                    }
             }
         }
         .frame(width: UIScreen.main.bounds.width / 2.5, height: 20)

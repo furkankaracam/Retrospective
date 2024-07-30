@@ -8,7 +8,10 @@
 import SwiftUI
 
 struct SelectNameView: View {
-    @State var name: String = ""
+    
+    @State private var name: String = ""
+    @EnvironmentObject private var newSession: SessionData
+    
     var body: some View {
         VStack {
             Text("Merhaba Furkan")
@@ -22,10 +25,16 @@ struct SelectNameView: View {
                 .cornerRadius(15)
                 .padding()
             NavigationButtons(index: 0, checkFunction: .name(name: name))
+        }.onAppear {
+            if !newSession.name.isEmpty {
+                self.name = newSession.name
+            }
         }
+        .onChange(of: name, {newSession.name = name})
     }
 }
 
 #Preview {
     SelectNameView()
+        .environmentObject(SessionData())
 }

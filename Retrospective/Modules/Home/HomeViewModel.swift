@@ -15,7 +15,7 @@ final class HomeViewModel: ObservableObject {
 
     private let ref = Database.database().reference()
     
-    func fetchData() {
+    func fetchData() async {
         ref.child("sessions").observe(.value) { snapshot in
             guard let value = snapshot.value as? [String: Any] else {
                 print("Error: Unable to cast snapshot value")
