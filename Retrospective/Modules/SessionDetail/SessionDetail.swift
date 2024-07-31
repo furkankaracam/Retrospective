@@ -12,10 +12,18 @@ struct SessionDetail: View {
     
     var body: some View {
         ScrollView {
-            List {
-                ColumnCard(title: "Neleri İyi yaptık?", cards: [Card(id: 1, createdBy: "Ahmet", text: "İşlemler çok güzeldi"), Card(id: 2, createdBy: "Furkan  Karaçam", text: "Süper")])
-                ColumnCard(title: "Geliştirilebilir yönlerimiz nelerdi?", cards: [Card(id: 1, createdBy: "Veli", text: "Daha iyi yapılabilirdi"), Card(id: 2, createdBy: "Ali", text: "İletişim daha iyi olabilirdi, yazıyı daha uzun tutarsak ne mi olur?")])
-            }.frame(height: UIScreen.main.bounds.height)
+            VStack(alignment: .leading) {
+                ColumnCard(title: "Neleri İyi yaptık?", cards: [
+                    Card(id: 1, createdBy: "Ahmet", text: "İşlemler çok güzeldi"),
+                    Card(id: 2, createdBy: "Furkan Karaçam", text: "Süper")
+                ])
+                
+                ColumnCard(title: "Geliştirilebilir yönlerimiz nelerdi?", cards: [
+                    Card(id: 1, createdBy: "Veli", text: "Daha iyi yapılabilirdi"),
+                    Card(id: 2, createdBy: "Ali", text: "İletişim daha iyi olabilirdi, yazıyı daha uzun tutarsak ne mi olur?")
+                ])
+            }
+            .padding()
         }
     }
 }

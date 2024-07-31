@@ -5,12 +5,14 @@
 //  Created by Furkan Karaçam on 26.07.2024.
 //
 
+import Foundation
+
 struct SessionResponse: Decodable {
     let sessions: [String: Session]
 }
 
 struct Session: Identifiable, Decodable {
-    let id: Int?
+    let id: String?
     // let columns: [String: Column]
     let createdBy: String
     let isActive: Bool
