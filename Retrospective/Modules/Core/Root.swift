@@ -29,7 +29,7 @@ final class SessionData: ObservableObject {
         var time: Int
         var password: String
         
-        init(anonymous: Bool = false, authorVisibility: Bool = true, time: Int = 0, password: String = "password") {
+        init(anonymous: Bool = false, authorVisibility: Bool = true, time: Int = 0, password: String = "") {
             self.anonymous = anonymous
             self.authorVisibility = anonymous
             self.time = time
@@ -76,7 +76,7 @@ struct RetrospectiveApp: App {
                         Label("Oturum Ekle", systemImage: "plus")
                     }.environmentObject(newSession)
                 
-                EmptyView()
+                SessionDetail()
                     .tabItem {
                         Label("Profil", systemImage: "person")
                     }
