@@ -9,6 +9,7 @@ import SwiftUI
 
 struct CommentCard: View {
     @StateObject private var viewModel: SessionDetailViewModel = SessionDetailViewModel()
+    @Binding var isEditable: Bool
     
     var card: Card
     var body: some View {
@@ -24,25 +25,22 @@ struct CommentCard: View {
                 .padding()
                 .background(Color.blue.opacity(0.2))
                 .clipShape(Circle())
-                .gesture(
-                    DragGesture()
-                        .onChanged { value in
-                            withAnimation {
-                                viewModel.offsets[card.id ?? 0] = value.translation
-                            }
-                        }
-                        .onEnded { value in
-                            withAnimation {
-                                viewModel.offsets[card.id ?? 0] = value.translation
-                            }
-                        }
-                )
+                .onLongPressGesture {
+                    print("Uzun basıldı")
+                    print(isEditable)
+                    isEditable = !isEditable
+                    print(isEditable)
+                }
         }
         .offset(viewModel.offsets[card.id ?? 0] ?? .zero)
         .padding()
+        .onChange(of: isEditable) { oldValue, newValue in
+            print("iseditable \(oldValue) idi \(newValue) oldu")
+        }
+        
     }
 }
 
 #Preview {
-    CommentCard(card: Card(id: 1, createdBy: "Furkan", text: "Deneme"))
+    CommentCard(isEditable: .constant(false), card: Card(id: 1, createdBy: "Furkan", text: "Deneme"))
 }

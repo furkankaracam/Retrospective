@@ -10,7 +10,7 @@ import SwiftUI
 struct SelectNameView: View {
     
     @State private var name: String = ""
-    @EnvironmentObject private var newSession: SessionData
+    @StateObject var viewModel: AddSessionViewModel
     
     var body: some View {
         VStack {
@@ -25,15 +25,14 @@ struct SelectNameView: View {
                 .cornerRadius(15)
                 .padding()
         }.onAppear {
-            if !newSession.name.isEmpty {
-                self.name = newSession.name
+            if viewModel.name.isEmpty {
+                self.name = viewModel.name
             }
         }
-        .onChange(of: name, {newSession.name = name})
+        .onChange(of: name, {viewModel.session.name = name})
     }
 }
 
 #Preview {
-    SelectNameView()
-        .environmentObject(SessionData())
+    SelectNameView(viewModel: AddSessionViewModel())
 }

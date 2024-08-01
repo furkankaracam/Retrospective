@@ -31,7 +31,7 @@ struct CustomCell: View {
                             .contentShape(Circle())
                     }
                     .background(
-                        NavigationLink(destination: SessionDetail(), isActive: $isNavigationActive) {
+                        NavigationLink(destination: SessionDetail( isEditable: false), isActive: $isNavigationActive) {
                             EmptyView()
                         }
                         .hidden()

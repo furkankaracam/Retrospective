@@ -14,12 +14,44 @@ final class AddSessionViewModel: ObservableObject {
     @Published var alertMessage: String = "Hata"
     @Published var pageIndex: AddSessionPages = .name
     
+    @Published var name: String = ""
+    @Published var time: Int = 0
+    @Published var isHidden: Bool = false
+    @Published var password: String = ""
     @Published var columns: [String] = [""]
+    
+    @Published var session = SessionData()
+    
+    let times = [15, 30, 45, 60, 90]
     
     func navigate(type: NavigateTo) {
         let allPages = AddSessionPages.allCases
         guard let currentIndex = allPages.firstIndex(of: pageIndex) else {
             return
+        }
+        
+        switch pageIndex {
+        case .name:
+            if !checkName() {
+                return
+            }
+        case .options:
+            if !checkName() {
+                return
+            }
+        case .columns:
+            switch type {
+            case .previous:
+                break
+            case .next:
+                if !checkColumns() {
+                    return
+                }
+            }
+        case .result:
+            if !checkName() {
+                return
+            }
         }
         
         switch type {
@@ -32,9 +64,31 @@ final class AddSessionViewModel: ObservableObject {
         }
     }
     
+    func checkName() -> Bool {
+        if session.name.isEmpty {
+            alertMessage = "İsim alanı boş bırakılamaz"
+            showAlert = true
+            return false
+        }
+        return true
+    }
+    
+    func checkColumns() -> Bool {
+        if columns.isEmpty || (columns.contains("")) {
+            print("Buraya girmedi")
+            alertMessage = "Boş sütun hatası"
+            showAlert = true
+            return false
+        }
+        return true
+    }
+    
     func addColumn() {
-        if columns.last?.isEmpty == false {
+        if columns.isEmpty || columns.last != "" {
             columns.append("")
+        } else {
+            alertMessage = "Boş sütun mevcut!"
+            showAlert = true
         }
     }
     
@@ -42,14 +96,16 @@ final class AddSessionViewModel: ObservableObject {
         columns.remove(at: index)
     }
     
-    func save(session: SessionData) {
-        let ref = Database.database().reference()
-        let data = session.toDictionary()
-        ref.child("sessions").childByAutoId().setValue(data) { error, _ in
-            if let error = error {
-                print("Data write failed: \(error.localizedDescription)")
-            } else {
-                self.pageIndex = .result
+    func save() {
+        if checkColumns() {
+            let ref = Database.database().reference()
+            let data = session.toDictionary()
+            ref.child("sessions").childByAutoId().setValue(data) { error, _ in
+                if let error = error {
+                    print("Data write failed: \(error.localizedDescription)")
+                } else {
+                    self.pageIndex = .result
+                }
             }
         }
     }

@@ -9,8 +9,7 @@ import SwiftUI
 
 struct SelectColumnsView: View {
     
-    @EnvironmentObject private var newSession: SessionData
-    @StateObject private var viewModel = AddSessionViewModel()
+    @StateObject var viewModel: AddSessionViewModel
     
     var body: some View {
         VStack {
@@ -39,6 +38,7 @@ struct SelectColumnsView: View {
                     withAnimation {
                         proxy.scrollTo(viewModel.columns.indices.last, anchor: .bottom)
                     }
+                    viewModel.session.columns = viewModel.columns
                 }
             }
             Button(action: viewModel.addColumn) {
@@ -52,17 +52,13 @@ struct SelectColumnsView: View {
         }
         .padding()
         .onAppear {
-            if newSession.columns.count > 0 {
-                viewModel.columns = newSession.columns
+            if viewModel.columns.count > 0 {
+                viewModel.columns = viewModel.columns
             }
-        }
-        .onChange(of: viewModel.columns) {
-            newSession.columns = viewModel.columns
         }
     }
 }
 
 #Preview {
-    SelectColumnsView()
-        .environmentObject(SessionData())
+    SelectColumnsView(viewModel: AddSessionViewModel())
 }

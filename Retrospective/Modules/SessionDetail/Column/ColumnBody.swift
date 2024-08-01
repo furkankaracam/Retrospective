@@ -12,7 +12,7 @@ struct ColumnBody: View {
 
     var body: some View {
         ForEach(cards) { card in
-            CommentCard(card: card)
+            CommentCard(isEditable: .constant(false), card: card)
         }
     }
 }

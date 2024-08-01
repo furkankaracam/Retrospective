@@ -31,7 +31,7 @@ final class SessionData: ObservableObject {
         
         init(anonymous: Bool = false, authorVisibility: Bool = true, time: Int = 0, password: String = "") {
             self.anonymous = anonymous
-            self.authorVisibility = anonymous
+            self.authorVisibility = authorVisibility
             self.time = time
             self.password = password
         }
@@ -62,24 +62,28 @@ final class SessionData: ObservableObject {
 struct RetrospectiveApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     
-    @StateObject private var newSession = SessionData()
+    @State private var selectedTab: Tabs = .sessions
     
     var body: some Scene {
         WindowGroup {
-            TabView {
+            TabView(selection: $selectedTab) {
                 HomeView()
                     .tabItem {
                         Label("Oturumlar", systemImage: "list.dash")
                     }
+                    .tag(Tabs.sessions)
+                
                 AddSessionView()
                     .tabItem {
                         Label("Oturum Ekle", systemImage: "plus")
-                    }.environmentObject(newSession)
+                    }
+                    .tag(Tabs.addSession)
                 
-                SessionDetail()
+                SessionDetail(isEditable: false)
                     .tabItem {
                         Label("Profil", systemImage: "person")
                     }
+                    .tag(Tabs.profile)
             }
         }
     }

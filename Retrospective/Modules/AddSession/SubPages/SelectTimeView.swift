@@ -13,8 +13,7 @@ struct SelectTimeView: View {
     @State private var password: String = ""
     @State private var isHidden: Bool = false
     
-    @EnvironmentObject private var newSession: SessionData
-    let times = [15, 30, 45, 60, 90]
+    @StateObject var viewModel: AddSessionViewModel
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -27,7 +26,7 @@ struct SelectTimeView: View {
                 Text("Süre")
                 Spacer()
                 Picker("Süre Seçimi", selection: $time) {
-                    ForEach(times, id: \.self) { time in
+                    ForEach(viewModel.times, id: \.self) { time in
                         Text("\(time)")
                     }
                 }
@@ -45,22 +44,22 @@ struct SelectTimeView: View {
             
         }.padding(.horizontal)
             .onAppear {
-                if newSession.settings.time == 0 {
-                    self.time = newSession.settings.time
+                if viewModel.time == 0 {
+                    self.time = viewModel.session.settings.time
                 }
-                if !newSession.settings.password.isEmpty {
-                    self.password = newSession.settings.password
+                if !viewModel.password.isEmpty {
+                    self.password = viewModel.session.settings.password
                 }
-                if !newSession.settings.authorVisibility {
-                    self.isHidden = newSession.settings.authorVisibility
+                if !viewModel.session.settings.authorVisibility {
+                    self.isHidden = viewModel.session.settings.authorVisibility
                 }
             }
-            .onChange(of: time, {newSession.settings.time = time})
-            .onChange(of: password, {newSession.settings.password = password})
-            .onChange(of: isHidden, {newSession.settings.authorVisibility = isHidden})
+            .onChange(of: time, {viewModel.session.settings.time = time})
+            .onChange(of: password, {viewModel.session.settings.password = password})
+            .onChange(of: isHidden, {viewModel.session.settings.authorVisibility = isHidden})
     }
 }
 
 #Preview {
-    SelectTimeView().environmentObject(SessionData())
+    SelectTimeView(viewModel: AddSessionViewModel())
 }

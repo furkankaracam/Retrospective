@@ -7,28 +7,44 @@
 
 import SwiftUI
 
+struct SessionSection: Identifiable {
+    var id: Int
+    var title: String
+    var comments: [Card]
+}
+
 struct SessionDetail: View {
     @StateObject private var viewModel = SessionDetailViewModel()
+    @State var content = [
+        SessionSection(id: 1, title: "Neleri iyi yaptık", comments: [
+            Card(id: 1, createdBy: "Furkan", text: "Yapı iyiydi"),
+            Card(id: 2, createdBy: "Ali", text: "Her şey iyiydi")
+        ]),
+        SessionSection(id: 2, title: "Neleri kötü yaptık", comments: [
+            Card(id: 3, createdBy: "Yunus", text: "Yapı kötüydü"),
+            Card(id: 4, createdBy: "Kaan", text: "Önce yapı")
+        ])
+    ]
+    @State var isEditable: Bool
     
     var body: some View {
-        List {
-            ColumnCard(title: "Neleri İyi yaptık?", cards: [
-                Card(id: 1, createdBy: "Ahmet", text: "İşlemler çok güzeldi"),
-                Card(id: 2, createdBy: "Furkan Karaçam", text: "Süper")
-            ])
-            
-            ColumnCard(title: "Geliştirilebilir yönlerimiz nelerdi?", cards: [
-                Card(id: 1, createdBy: "Veli", text: "Daha iyi yapılabilirdi"),
-                Card(id: 2, createdBy: "Ali", text: "İletişim daha iyi olabilirdi, yazıyı daha uzun tutarsak ne mi olur?")
-            ])
+        List($content, editActions: .move) {section in
+            Section(header: ColumnTitle(title: "\(section.title.wrappedValue)")) {
+                ForEach(section.comments, id: \.id) { comment in
+                    CommentCard(isEditable: .constant(false), card: comment.wrappedValue)
+                }
+            }
         }
         .toolbar {
             EditButton()
         }
+        .onAppear(perform: {
+            
+        })
         
     }
 }
 
 #Preview {
-    SessionDetail()
+    SessionDetail( isEditable: false)
 }
