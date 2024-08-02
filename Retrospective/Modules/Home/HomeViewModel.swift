@@ -12,7 +12,7 @@ final class HomeViewModel: ObservableObject {
     
     @Published var sessions: [Session] = []
     @Published var oldSessions: [Session] = []
-
+    
     private let ref = Database.database().reference()
     
     func fetchData() async {
@@ -21,7 +21,7 @@ final class HomeViewModel: ObservableObject {
                 print("Error: Unable to cast snapshot value")
                 return
             }
-
+            
             do {
                 let data = try JSONSerialization.data(withJSONObject: value, options: [])
                 let decoder = JSONDecoder()
@@ -41,7 +41,7 @@ final class HomeViewModel: ObservableObject {
                 }
                 
             } catch {
-                print("Error decoding data: \(error)")
+                print("Error home decoding data: \(error)")
             }
         } withCancel: { error in
             print(error.localizedDescription)

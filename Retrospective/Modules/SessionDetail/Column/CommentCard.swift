@@ -8,17 +8,18 @@
 import SwiftUI
 
 struct CommentCard: View {
-    @StateObject private var viewModel: SessionDetailViewModel = SessionDetailViewModel()
-    @Binding var isEditable: Bool
     
-    var card: Card
+    @StateObject private var viewModel: SessionDetailViewModel = SessionDetailViewModel()
+    @Binding var isEditing: Bool
+    
+    var card: Comment
     var body: some View {
         HStack {
-            Text(card.text)
+            Text(card.comment)
                 .fixedSize(horizontal: false, vertical: true)
                 .padding(.vertical)
             Spacer()
-            Text(card.createdBy)
+            Text(card.author ?? "Kullanıcı bulunamadı")
                 .font(.caption)
             
             Image(systemName: "line.3.horizontal")
@@ -27,20 +28,15 @@ struct CommentCard: View {
                 .clipShape(Circle())
                 .onLongPressGesture {
                     print("Uzun basıldı")
-                    print(isEditable)
-                    isEditable = !isEditable
-                    print(isEditable)
+                    isEditing = true
+                    print(isEditing)
                 }
         }
-        .offset(viewModel.offsets[card.id ?? 0] ?? .zero)
         .padding()
-        .onChange(of: isEditable) { oldValue, newValue in
-            print("iseditable \(oldValue) idi \(newValue) oldu")
-        }
         
     }
 }
 
 #Preview {
-    CommentCard(isEditable: .constant(false), card: Card(id: 1, createdBy: "Furkan", text: "Deneme"))
+    CommentCard(isEditing: .constant(false), card: Comment(id: "1", author: "Furkan", comment: "Yorum"))
 }

@@ -15,18 +15,20 @@ struct SelectColumnsView: View {
         VStack {
             Text("Merhaba Furkan")
                 .bold()
+                .font(.title)
             Text("Oluşturmak istediğin kolonları ekle")
                 .padding(.vertical)
+            
             ScrollViewReader { proxy in
                 ScrollView {
                     VStack(alignment: .leading, spacing: 16) {
-                        ForEach(viewModel.columns.indices, id: \.self) { index in
+                        ForEach($viewModel.columnTitles, id: \.self) { column in
                             HStack {
-                                TextField("Kolon metni girin", text: $viewModel.columns[index])
+                                TextField("Kolon metni girin", text: column)
                                     .textFieldStyle(RoundedBorderTextFieldStyle())
                                     .padding()
                                 Button("Sil") {
-                                    viewModel.deleteColumn(at: index)
+                                    //viewModel.deleteColumn(at: index)
                                 }
                                 .tint(.red)
                             }
@@ -34,13 +36,15 @@ struct SelectColumnsView: View {
                         }
                     }
                 }
-                .onChange(of: viewModel.columns) {
+                /**.onChange(of: viewModel.columns) { _ in
                     withAnimation {
-                        proxy.scrollTo(viewModel.columns.indices.last, anchor: .bottom)
+                        if let lastIndex = viewModel.columns.indices.last {
+                            proxy.scrollTo(lastIndex, anchor: .bottom)
+                        }
                     }
-                    viewModel.session.columns = viewModel.columns
-                }
+                }*/
             }
+            
             Button(action: viewModel.addColumn) {
                 Text("Yeni Kolon Ekle")
                     .padding()
@@ -51,11 +55,6 @@ struct SelectColumnsView: View {
             .padding()
         }
         .padding()
-        .onAppear {
-            if viewModel.columns.count > 0 {
-                viewModel.columns = viewModel.columns
-            }
-        }
     }
 }
 

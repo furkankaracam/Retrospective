@@ -31,7 +31,7 @@ struct CustomCell: View {
                             .contentShape(Circle())
                     }
                     .background(
-                        NavigationLink(destination: SessionDetail( isEditable: false), isActive: $isNavigationActive) {
+                        NavigationLink(destination: SessionDetail(), isActive: $isNavigationActive) {
                             EmptyView()
                         }
                         .hidden()
@@ -50,5 +50,5 @@ struct CustomCell: View {
 }
 
 #Preview {
-    CustomCell(session: Session(id: nil, createdBy: "Furkan", isActive: true, name: "Deneme", participants: ["Furkan": 1], settings: Settings(anonymous: false, authorVisibility: false, time: 4, password: "Password")))
+    CustomCell(session: Session(id: nil, columns: [:], createdBy: "Furkan", isActive: true, name: "Deneme", participants: ["Furkan": 1], settings: Settings(anonymous: false, authorVisibility: false, time: 4, password: "Password")))
 }

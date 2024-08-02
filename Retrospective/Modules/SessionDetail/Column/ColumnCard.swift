@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ColumnCard: View {
     var title: String
-    var cards: [Card]
+    var cards: [Comment]
     
     var body: some View {
         Section(header: ColumnTitle(title: title)) {
@@ -19,5 +19,5 @@ struct ColumnCard: View {
 }
 
 #Preview {
-    ColumnCard(title: "Başlık", cards: [Card(id: 1, createdBy: "Cardd", text: "Deneme"),  Card(id: 2, createdBy: "Cardd", text: "Deneme 2")])
+    ColumnCard(title: "Başlık", cards: [Comment(id: "1", author: "Furkan", comment: "Yorum")])
 }

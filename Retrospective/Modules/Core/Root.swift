@@ -16,16 +16,19 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     }
 }
 
+import Foundation
+
 final class SessionData: ObservableObject {
-    @Published var columns: [String] = []
+    @Published var columns: [String: Column] = [:]
     @Published var createdBy: String = ""
     @Published var isActive: Bool = true
     @Published var name: String = ""
-    @Published var participants: [String: Int] = ["Kullanıcım":4]
+    @Published var participants: [String: Int] = ["Kullanıcı adı":4]
     @Published var settings: Settings = Settings()
     
     struct Settings {
-        var anonymous, authorVisibility: Bool
+        var anonymous: Bool
+        var authorVisibility: Bool
         var time: Int
         var password: String
         
@@ -46,9 +49,34 @@ final class SessionData: ObservableObject {
         }
     }
     
+    struct Column {
+        var name: String
+        var comments: [String: Comment]
+        
+        func toDictionary() -> [String: Any] {
+            return [
+                "name": name,
+                "comments": comments.mapValues { $0.toDictionary() }
+            ]
+        }
+    }
+    
+    struct Comment {
+        var id: String
+        var author: String
+        var comment: String
+        
+        func toDictionary() -> [String: Any] {
+            return [
+                "author": author,
+                "comment": comment
+            ]
+        }
+    }
+    
     func toDictionary() -> [String: Any] {
         return [
-            "columns": columns,
+            "columns": columns.mapValues { $0.toDictionary() },
             "createdBy": createdBy,
             "isActive": isActive,
             "name": name,
@@ -79,7 +107,7 @@ struct RetrospectiveApp: App {
                     }
                     .tag(Tabs.addSession)
                 
-                SessionDetail(isEditable: false)
+                SessionDetail()
                     .tabItem {
                         Label("Profil", systemImage: "person")
                     }

@@ -7,44 +7,64 @@
 
 import SwiftUI
 
-struct SessionSection: Identifiable {
-    var id: Int
-    var title: String
-    var comments: [Card]
-}
-
 struct SessionDetail: View {
     @StateObject private var viewModel = SessionDetailViewModel()
-    @State var content = [
-        SessionSection(id: 1, title: "Neleri iyi yaptık", comments: [
-            Card(id: 1, createdBy: "Furkan", text: "Yapı iyiydi"),
-            Card(id: 2, createdBy: "Ali", text: "Her şey iyiydi")
-        ]),
-        SessionSection(id: 2, title: "Neleri kötü yaptık", comments: [
-            Card(id: 3, createdBy: "Yunus", text: "Yapı kötüydü"),
-            Card(id: 4, createdBy: "Kaan", text: "Önce yapı")
-        ])
-    ]
-    @State var isEditable: Bool
+    @State private var isEditing: Bool = false
+    @State private var newComment: String = ""
+    @State private var showingCommentInput: String? = nil
     
     var body: some View {
-        List($content, editActions: .move) {section in
-            Section(header: ColumnTitle(title: "\(section.title.wrappedValue)")) {
-                ForEach(section.comments, id: \.id) { comment in
-                    CommentCard(isEditable: .constant(false), card: comment.wrappedValue)
+        List {
+            ForEach($viewModel.columns, id: \.comments.values.first?.comment, editActions: .move) { $column in
+                ColumnTitle(title: column.name)
+                ForEach(Array(column.comments.values), id: \.comment) { comment in
+                    CommentCard(isEditing: .constant(false), card: Comment(id: comment.id, author: comment.author, comment: comment.comment))
                 }
+                if showingCommentInput == column.comments.keys.first {
+                    TextField("Yeni yorumunuzu yazın", text: $newComment)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .padding()
+                    
+                }
+                HStack {
+                    if showingCommentInput != column.comments.keys.first {
+                        Button("Yeni Ekle") {
+                            showingCommentInput = column.comments.keys.first
+                            if newComment != "" {
+                                newComment = ""
+                            }
+                        }
+                    } else {
+                        Button("Vazgeç") {
+                            showingCommentInput = nil
+                            newComment = ""
+                        }
+                        .tint(.red)
+                    }
+                    
+                    if !newComment.isEmpty {
+                        Button("Yorum Gönder") {
+                            if !newComment.isEmpty {
+                               // viewModel.addComment(to: column, comment: newComment)
+                                newComment = ""
+                                showingCommentInput = nil
+                            }
+                        }
+                        .buttonStyle(.bordered)
+                        .padding()
+                    }
+                }
+                .buttonStyle(.bordered)
             }
         }
-        .toolbar {
-            EditButton()
+        .task {
+            await viewModel.fetchColumns(id: "-O32r_g1dkf9kWSVf6Xr")
         }
-        .onAppear(perform: {
-            
-        })
-        
+        .environment(\.editMode, isEditing ? .constant(.active) : .constant(.inactive))
+        .listStyle(.plain)
     }
 }
 
 #Preview {
-    SessionDetail( isEditable: false)
+    SessionDetail()
 }

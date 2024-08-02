@@ -13,7 +13,7 @@ struct SessionResponse: Decodable {
 
 struct Session: Identifiable, Decodable {
     let id: String?
-    // let columns: [String: Column]
+    let columns: [String: Column]
     let createdBy: String
     let isActive: Bool
     let name: String
@@ -22,19 +22,20 @@ struct Session: Identifiable, Decodable {
 }
 
 struct Column: Identifiable, Decodable {
-    let id: Int?
-    let cards: [String: Card]?
+    let id: String?
     let name: String
+    let comments: [String: Comment]
 }
 
-struct Card: Identifiable, Decodable {
-    let id: Int?
-    let createdBy: String
-    let text: String
+struct Comment: Identifiable, Decodable {
+    let id: String?
+    let author: String
+    let comment: String
 }
 
 struct Settings: Decodable {
-    let anonymous, authorVisibility: Bool
+    let anonymous: Bool
+    let authorVisibility: Bool
     let time: Int
     let password: String
 }
