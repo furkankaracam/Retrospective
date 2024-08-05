@@ -15,10 +15,12 @@ struct ColumnTitle: View {
             .overlay {
                 Text(title)
                     .background(.clear)
-                    .frame(width: UIScreen.main.bounds.width, height: 30)
-                    .foregroundColor(.white)
+                    .frame(width: UIScreen.main.bounds.width - 20, height: 30)
+                    .foregroundColor(.black)
                     .bold()
             }
+            .foregroundColor(.white)
+            .border(Color.black)
             .cornerRadius(15)
     }
 }

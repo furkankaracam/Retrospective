@@ -11,6 +11,8 @@ import Firebase
 final class SessionDetailViewModel: ObservableObject {
     
     @Published var columns: [Column] = []
+    @Published var sessionName: String = ""
+    @Published var timer: String = ""
     
     private let ref = Database.database().reference()
     

@@ -40,6 +40,9 @@ struct AddSessionView: View {
                 NavigationButtons(viewModel: viewModel)
             }
         }
+        .onDisappear(perform: {
+            viewModel.columns = [:]
+        })
     }
 }
 
