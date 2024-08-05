@@ -50,11 +50,14 @@ final class SessionData: ObservableObject {
     }
     
     struct Column {
+        
+        var id: String?
         var name: String
         var comments: [String: Comment]
         
         func toDictionary() -> [String: Any] {
             return [
+                "id": id,
                 "name": name,
                 "comments": comments.mapValues { $0.toDictionary() }
             ]
@@ -76,6 +79,7 @@ final class SessionData: ObservableObject {
     
     func toDictionary() -> [String: Any] {
         return [
+            "id": UUID().uuidString,
             "columns": columns.mapValues { $0.toDictionary() },
             "createdBy": createdBy,
             "isActive": isActive,
@@ -85,7 +89,6 @@ final class SessionData: ObservableObject {
         ]
     }
 }
-
 
 @main
 struct RetrospectiveApp: App {
@@ -108,11 +111,13 @@ struct RetrospectiveApp: App {
                     }
                     .tag(Tabs.addSession)
                 
-                SessionDetail()
+                SessionDetail(sessionId: "-O3WyjgYPQzVOsDw6KeT")
                     .tabItem {
                         Label("Profil", systemImage: "person")
                     }
                     .tag(Tabs.profile)
+            }.onChange(of: selectedTab) { oldValue, newValue in
+                print(selectedTab)
             }
         }
     }

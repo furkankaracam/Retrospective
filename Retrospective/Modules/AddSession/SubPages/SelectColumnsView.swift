@@ -22,7 +22,7 @@ struct SelectColumnsView: View {
             ScrollViewReader { proxy in
                 ScrollView {
                     VStack(alignment: .leading, spacing: 16) {
-                        ForEach(Array(viewModel.columns), id: \.key) { key, column in
+                        ForEach(Array(viewModel.columns), id: \.value.id) { key, column in
                             HStack {
                                 TextField("Kolon metni girin", text: Binding(
                                     get: { column.name },
@@ -30,8 +30,8 @@ struct SelectColumnsView: View {
                                         viewModel.updateColumnName(for: key, newName: newName)
                                     }
                                 ))
-                                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                                    .padding()
+                                .textFieldStyle(RoundedBorderTextFieldStyle())
+                                .padding()
                                 Button("Sil") {
                                     viewModel.deleteColumn(at: key)
                                 }
@@ -42,12 +42,12 @@ struct SelectColumnsView: View {
                     }
                 }
                 /**.onChange(of: viewModel.columns) { _ in
-                    withAnimation {
-                        if let lastIndex = viewModel.columns.indices.last {
-                            proxy.scrollTo(lastIndex, anchor: .bottom)
-                        }
-                    }
-                }*/
+                 withAnimation {
+                 if let lastIndex = viewModel.columns.indices.last {
+                 proxy.scrollTo(lastIndex, anchor: .bottom)
+                 }
+                 }
+                 }*/
             }
             
             Button(action: viewModel.addColumn) {

@@ -13,18 +13,22 @@ struct SessionDetail: View {
     @State private var newComment: String = ""
     @State private var showingCommentInput: String? = nil
     
+    @State var sessionId: String
+    
     var body: some View {
         List {
-            ForEach($viewModel.columns, id: \.comments.values.first?.comment, editActions: .move) { $column in
+            ForEach($viewModel.columns, id: \.id, editActions: .move) { $column in
                 ColumnTitle(title: column.name)
-                ForEach(Array(column.comments.values), id: \.comment) { comment in
-                    CommentCard(isEditing: .constant(false), card: Comment(id: comment.id, author: comment.author, comment: comment.comment))
+                    .moveDisabled(true)
+                if column.comments.count > 1 {
+                    ForEach(Array(column.comments.values), id: \.id) { comment in
+                        CommentCard(isEditing: .constant(false), card: Comment(id: comment.id, author: comment.author, comment: comment.comment))
+                    }
                 }
                 if showingCommentInput == column.comments.keys.first {
                     TextField("Yeni yorumunuzu yazın", text: $newComment)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .padding()
-                    
                 }
                 HStack {
                     if showingCommentInput != column.comments.keys.first {
@@ -44,10 +48,12 @@ struct SessionDetail: View {
                     
                     if !newComment.isEmpty {
                         Button("Yorum Gönder") {
-                            if !newComment.isEmpty {
-                                // viewModel.addComment(to: column, comment: newComment)
-                                newComment = ""
-                                showingCommentInput = nil
+                            Task {
+                                if !newComment.isEmpty {
+                                    await viewModel.addComment(sessionId: sessionId, to: column.id ?? "", comment: newComment)
+                                    newComment = ""
+                                    showingCommentInput = nil
+                                }
                             }
                         }
                         .buttonStyle(.bordered)
@@ -55,10 +61,13 @@ struct SessionDetail: View {
                     }
                 }
                 .buttonStyle(.bordered)
+                
             }
         }
         .task {
-            await viewModel.fetchColumns(id: "-O3WegpxcEYxF6zk4M_z")
+            if !sessionId.isEmpty {
+                await viewModel.fetchColumns(id: sessionId)
+            }
         }
         .environment(\.editMode, isEditing ? .constant(.active) : .constant(.inactive))
         .listStyle(.plain)
@@ -66,5 +75,5 @@ struct SessionDetail: View {
 }
 
 #Preview {
-    SessionDetail()
+    SessionDetail(sessionId: "-O3XEnBJtrBjIc4O1m-x")
 }

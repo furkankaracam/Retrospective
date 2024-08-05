@@ -82,11 +82,11 @@ final class AddSessionViewModel: ObservableObject {
         }
         return true
     }
-        
+    
     func addColumn() {
-        var newKey = UUID().uuidString
+        let newKey = UUID().uuidString
         if checkColumns() {
-            columns[newKey] = SessionData.Column(name: "", comments: [UUID().uuidString :SessionData.Comment(id: UUID().uuidString, author: "", comment: "")])
+            columns[newKey] = SessionData.Column(id: newKey, name: "", comments: [UUID().uuidString :SessionData.Comment(id: UUID().uuidString, author: "", comment: "")])
         }
     }
     
@@ -102,11 +102,9 @@ final class AddSessionViewModel: ObservableObject {
         print(session.name)
         if checkName() && checkColumns() {
             let ref = Database.database().reference()
-
+            
             session.columns = columns
 
-            print(session.columns)
-            
             let data = session.toDictionary()
             ref.child("sessions").childByAutoId().setValue(data) { error, _ in
                 if let error = error {
