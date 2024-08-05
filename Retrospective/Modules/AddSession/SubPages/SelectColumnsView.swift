@@ -9,25 +9,31 @@ import SwiftUI
 
 struct SelectColumnsView: View {
     
-    @EnvironmentObject private var newSession: SessionData
-    @StateObject private var viewModel = AddSessionViewModel()
+    @StateObject var viewModel: AddSessionViewModel
     
     var body: some View {
         VStack {
             Text("Merhaba Furkan")
                 .bold()
+                .font(.title)
             Text("Oluşturmak istediğin kolonları ekle")
                 .padding(.vertical)
+            
             ScrollViewReader { proxy in
                 ScrollView {
                     VStack(alignment: .leading, spacing: 16) {
-                        ForEach(viewModel.columns.indices, id: \.self) { index in
+                        ForEach(Array(viewModel.columns), id: \.value.id) { key, column in
                             HStack {
-                                TextField("Kolon metni girin", text: $viewModel.columns[index])
-                                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                                    .padding()
+                                TextField("Kolon metni girin", text: Binding(
+                                    get: { column.name },
+                                    set: { newName in
+                                        viewModel.updateColumnName(for: key, newName: newName)
+                                    }
+                                ))
+                                .textFieldStyle(RoundedBorderTextFieldStyle())
+                                .padding()
                                 Button("Sil") {
-                                    viewModel.deleteColumn(at: index)
+                                    viewModel.deleteColumn(at: key)
                                 }
                                 .tint(.red)
                             }
@@ -35,12 +41,15 @@ struct SelectColumnsView: View {
                         }
                     }
                 }
-                .onChange(of: viewModel.columns) {
-                    withAnimation {
-                        proxy.scrollTo(viewModel.columns.indices.last, anchor: .bottom)
-                    }
-                }
+                /**.onChange(of: viewModel.columns) { _ in
+                 withAnimation {
+                 if let lastIndex = viewModel.columns.indices.last {
+                 proxy.scrollTo(lastIndex, anchor: .bottom)
+                 }
+                 }
+                 }*/
             }
+            
             Button(action: viewModel.addColumn) {
                 Text("Yeni Kolon Ekle")
                     .padding()
@@ -50,19 +59,13 @@ struct SelectColumnsView: View {
             }
             .padding()
         }
+        .onAppear(perform: {
+            viewModel.addColumn()
+        })
         .padding()
-        .onAppear {
-            if newSession.columns.count > 0 {
-                viewModel.columns = newSession.columns
-            }
-        }
-        .onChange(of: viewModel.columns) {
-            newSession.columns = viewModel.columns
-        }
     }
 }
 
 #Preview {
-    SelectColumnsView()
-        .environmentObject(SessionData())
+    SelectColumnsView(viewModel: AddSessionViewModel())
 }

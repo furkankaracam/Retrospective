@@ -14,12 +14,45 @@ final class AddSessionViewModel: ObservableObject {
     @Published var alertMessage: String = "Hata"
     @Published var pageIndex: AddSessionPages = .name
     
-    @Published var columns: [String] = [""]
+    @Published var name: String = ""
+    @Published var time: Int = 0
+    @Published var isHidden: Bool = false
+    @Published var password: String = ""
+    @Published var columns: [String: SessionData.Column] = [:]
+    @Published var participants: [String: Int] = ["Kullanıcı":1]
+    
+    @Published var session = SessionData()
+    
+    let times = [15, 30, 45, 60, 90]
     
     func navigate(type: NavigateTo) {
         let allPages = AddSessionPages.allCases
         guard let currentIndex = allPages.firstIndex(of: pageIndex) else {
             return
+        }
+        
+        switch pageIndex {
+        case .name:
+            if !checkName() {
+                return
+            }
+        case .options:
+            if !checkName() {
+                return
+            }
+        case .columns:
+            switch type {
+            case .previous:
+                break
+            case .next:
+                if !checkColumns() {
+                    return
+                }
+            }
+        case .result:
+            if !checkName() {
+                return
+            }
         }
         
         switch type {
@@ -32,24 +65,53 @@ final class AddSessionViewModel: ObservableObject {
         }
     }
     
+    func checkName() -> Bool {
+        if session.name.isEmpty {
+            alertMessage = "İsim alanı boş bırakılamaz"
+            showAlert = true
+            return false
+        }
+        return true
+    }
+    
+    func checkColumns() -> Bool {
+        if columns.values.contains(where: { $0.name.isEmpty }) {
+            alertMessage = "Boş sütun hatası"
+            showAlert = true
+            return false
+        }
+        return true
+    }
+    
     func addColumn() {
-        if columns.last?.isEmpty == false {
-            columns.append("")
+        let newKey = UUID().uuidString
+        if checkColumns() {
+            columns[newKey] = SessionData.Column(id: newKey, name: "", comments: [UUID().uuidString :SessionData.Comment(id: UUID().uuidString, author: "", comment: "")])
         }
     }
     
-    func deleteColumn(at index: Int) {
-        columns.remove(at: index)
+    func deleteColumn(at key: String) {
+        columns.removeValue(forKey: key)
     }
     
-    func save(session: SessionData) {
-        let ref = Database.database().reference()
-        let data = session.toDictionary()
-        ref.child("sessions").childByAutoId().setValue(data) { error, _ in
-            if let error = error {
-                print("Data write failed: \(error.localizedDescription)")
-            } else {
-                self.pageIndex = .result
+    func updateColumnName(for key: String, newName: String) {
+        columns[key]?.name = newName
+    }
+    
+    func save() {
+        print(session.name)
+        if checkName() && checkColumns() {
+            let ref = Database.database().reference()
+            
+            session.columns = columns
+
+            let data = session.toDictionary()
+            ref.child("sessions").childByAutoId().setValue(data) { error, _ in
+                if let error = error {
+                    print("Data write failed: \(error.localizedDescription)")
+                } else {
+                    self.pageIndex = .result
+                }
             }
         }
     }

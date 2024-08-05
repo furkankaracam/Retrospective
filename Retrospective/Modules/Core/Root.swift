@@ -16,22 +16,25 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     }
 }
 
+import Foundation
+
 final class SessionData: ObservableObject {
-    @Published var columns: [String] = []
+    @Published var columns: [String: Column] = [:]
     @Published var createdBy: String = ""
     @Published var isActive: Bool = true
     @Published var name: String = ""
-    @Published var participants: [String: Int] = ["Kullanıcım":4]
+    @Published var participants: [String: Int] = ["Kullanıcı adı": 4]
     @Published var settings: Settings = Settings()
     
     struct Settings {
-        var anonymous, authorVisibility: Bool
+        var anonymous: Bool
+        var authorVisibility: Bool
         var time: Int
         var password: String
         
         init(anonymous: Bool = false, authorVisibility: Bool = true, time: Int = 0, password: String = "") {
             self.anonymous = anonymous
-            self.authorVisibility = anonymous
+            self.authorVisibility = authorVisibility
             self.time = time
             self.password = password
         }
@@ -46,9 +49,38 @@ final class SessionData: ObservableObject {
         }
     }
     
+    struct Column {
+        
+        var id: String?
+        var name: String
+        var comments: [String: Comment]
+        
+        func toDictionary() -> [String: Any] {
+            return [
+                "id": id,
+                "name": name,
+                "comments": comments.mapValues { $0.toDictionary() }
+            ]
+        }
+    }
+    
+    struct Comment {
+        var id: String
+        var author: String
+        var comment: String
+        
+        func toDictionary() -> [String: Any] {
+            return [
+                "author": author,
+                "comment": comment
+            ]
+        }
+    }
+    
     func toDictionary() -> [String: Any] {
         return [
-            "columns": columns,
+            "id": UUID().uuidString,
+            "columns": columns.mapValues { $0.toDictionary() },
             "createdBy": createdBy,
             "isActive": isActive,
             "name": name,
@@ -62,24 +94,30 @@ final class SessionData: ObservableObject {
 struct RetrospectiveApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     
-    @StateObject private var newSession = SessionData()
+    @State private var selectedTab: Tabs = .sessions
     
     var body: some Scene {
         WindowGroup {
-            TabView {
+            TabView(selection: $selectedTab) {
                 HomeView()
                     .tabItem {
                         Label("Oturumlar", systemImage: "list.dash")
                     }
+                    .tag(Tabs.sessions)
+                
                 AddSessionView()
                     .tabItem {
                         Label("Oturum Ekle", systemImage: "plus")
-                    }.environmentObject(newSession)
+                    }
+                    .tag(Tabs.addSession)
                 
-                SessionDetail()
+                SessionDetail(sessionId: "-O3WyjgYPQzVOsDw6KeT")
                     .tabItem {
                         Label("Profil", systemImage: "person")
                     }
+                    .tag(Tabs.profile)
+            }.onChange(of: selectedTab) { oldValue, newValue in
+                print(selectedTab)
             }
         }
     }

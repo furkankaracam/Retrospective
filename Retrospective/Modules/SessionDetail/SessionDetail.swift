@@ -9,26 +9,71 @@ import SwiftUI
 
 struct SessionDetail: View {
     @StateObject private var viewModel = SessionDetailViewModel()
+    @State private var isEditing: Bool = false
+    @State private var newComment: String = ""
+    @State private var showingCommentInput: String? = nil
+    
+    @State var sessionId: String
     
     var body: some View {
         List {
-            ColumnCard(title: "Neleri İyi yaptık?", cards: [
-                Card(id: 1, createdBy: "Ahmet", text: "İşlemler çok güzeldi"),
-                Card(id: 2, createdBy: "Furkan Karaçam", text: "Süper")
-            ])
-            
-            ColumnCard(title: "Geliştirilebilir yönlerimiz nelerdi?", cards: [
-                Card(id: 1, createdBy: "Veli", text: "Daha iyi yapılabilirdi"),
-                Card(id: 2, createdBy: "Ali", text: "İletişim daha iyi olabilirdi, yazıyı daha uzun tutarsak ne mi olur?")
-            ])
+            ForEach($viewModel.columns, id: \.id, editActions: .move) { $column in
+                ColumnTitle(title: column.name)
+                    .moveDisabled(true)
+                if column.comments.count > 1 {
+                    ForEach(Array(column.comments.values), id: \.id) { comment in
+                        CommentCard(isEditing: .constant(false), card: Comment(id: comment.id, author: comment.author, comment: comment.comment))
+                    }
+                }
+                if showingCommentInput == column.comments.keys.first {
+                    TextField("Yeni yorumunuzu yazın", text: $newComment)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .padding()
+                }
+                HStack {
+                    if showingCommentInput != column.comments.keys.first {
+                        Button("Yeni Ekle") {
+                            showingCommentInput = column.comments.keys.first
+                            if newComment != "" {
+                                newComment = ""
+                            }
+                        }
+                    } else {
+                        Button("Vazgeç") {
+                            showingCommentInput = nil
+                            newComment = ""
+                        }
+                        .tint(.red)
+                    }
+                    
+                    if !newComment.isEmpty {
+                        Button("Yorum Gönder") {
+                            Task {
+                                if !newComment.isEmpty {
+                                    await viewModel.addComment(sessionId: sessionId, to: column.id ?? "", comment: newComment)
+                                    newComment = ""
+                                    showingCommentInput = nil
+                                }
+                            }
+                        }
+                        .buttonStyle(.bordered)
+                        .padding()
+                    }
+                }
+                .buttonStyle(.bordered)
+                
+            }
         }
-        .toolbar {
-            EditButton()
+        .task {
+            if !sessionId.isEmpty {
+                await viewModel.fetchColumns(id: sessionId)
+            }
         }
-        
+        .environment(\.editMode, isEditing ? .constant(.active) : .constant(.inactive))
+        .listStyle(.plain)
     }
 }
 
 #Preview {
-    SessionDetail()
+    SessionDetail(sessionId: "-O3XEnBJtrBjIc4O1m-x")
 }

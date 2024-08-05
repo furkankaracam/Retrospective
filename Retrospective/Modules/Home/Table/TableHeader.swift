@@ -18,10 +18,11 @@ struct TableHeader: View {
                 .overlay(
                     HStack(alignment: .center) {
                         Text("Retro İsmi")
-                        Spacer()
+                            .frame(width: geometry.size.width / 3)
                         Text("Durumu")
-                        Spacer()
+                            .frame(width: geometry.size.width / 3)
                         Text("İşlemler")
+                            .frame(width: geometry.size.width / 3)
                     }
                         .font(.title3)
                         .foregroundColor(.white)

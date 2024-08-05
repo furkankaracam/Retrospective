@@ -8,15 +8,15 @@
 import SwiftUI
 
 struct ColumnBody: View {
-    var cards: [Card]
+    var cards: [Comment]
 
     var body: some View {
         ForEach(cards) { card in
-            CommentCard(card: card)
+            CommentCard(isEditing: .constant(false), card: Comment(id: "1", author: "Furkan", comment: "Deneme"))
         }
     }
 }
 
 #Preview {
-    ColumnBody(cards: [Card(id: 1, createdBy: "Furkan", text: "İşlemler çok güzeldi"), Card(id: 2, createdBy: "Furkan 2", text: "Süper")])
+    ColumnBody(cards: [Comment(id: "1", author: "Furkan", comment: "Yorum")])
 }

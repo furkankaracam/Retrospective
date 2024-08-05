@@ -8,41 +8,35 @@
 import SwiftUI
 
 struct CommentCard: View {
-    @StateObject private var viewModel: SessionDetailViewModel = SessionDetailViewModel()
     
-    var card: Card
+    @StateObject private var viewModel: SessionDetailViewModel = SessionDetailViewModel()
+    @Binding var isEditing: Bool
+    
+    var card: Comment
     var body: some View {
         HStack {
-            Text(card.text)
+            Text(card.comment)
                 .fixedSize(horizontal: false, vertical: true)
                 .padding(.vertical)
             Spacer()
-            Text(card.createdBy)
+            Text(card.author ?? "Kullanıcı bulunamadı")
                 .font(.caption)
             
             Image(systemName: "line.3.horizontal")
                 .padding()
                 .background(Color.blue.opacity(0.2))
                 .clipShape(Circle())
-                .gesture(
-                    DragGesture()
-                        .onChanged { value in
-                            withAnimation {
-                                viewModel.offsets[card.id ?? 0] = value.translation
-                            }
-                        }
-                        .onEnded { value in
-                            withAnimation {
-                                viewModel.offsets[card.id ?? 0] = value.translation
-                            }
-                        }
-                )
+                .onLongPressGesture {
+                    print("Uzun basıldı")
+                    isEditing = true
+                    print(isEditing)
+                }
         }
-        .offset(viewModel.offsets[card.id ?? 0] ?? .zero)
         .padding()
+        
     }
 }
 
 #Preview {
-    CommentCard(card: Card(id: 1, createdBy: "Furkan", text: "Deneme"))
+    CommentCard(isEditing: .constant(false), card: Comment(id: "1", author: "Furkan", comment: "Yorum"))
 }

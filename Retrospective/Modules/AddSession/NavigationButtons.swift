@@ -10,14 +10,13 @@ import SwiftUI
 struct NavigationButtons: View {
     
     @ObservedObject var viewModel: AddSessionViewModel
-    @EnvironmentObject private var newSession: SessionData
     
     var body: some View {
         VStack {
             HStack {
                 Group {
                     if viewModel.pageIndex != .name {
-                        Button("Vazgeç") {
+                        Button("Geri Dön") {
                             viewModel.navigate(type: .previous)
                         }
                         .tint(.red)
@@ -28,7 +27,7 @@ struct NavigationButtons: View {
                         }
                     } else {
                         Button("Kaydet") {
-                            viewModel.save(session: newSession)
+                            viewModel.save()
                         }
                     }
                 }

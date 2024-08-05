@@ -17,23 +17,23 @@ struct AddSessionView: View {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 0) {
                         Group {
-                            SelectNameView()
+                            SelectNameView(viewModel: viewModel)
                                 .id(0)
-                            SelectTimeView()
+                            SelectTimeView(viewModel: viewModel)
                                 .id(1)
-                            SelectColumnsView()
+                            SelectColumnsView(viewModel: viewModel)
                                 .id(2)
-                            ResultView()
+                            ResultView(selectedTab: .constant(.addSession))
                                 .id(3)
                         }.frame(width: UIScreen.main.bounds.width)
                     }
-                }
-                .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height / 2)
-                .onChange(of: viewModel.pageIndex) {
-                    withAnimation {
-                        proxy.scrollTo((AddSessionPages.allCases.firstIndex(of: viewModel.pageIndex)), anchor: .leading)
+                }.scrollDisabled(true)
+                    .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height / 2)
+                    .onChange(of: viewModel.pageIndex) {
+                        withAnimation {
+                            proxy.scrollTo((AddSessionPages.allCases.firstIndex(of: viewModel.pageIndex)), anchor: .leading)
+                        }
                     }
-                }
             }
             
             if viewModel.pageIndex != .result {
@@ -45,5 +45,4 @@ struct AddSessionView: View {
 
 #Preview {
     AddSessionView()
-        .environmentObject(SessionData())
 }
