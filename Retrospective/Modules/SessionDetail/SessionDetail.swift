@@ -61,6 +61,7 @@ struct SessionDetail: View {
                             .tint(.red)
                         }
                         
+                        
                         if !newComment.isEmpty {
                             Button("Yorum Gönder") {
                                 Task {
