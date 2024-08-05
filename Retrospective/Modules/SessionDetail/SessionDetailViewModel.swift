@@ -11,7 +11,7 @@ import Firebase
 final class SessionDetailViewModel: ObservableObject {
     
     @Published var columns: [Column] = []
-
+    
     private let ref = Database.database().reference()
     
     func fetchColumns(id: String) async {
@@ -24,7 +24,7 @@ final class SessionDetailViewModel: ObservableObject {
             do {
                 let data = try JSONSerialization.data(withJSONObject: value)
                 let decoder = JSONDecoder()
-
+                
                 let session = try decoder.decode(Session.self, from: data)
                 
                 DispatchQueue.main.async {
@@ -37,17 +37,17 @@ final class SessionDetailViewModel: ObservableObject {
     }
     
     func addComment(to column: String, comment: String) {
-            let newCommentId = UUID().uuidString
-            let newComment = Comment(id: newCommentId, author: "Kullanıcı", comment: comment)
+        let newCommentId = UUID().uuidString
+        let newComment = Comment(id: newCommentId, author: "Kullanıcı", comment: comment)
         
         print(column ?? "gelmedi")
-            
-            ref.child("sessions")
-                .child("-O32r_g1dkf9kWSVf6Xr")
-                .child("columns")
-                .child(column)
-                .child("comments")
-                .child(newCommentId)
-                .setValue(["id": newComment.id, "author": newComment.author, "comment": newComment.comment])
-        }
+        
+        ref.child("sessions")
+            .child("-O32r_g1dkf9kWSVf6Xr")
+            .child("columns")
+            .child(column)
+            .child("comments")
+            .child(newCommentId)
+            .setValue(["id": newComment.id, "author": newComment.author, "comment": newComment.comment])
+    }
 }

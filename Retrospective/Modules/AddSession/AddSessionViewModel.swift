@@ -18,8 +18,7 @@ final class AddSessionViewModel: ObservableObject {
     @Published var time: Int = 0
     @Published var isHidden: Bool = false
     @Published var password: String = ""
-    @Published var columnTitles: [String] = [""]
-    @Published var columns: [String: SessionData.Column] = ["": SessionData.Column(name: "", comments: [:])]
+    @Published var columns: [String: SessionData.Column] = [:]
     @Published var participants: [String: Int] = ["Kullanıcı":1]
     
     @Published var session = SessionData()
@@ -76,33 +75,37 @@ final class AddSessionViewModel: ObservableObject {
     }
     
     func checkColumns() -> Bool {
-        if columns.isEmpty || columns.values.contains(where: { $0.name.isEmpty }) {
+        if columns.values.contains(where: { $0.name.isEmpty }) {
             alertMessage = "Boş sütun hatası"
             showAlert = true
             return false
         }
         return true
     }
-    
+        
     func addColumn() {
-        let newKey = UUID().uuidString
-        columns[newKey] = SessionData.Column(name: "Yeni Kolon", comments: [:])
-        print(columns)
+        var newKey = UUID().uuidString
+        if checkColumns() {
+            columns[newKey] = SessionData.Column(name: "", comments: [UUID().uuidString :SessionData.Comment(id: UUID().uuidString, author: "", comment: "")])
+        }
     }
     
     func deleteColumn(at key: String) {
         columns.removeValue(forKey: key)
     }
     
+    func updateColumnName(for key: String, newName: String) {
+        columns[key]?.name = newName
+    }
+    
     func save() {
+        print(session.name)
         if checkName() && checkColumns() {
             let ref = Database.database().reference()
-            session.name = name
-            session.settings.time = time
-            session.settings.anonymous = isHidden
-            session.settings.password = password
+
             session.columns = columns
-            session.participants = participants
+
+            print(session.columns)
             
             let data = session.toDictionary()
             ref.child("sessions").childByAutoId().setValue(data) { error, _ in

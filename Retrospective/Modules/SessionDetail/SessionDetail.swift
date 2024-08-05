@@ -45,7 +45,7 @@ struct SessionDetail: View {
                     if !newComment.isEmpty {
                         Button("Yorum Gönder") {
                             if !newComment.isEmpty {
-                               // viewModel.addComment(to: column, comment: newComment)
+                                // viewModel.addComment(to: column, comment: newComment)
                                 newComment = ""
                                 showingCommentInput = nil
                             }
@@ -58,7 +58,7 @@ struct SessionDetail: View {
             }
         }
         .task {
-            await viewModel.fetchColumns(id: "-O32r_g1dkf9kWSVf6Xr")
+            await viewModel.fetchColumns(id: "-O3WegpxcEYxF6zk4M_z")
         }
         .environment(\.editMode, isEditing ? .constant(.active) : .constant(.inactive))
         .listStyle(.plain)

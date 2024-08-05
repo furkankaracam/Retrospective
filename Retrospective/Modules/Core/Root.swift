@@ -23,7 +23,7 @@ final class SessionData: ObservableObject {
     @Published var createdBy: String = ""
     @Published var isActive: Bool = true
     @Published var name: String = ""
-    @Published var participants: [String: Int] = ["Kullanıcı adı":4]
+    @Published var participants: [String: Int] = ["Kullanıcı adı": 4]
     @Published var settings: Settings = Settings()
     
     struct Settings {
@@ -85,6 +85,7 @@ final class SessionData: ObservableObject {
         ]
     }
 }
+
 
 @main
 struct RetrospectiveApp: App {
