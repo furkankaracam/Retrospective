@@ -15,12 +15,16 @@ struct CommentCard: View {
     var card: Comment
     var body: some View {
         HStack {
-            Text(card.comment)
-                .fixedSize(horizontal: false, vertical: true)
-                .padding(.vertical)
+            if let comment = card.comment {
+                Text(comment)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .padding(.vertical)
+            }
             Spacer()
-            Text(card.author ?? "Kullanıcı bulunamadı")
-                .font(.caption)
+            if let author = card.author {
+                Text(author)
+                    .font(.caption)
+            }
             
             Image(systemName: "line.3.horizontal")
                 .padding()

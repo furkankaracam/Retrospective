@@ -11,7 +11,7 @@ struct SessionDetail: View {
     @StateObject private var viewModel = SessionDetailViewModel()
     @State private var isEditing: Bool = false
     @State private var newComment: String = ""
-    @State private var showingCommentInput: String? = nil
+    @State private var showingCommentInput: String? = ""
     
     @State var sessionId: String
     @State var timer: Int
@@ -28,27 +28,35 @@ struct SessionDetail: View {
                     Text("\(timer)")
                         .bold()
                 })
-                
             })
             .padding(.horizontal)
+            
             List {
                 ForEach($viewModel.columns, id: \.id, editActions: .move) { $column in
-                    ColumnTitle(title: column.name)
-                        .moveDisabled(true)
-                    if column.comments.count > 1 {
-                        ForEach(Array(column.comments.values), id: \.id) { comment in
-                            CommentCard(isEditing: .constant(false), card: Comment(id: comment.id, author: comment.author, comment: comment.comment))
+                    
+                    if let columnName = column.name {
+                        ColumnTitle(title: columnName)
+                            .moveDisabled(true)
+                    }
+                    
+                    if let comments = column.comments {
+                        if comments.count > 0 {
+                            ForEach(Array(comments.values), id: \.id) { comment in
+                                CommentCard(isEditing: .constant(false), card: Comment(id: comment.id, author: comment.author, comment: comment.comment))
+                            }
                         }
                     }
-                    if showingCommentInput == column.comments.keys.first {
+                    
+                    if showingCommentInput == column.id {
                         TextField("Yeni yorumunuzu yazın", text: $newComment)
                             .textFieldStyle(RoundedBorderTextFieldStyle())
                             .padding()
                     }
+                    
                     HStack {
-                        if showingCommentInput != column.comments.keys.first {
+                        if showingCommentInput != column.id {
                             Button("Yeni Ekle") {
-                                showingCommentInput = column.comments.keys.first
+                                showingCommentInput = column.id
                                 if newComment != "" {
                                     newComment = ""
                                 }
@@ -76,20 +84,19 @@ struct SessionDetail: View {
                         }
                     }
                     .buttonStyle(.bordered)
-                    
                 }
             }
-            .task {
-                if !sessionId.isEmpty {
-                    await viewModel.fetchColumns(id: sessionId)
-                }
-            }
-            .environment(\.editMode, isEditing ? .constant(.active) : .constant(.inactive))
-            .listStyle(.plain)
         }
+        .task {
+            if !sessionId.isEmpty {
+                await viewModel.fetchColumns(id: sessionId)
+            }
+        }
+        .environment(\.editMode, isEditing ? .constant(.active) : .constant(.inactive))
+        .listStyle(.plain)
     }
 }
 
 #Preview {
-    SessionDetail( sessionId: "-O3XEnBJtrBjIc4O1m-x", timer: 60, sessionName: "Sezon")
+    SessionDetail(sessionId: "-O3XEnBJtrBjIc4O1m-x", timer: 60, sessionName: "Sezon")
 }

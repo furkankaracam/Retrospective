@@ -32,10 +32,12 @@ final class HomeViewModel: ObservableObject {
                     self.sessions = []
                     self.oldSessions = []
                     sessionsResponse.values.forEach { session in
-                        if session.isActive {
-                            self.sessions.append(session)
-                        } else {
-                            self.oldSessions.append(session)
+                        if let activeStatus = session.isActive {
+                            if activeStatus {
+                                self.sessions.append(session)
+                            } else {
+                                self.oldSessions.append(session)
+                            }
                         }
                     }
                 }

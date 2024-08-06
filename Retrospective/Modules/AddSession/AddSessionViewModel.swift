@@ -86,7 +86,7 @@ final class AddSessionViewModel: ObservableObject {
     func addColumn() {
         let newKey = UUID().uuidString
         if checkColumns() {
-            columns[newKey] = SessionData.Column(id: newKey, name: "", comments: [UUID().uuidString :SessionData.Comment(id: UUID().uuidString, author: "", comment: "")])
+            columns[newKey] = SessionData.Column(id: newKey, name: "", comments: [:])
         }
     }
     
