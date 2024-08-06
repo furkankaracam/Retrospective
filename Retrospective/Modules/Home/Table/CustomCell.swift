@@ -34,7 +34,7 @@ struct CustomCell: View {
                                     .clipShape(Circle())
                                     .contentShape(Circle())
                                     .background(
-                                        NavigationLink(destination: SessionDetail(sessionId: session.id ?? "", timer: session.settings?.time ?? 0, sessionName: session.name ?? ""), isActive: $isNavigationActive) {
+                                        NavigationLink(destination: SessionDetail(sessionId: session.id ?? "", sessionName: session.name ?? ""), isActive: $isNavigationActive) {
                                         }
                                             .hidden()
                                     )

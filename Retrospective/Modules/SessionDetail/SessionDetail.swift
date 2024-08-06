@@ -14,7 +14,6 @@ struct SessionDetail: View {
     @State private var showingCommentInput: String? = ""
     
     @State var sessionId: String
-    @State var timer: Int
     @State var sessionName: String
     
     var body: some View {
@@ -25,25 +24,29 @@ struct SessionDetail: View {
                 Spacer()
                 HStack(content: {
                     Text("Kalan Süre:")
-                    Text("\(timer)")
+                    Text("\(viewModel.time ?? 0)")
                         .bold()
                 })
             })
             .padding(.horizontal)
             
             List {
-                ForEach($viewModel.columns, id: \.id, editActions: .move) { $column in
+                ForEach($viewModel.columns, id: \.id, editActions: [.move, .delete]) { $column in
                     
                     if let columnName = column.name {
                         ColumnTitle(title: columnName)
                             .moveDisabled(true)
+                            .deleteDisabled(true)
                     }
                     
                     if let comments = column.comments {
                         if comments.count > 0 {
                             ForEach(Array(comments.values), id: \.id) { comment in
                                 CommentCard(isEditing: .constant(false), card: Comment(id: comment.id, author: comment.author, comment: comment.comment))
-                            }
+                            }.onDelete(perform: { indexSet in
+                                print("Silinecek eleman \(indexSet.first)")
+                                //viewModel.deleteComment(index: indexSet)
+                            })
                         }
                     }
                     
@@ -89,14 +92,18 @@ struct SessionDetail: View {
         }
         .task {
             if !sessionId.isEmpty {
+                viewModel.startTimer(id: sessionId)
                 await viewModel.fetchColumns(id: sessionId)
             }
         }
+        .onDisappear(perform: {
+            viewModel.timer?.invalidate()
+        })
         .environment(\.editMode, isEditing ? .constant(.active) : .constant(.inactive))
         .listStyle(.plain)
     }
 }
 
 #Preview {
-    SessionDetail(sessionId: "-O3XEnBJtrBjIc4O1m-x", timer: 60, sessionName: "Sezon")
+    SessionDetail(sessionId: "-O3XEnBJtrBjIc4O1m-x", sessionName: "Sezon")
 }

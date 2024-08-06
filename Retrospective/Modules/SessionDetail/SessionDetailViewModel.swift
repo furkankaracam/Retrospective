@@ -12,7 +12,8 @@ final class SessionDetailViewModel: ObservableObject {
     
     @Published var columns: [Column] = []
     @Published var sessionName: String = ""
-    @Published var timer: String = ""
+    @Published var timer: Timer?
+    @Published var time: Int?
     
     private let ref = Database.database().reference()
     
@@ -33,6 +34,39 @@ final class SessionDetailViewModel: ObservableObject {
             
             completion(nil)
         }
+    }
+    
+    func startTimer(id: String) {
+        let key = "-O3WyjgYPQzVOsDw6KeT"
+        
+        timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { _ in
+            self.updateTime(key: key)
+        }
+    }
+    
+    private func updateTime(key: String) {
+        print("updatetime")
+        ref.child("sessions/\(key)/settings/time").observeSingleEvent(of: .value) { snapshot in
+            guard let currentTime = snapshot.value as? Int else {
+                print("Error: Could not retrieve time value.")
+                return
+            }
+            
+            let newTime = currentTime - 1
+            
+            self.ref.child("sessions/\(key)/settings/time").setValue(newTime) { error, _ in
+                if let error = error {
+                    print("Error updating time value: \(error.localizedDescription)")
+                } else {
+                    self.time = newTime
+                    print("Time value successfully updated to \(newTime).")
+                }
+            }
+        }
+    }
+    
+    func deleteComment(index: IndexSet) {
+        // print("Silinecek eleman: \(columns[index.first!])")
     }
     
     func fetchColumns(id: String) async {
@@ -63,7 +97,6 @@ final class SessionDetailViewModel: ObservableObject {
                     if let columns = session.columns {
                         self.columns = Array(columns.values)
                     }
-                    
                 }
             } catch {
                 print("Decode error: \(error)")
@@ -109,15 +142,10 @@ final class SessionDetailViewModel: ObservableObject {
             }
         }
         
-        do{
-            try await ref.child("sessions")
-                .child(key)
-                .child("columns")
-                .child(column)
-                .child("comments")
-                .child(newCommentId)
+        do {
+            try await ref.child("sessions/\(key)/columns/\(column)/comments/\(newCommentId)")
                 .setValue(["id": newComment.id, "author": newComment.author, "comment": newComment.comment])
-        }   catch {
+        } catch {
             print("Error")
         }
         
