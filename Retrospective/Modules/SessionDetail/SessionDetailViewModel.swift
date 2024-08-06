@@ -60,7 +60,10 @@ final class SessionDetailViewModel: ObservableObject {
                 let session = try decoder.decode(Session.self, from: data)
                 
                 DispatchQueue.main.async {
-                    self.columns = Array(session.columns.values)
+                    if let columns = session.columns {
+                        self.columns = Array(columns.values)
+                    }
+                    
                 }
             } catch {
                 print("Decode error: \(error)")
@@ -96,7 +99,10 @@ final class SessionDetailViewModel: ObservableObject {
                 let session = try decoder.decode(Session.self, from: data)
                 
                 DispatchQueue.main.async {
-                    self.columns = Array(session.columns.values)
+                    if let columns = session.columns {
+                        self.columns = Array(columns.values)
+                    }
+                    
                 }
             } catch {
                 print("Decode error: \(error)")

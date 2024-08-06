@@ -15,39 +15,40 @@ struct CustomCell: View {
     var body: some View {
         GeometryReader { geo in
             HStack {
-                Text(session.name)
-                    .frame(width: UIScreen.main.bounds.size.width / 3)
-                
-                Text(session.isActive ? "Aktif" : "Pasif")
-                    .foregroundColor(session.isActive ? .blue : .gray)
-                    .frame(width: UIScreen.main.bounds.size.width / 3)
-                Group {
-                    if session.isActive {
-                        Button(action: {
-                            isNavigationActive = true
-                        }) {
-                            Image(systemName: "eye")
-                                .padding()
-                                .background(Color.blue.opacity(0.2))
-                                .clipShape(Circle())
-                                .contentShape(Circle())
-                                .background(
-                                    NavigationLink(destination: SessionDetail(sessionId: session.id ?? "", timer: session.settings.time, sessionName: session.name), isActive: $isNavigationActive) {
-                                    }
-                                        .hidden()
-                                )
-                        }
-                        
-                    }
-                    if !session.isActive {
-                        Button(action: {
-                        }) {
-                            Image(systemName: "trash")
-                        }
-                    }
+                if let sessionName = session.name {
+                    Text(sessionName)
+                        .frame(width: UIScreen.main.bounds.size.width / 3)
                 }
-                .frame(width: UIScreen.main.bounds.size.width / 3)
-                
+                if let sessionActiveStatus = session.isActive {
+                    Text(sessionActiveStatus ? "Aktif" : "Pasif")
+                        .foregroundColor(sessionActiveStatus ? .blue : .gray)
+                        .frame(width: UIScreen.main.bounds.size.width / 3)
+                    Group {
+                        if sessionActiveStatus {
+                            Button(action: {
+                                isNavigationActive = true
+                            }) {
+                                Image(systemName: "eye")
+                                    .padding()
+                                    .background(Color.blue.opacity(0.2))
+                                    .clipShape(Circle())
+                                    .contentShape(Circle())
+                                    .background(
+                                        NavigationLink(destination: SessionDetail(sessionId: session.id ?? "", timer: session.settings?.time ?? 0, sessionName: session.name ?? ""), isActive: $isNavigationActive) {
+                                        }
+                                            .hidden()
+                                    )
+                            }
+                        }
+                        if !sessionActiveStatus{
+                            Button(action: {
+                            }) {
+                                Image(systemName: "trash")
+                            }
+                        }
+                    }
+                    .frame(width: UIScreen.main.bounds.size.width / 3)
+                }
             }
             .frame(width: geo.size.width, height: geo.size.height)
         }
