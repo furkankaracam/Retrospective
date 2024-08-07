@@ -8,6 +8,7 @@ import SwiftUI
 
 struct AddSessionView: View {
     @StateObject private var viewModel = AddSessionViewModel()
+    @State var selectedTab :  Tabs
     
     var body: some View {
         VStack {
@@ -23,7 +24,7 @@ struct AddSessionView: View {
                                 .id(1)
                             SelectColumnsView(viewModel: viewModel)
                                 .id(2)
-                            ResultView(selectedTab: .constant(.addSession))
+                            ResultView(selectedTab: $selectedTab)
                                 .id(3)
                         }.frame(width: UIScreen.main.bounds.width)
                     }
@@ -42,10 +43,11 @@ struct AddSessionView: View {
         }
         .onDisappear(perform: {
             viewModel.columns = [:]
+            viewModel.pageIndex = .name
         })
     }
 }
 
 #Preview {
-    AddSessionView()
+    AddSessionView(selectedTab: .oldSessions)
 }

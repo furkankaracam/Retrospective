@@ -19,6 +19,7 @@ enum NavigateTo {
 
 enum Tabs {
     case sessions
+    case oldSessions
     case addSession
     case profile
 }

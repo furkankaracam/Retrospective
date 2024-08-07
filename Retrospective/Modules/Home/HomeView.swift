@@ -20,19 +20,8 @@ struct HomeView: View {
                 } else {
                     SessionsTable(sessions: viewModel.sessions)
                 }
-                Text("Geçmiş Oturumlar")
-                    .font(.title2)
-                    .bold()
-                    .multilineTextAlignment(.leading)
-                    .frame(width: UIScreen.main.bounds.width)
-                if viewModel.oldSessions.isEmpty {
-                    CustomEmptyTableView()
-                } else {
-                    SessionsTable(sessions: viewModel.oldSessions)
-                }
-                
             }
-            .navigationTitle("Oturumlar")
+            .navigationTitle("Aktif Oturumlar")
             .task {
                 await viewModel.fetchData()
             }
