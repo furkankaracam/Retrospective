@@ -14,7 +14,9 @@ struct ResultView: View {
         VStack(alignment: .leading) {
             Text("Tebrikler! Oturum başarıyla oluşturuldu.")
             Button("Oturumları Gör") {
+                print("selectedTab eskisi: \(selectedTab)")
                 selectedTab = .sessions
+                print("selectedTab yenisi: \(selectedTab)")
             }
         }
     }
@@ -23,3 +25,4 @@ struct ResultView: View {
 #Preview {
     ResultView(selectedTab: .constant(.sessions))
 }
+

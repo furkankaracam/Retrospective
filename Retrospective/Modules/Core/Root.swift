@@ -94,7 +94,7 @@ final class SessionData: ObservableObject {
 struct RetrospectiveApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     
-    @State private var selectedTab: Tabs = .sessions
+    @State var selectedTab: Tabs?
     
     var body: some Scene {
         WindowGroup {
@@ -107,11 +107,11 @@ struct RetrospectiveApp: App {
                 
                 OldSessionView()
                     .tabItem {
-                        Label("Geçmiş Oturumlar", systemImage: "list.dash")
+                        Label("Geçmiş Oturumlar", systemImage: "clock")
                     }
                     .tag(Tabs.oldSessions)
                 
-                AddSessionView()
+                AddSessionView(selectedTab: .addSession)
                     .tabItem {
                         Label("Oturum Ekle", systemImage: "plus")
                     }
@@ -122,12 +122,14 @@ struct RetrospectiveApp: App {
                         Label("Profil", systemImage: "person")
                     }
                     .tag(Tabs.profile)
-            }.onChange(of: selectedTab) { oldValue, newValue in
-                print(selectedTab)
+            }
+            .onChange(of: selectedTab) { newValue in
+                print("Selected tab changed to: \(newValue)")
             }
         }
     }
 }
+
 
 struct EmptyView: View {
     var body: some View {
