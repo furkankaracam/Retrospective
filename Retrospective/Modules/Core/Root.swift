@@ -117,7 +117,7 @@ struct RetrospectiveApp: App {
                     }
                     .tag(Tabs.addSession)
                 
-                SessionDetail(sessionId: "-O3WyjgYPQzVOsDw6KeT", timer: 1, sessionName: "Sezon")
+                ProfileView(name: .constant(""), password: .constant(""))
                     .tabItem {
                         Label("Profil", systemImage: "person")
                     }
@@ -127,12 +127,5 @@ struct RetrospectiveApp: App {
                 print("Selected tab changed to: \(newValue)")
             }
         }
-    }
-}
-
-
-struct EmptyView: View {
-    var body: some View {
-        Text("Boş Sayfa")
     }
 }
