@@ -25,7 +25,7 @@ struct SessionDetail: View {
                 Spacer()
                 HStack(content: {
                     Text("Kalan Süre:")
-                    Text("\(viewModel.time ?? 0)")
+                    Text("\(viewModel.time ?? "00:00")")
                         .bold()
                 })
             })

@@ -13,7 +13,7 @@ final class SessionDetailViewModel: ObservableObject {
     @Published var columns: [Column] = []
     @Published var sessionName: String = ""
     @Published var timer: Timer?
-    @Published var time: Int?
+    @Published var time: String?
     @Published var sessionKey: String = ""
     
     private let ref = Database.database().reference()
@@ -61,8 +61,7 @@ final class SessionDetailViewModel: ObservableObject {
                 if let error = error {
                     print("Error updating time value: \(error.localizedDescription)")
                 } else {
-                    self.time = newTime
-                    print("Time value successfully updated to \(newTime).")
+                    self.time = TimeFormatterUtility.formatTime(seconds: newTime)
                 }
             }
         }
