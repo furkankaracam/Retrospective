@@ -12,6 +12,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         FirebaseApp.configure()
+        
         return true
     }
 }
@@ -94,7 +95,8 @@ final class SessionData: ObservableObject {
 struct RetrospectiveApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     
-    @State var selectedTab: Tabs?
+    @StateObject private var authManager = AuthManager()
+    @State private var selectedTab: Tabs?
     
     var body: some Scene {
         WindowGroup {
@@ -117,7 +119,7 @@ struct RetrospectiveApp: App {
                     }
                     .tag(Tabs.addSession)
                 
-                ProfileView(name: .constant(""), password: .constant(""))
+                ProfileView(authManager: authManager)
                     .tabItem {
                         Label("Profil", systemImage: "person")
                     }

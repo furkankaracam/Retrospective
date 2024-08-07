@@ -8,14 +8,14 @@
 import SwiftUI
 
 struct ProfileView: View {
-    
-    @StateObject private var viewModel = ProfileViewController()
-    
-    @Binding var name: String
-    @Binding var password: String
-    
+    @StateObject private var viewModel: ProfileViewController
+
+    init(authManager: AuthManager) {
+        _viewModel = StateObject(wrappedValue: ProfileViewController(authManager: authManager))
+    }
+
     var body: some View {
-        VStack(spacing: 5,  content: {
+        VStack(spacing: 5) {
             Image("logo")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
@@ -25,45 +25,44 @@ struct ProfileView: View {
                 .shadow(color: .blue, radius: 10)
                 .rotationEffect(.degrees(10))
                 .padding()
-                .padding()
-            HStack(content: {
+            
+            HStack {
                 Text("Kullanıcı Adı:")
                     .bold()
                     .frame(width: UIScreen.main.bounds.width / 3)
-                TextField("Kullanıcı adı giriniz", text: $name)
+                TextField("Kullanıcı adı giriniz", text: $viewModel.name)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .padding()
-            })
-            HStack(content: {
+            }
+            
+            HStack {
                 Text("Parola:")
                     .bold()
                     .frame(width: UIScreen.main.bounds.width / 3)
-                    
-                SecureField("Parola", text: $password)
+                SecureField("Parola", text: $viewModel.password)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .padding()
-                    
-            })
-            HStack(content: {
-                Group {
-                    Button("Giriş Yap") {
-                        
-                    }
-                    Button("Kaydol") {
-                        
-                    }
-                    .tint(.green)
-                }
-                .buttonStyle(.bordered)
-            })
-            .padding()
+            }
             
-        })
+            HStack {
+                Button("Giriş Yap") {
+                    Task {
+                        await viewModel.signIn()
+                    }
+                }
+                Button("Kaydol") {
+                    viewModel.signUp()
+                }
+                .tint(.green)
+            }
+            .buttonStyle(.bordered)
+            .padding()
+        }
         .padding()
-        
     }
 }
 
 #Preview {
-    ProfileView(name: .constant("Furkan"), password: .constant("Karaçam"))
+    ProfileView(authManager: AuthManager())
 }
+
