@@ -105,6 +105,12 @@ struct RetrospectiveApp: App {
                     }
                     .tag(Tabs.sessions)
                 
+                OldSessionView()
+                    .tabItem {
+                        Label("Geçmiş Oturumlar", systemImage: "list.dash")
+                    }
+                    .tag(Tabs.oldSessions)
+                
                 AddSessionView()
                     .tabItem {
                         Label("Oturum Ekle", systemImage: "plus")

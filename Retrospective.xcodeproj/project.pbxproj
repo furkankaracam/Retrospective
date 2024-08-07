@@ -43,6 +43,8 @@
 		87A3A9AA2C53ACB800C39550 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87A3A9A92C53ACB800C39550 /* Model.swift */; };
 		87D41B762C5A55200091CF75 /* CommentCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87D41B752C5A55200091CF75 /* CommentCard.swift */; };
 		87D41B792C636DEE0091CF75 /* TimeFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87D41B782C636DEE0091CF75 /* TimeFormatter.swift */; };
+		87D41B7C2C636FC00091CF75 /* OldSessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87D41B7B2C636FC00091CF75 /* OldSessionView.swift */; };
+		87D41B7E2C636FCA0091CF75 /* OldSessionsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87D41B7D2C636FCA0091CF75 /* OldSessionsViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -97,6 +99,8 @@
 		87A3A9A92C53ACB800C39550 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		87D41B752C5A55200091CF75 /* CommentCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentCard.swift; sourceTree = "<group>"; };
 		87D41B782C636DEE0091CF75 /* TimeFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeFormatter.swift; sourceTree = "<group>"; };
+		87D41B7B2C636FC00091CF75 /* OldSessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OldSessionView.swift; sourceTree = "<group>"; };
+		87D41B7D2C636FCA0091CF75 /* OldSessionsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OldSessionsViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -207,6 +211,7 @@
 		879FB9B72C4E733000770753 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				87D41B7A2C636FA80091CF75 /* OldSessions */,
 				872ED6BE2C5A16F8001868F1 /* SessionDetail */,
 				87A3A98F2C52627100C39550 /* AddSession */,
 				87A3A97F2C51283800C39550 /* Core */,
@@ -275,6 +280,15 @@
 				87D41B782C636DEE0091CF75 /* TimeFormatter.swift */,
 			);
 			path = Utilities;
+			sourceTree = "<group>";
+		};
+		87D41B7A2C636FA80091CF75 /* OldSessions */ = {
+			isa = PBXGroup;
+			children = (
+				87D41B7B2C636FC00091CF75 /* OldSessionView.swift */,
+				87D41B7D2C636FCA0091CF75 /* OldSessionsViewModel.swift */,
+			);
+			path = OldSessions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -464,6 +478,8 @@
 				879FB9C62C4E7E5500770753 /* HomeViewModel.swift in Sources */,
 				872ED6C62C5A1BE4001868F1 /* ColumnBody.swift in Sources */,
 				87A3A9952C52678F00C39550 /* PaginationView.swift in Sources */,
+				87D41B7E2C636FCA0091CF75 /* OldSessionsViewModel.swift in Sources */,
+				87D41B7C2C636FC00091CF75 /* OldSessionView.swift in Sources */,
 				87A3A98C2C524AE400C39550 /* SessionsTable.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
