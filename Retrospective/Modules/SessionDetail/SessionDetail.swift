@@ -25,24 +25,33 @@ struct SessionDetail: View {
                 Spacer()
                 HStack(content: {
                     Text("Kalan Süre:")
-                    Text("\(timer)")
+                    Text("\(viewModel.time ?? 0)")
                         .bold()
                 })
             })
             .padding(.horizontal)
             
             List {
-                ForEach($viewModel.columns, id: \.id, editActions: .move) { $column in
+                ForEach($viewModel.columns, id: \.id, editActions: [.move, .delete]) { $column in
                     
                     if let columnName = column.name {
                         ColumnTitle(title: columnName)
                             .moveDisabled(true)
+                            .deleteDisabled(true)
                     }
                     
                     if let comments = column.comments {
                         if comments.count > 0 {
                             ForEach(Array(comments.values), id: \.id) { comment in
                                 CommentCard(isEditing: .constant(false), card: Comment(id: comment.id, author: comment.author, comment: comment.comment))
+                            }.onDelete { indexSet in
+                                let columnId = column.id ?? ""
+                                indexSet.forEach { index in
+                                    let commentId = Array(comments.keys)[index]
+                                    Task {
+                                        await viewModel.deleteComment(sessionId: viewModel.sessionKey, columnId: columnId, commentId: commentId)
+                                    }
+                                }
                             }
                         }
                     }
@@ -90,8 +99,13 @@ struct SessionDetail: View {
         .task {
             if !sessionId.isEmpty {
                 await viewModel.fetchColumns(id: sessionId)
+                viewModel.startTimer(id: sessionId)
             }
         }
+        
+        .onDisappear(perform: {
+            viewModel.timer?.invalidate()
+        })
         .environment(\.editMode, isEditing ? .constant(.active) : .constant(.inactive))
         .listStyle(.plain)
     }

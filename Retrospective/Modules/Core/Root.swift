@@ -111,7 +111,7 @@ struct RetrospectiveApp: App {
                     }
                     .tag(Tabs.addSession)
                 
-                SessionDetail(sessionId: "-O3WyjgYPQzVOsDw6KeT", timer: 60, sessionName: "Sezon")
+                SessionDetail(sessionId: "-O3WyjgYPQzVOsDw6KeT", timer: 1, sessionName: "Sezon")
                     .tabItem {
                         Label("Profil", systemImage: "person")
                     }
