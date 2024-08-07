@@ -14,6 +14,7 @@ struct SessionDetail: View {
     @State private var showingCommentInput: String? = ""
     
     @State var sessionId: String
+    @State var timer: Int
     @State var sessionName: String
     
     var body: some View {
@@ -43,10 +44,15 @@ struct SessionDetail: View {
                         if comments.count > 0 {
                             ForEach(Array(comments.values), id: \.id) { comment in
                                 CommentCard(isEditing: .constant(false), card: Comment(id: comment.id, author: comment.author, comment: comment.comment))
-                            }.onDelete(perform: { indexSet in
-                                print("Silinecek eleman \(indexSet.first)")
-                                //viewModel.deleteComment(index: indexSet)
-                            })
+                            }.onDelete { indexSet in
+                                let columnId = column.id ?? ""
+                                indexSet.forEach { index in
+                                    let commentId = Array(comments.keys)[index]
+                                    Task {
+                                        await viewModel.deleteComment(sessionId: viewModel.sessionKey, columnId: columnId, commentId: commentId)
+                                    }
+                                }
+                            }
                         }
                     }
                     
@@ -92,10 +98,11 @@ struct SessionDetail: View {
         }
         .task {
             if !sessionId.isEmpty {
-                viewModel.startTimer(id: sessionId)
                 await viewModel.fetchColumns(id: sessionId)
+                viewModel.startTimer(id: sessionId)
             }
         }
+        
         .onDisappear(perform: {
             viewModel.timer?.invalidate()
         })
@@ -105,5 +112,5 @@ struct SessionDetail: View {
 }
 
 #Preview {
-    SessionDetail(sessionId: "-O3XEnBJtrBjIc4O1m-x", sessionName: "Sezon")
+    SessionDetail(sessionId: "-O3XEnBJtrBjIc4O1m-x", timer: 60, sessionName: "Sezon")
 }

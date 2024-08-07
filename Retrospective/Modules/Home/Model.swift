@@ -24,7 +24,8 @@ struct Session: Identifiable, Decodable {
 struct Column: Identifiable, Decodable {
     let id: String?
     let name: String?
-    let comments: [String: Comment]?
+    var comments: [String: Comment]?
+    
 }
 
 struct Comment: Identifiable, Decodable {

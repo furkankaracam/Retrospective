@@ -14,10 +14,11 @@ final class SessionDetailViewModel: ObservableObject {
     @Published var sessionName: String = ""
     @Published var timer: Timer?
     @Published var time: Int?
+    @Published var sessionKey: String = ""
     
     private let ref = Database.database().reference()
     
-    private func getKey(id: String, completion: @escaping (String?) -> Void) {
+    func getKey(id: String, completion: @escaping (String?) -> Void) {
         ref.child("sessions").observeSingleEvent(of: .value) { snapshot in
             guard let value = snapshot.value as? [String: Any] else {
                 print("Invalid data format")
@@ -27,6 +28,7 @@ final class SessionDetailViewModel: ObservableObject {
             
             for (key, session) in value {
                 if let sessionDict = session as? [String: Any], let sessionId = sessionDict["id"] as? String, sessionId == id {
+                    self.sessionKey = key
                     completion(key)
                     return
                 }
@@ -37,7 +39,8 @@ final class SessionDetailViewModel: ObservableObject {
     }
     
     func startTimer(id: String) {
-        let key = "-O3WyjgYPQzVOsDw6KeT"
+        let key = sessionKey
+        print(sessionKey)
         
         timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { _ in
             self.updateTime(key: key)
@@ -65,8 +68,15 @@ final class SessionDetailViewModel: ObservableObject {
         }
     }
     
-    func deleteComment(index: IndexSet) {
-        // print("Silinecek eleman: \(columns[index.first!])")
+    func deleteComment(sessionId: String, columnId: String, commentId: String) async {
+        let commentRef = ref.child("sessions").child(sessionId).child("columns").child(columnId).child("comments").child(commentId)
+
+        do {
+            try await commentRef.removeValue()
+            print("Yorum başarıyla silindi")
+        } catch {
+            print("Yorum silme hatası: \(error)")
+        }
     }
     
     func fetchColumns(id: String) async {
@@ -81,7 +91,8 @@ final class SessionDetailViewModel: ObservableObject {
             return
         }
         
-        ref.child("sessions").child(key).observe(.value) { snapshot in
+        ref.child("sessions").child(key).observe(.value) { snapshot  in
+            print(snapshot)
             guard let value = snapshot.value as? [String: Any] else {
                 print("Invalid data format")
                 return
@@ -95,8 +106,11 @@ final class SessionDetailViewModel: ObservableObject {
                 
                 DispatchQueue.main.async {
                     if let columns = session.columns {
-                        self.columns = Array(columns.values)
+                        var sortedColumns = Array(columns.values).sorted { $0.name ?? "" < $1.name ?? "" }
+                        self.columns = sortedColumns
+                        
                     }
+                    
                 }
             } catch {
                 print("Decode error: \(error)")
@@ -133,7 +147,7 @@ final class SessionDetailViewModel: ObservableObject {
                 
                 DispatchQueue.main.async {
                     if let columns = session.columns {
-                        self.columns = Array(columns.values)
+                        self.columns = Array(columns.values).sorted(by: { $0.name ?? "" < $1.name ?? ""})
                     }
                     
                 }
