@@ -9,11 +9,13 @@ import SwiftUI
 
 struct ProfileView: View {
     @StateObject private var viewModel: ProfileViewController
-
+    
+    @State private var isPresented: Bool = false
+    
     init(authManager: AuthManager) {
         _viewModel = StateObject(wrappedValue: ProfileViewController(authManager: authManager))
     }
-
+    
     var body: some View {
         VStack(spacing: 5) {
             Image("logo")
@@ -51,7 +53,7 @@ struct ProfileView: View {
                     }
                 }
                 Button("Kaydol") {
-                    viewModel.signUp()
+                    isPresented = true
                 }
                 .tint(.green)
             }
@@ -59,10 +61,12 @@ struct ProfileView: View {
             .padding()
         }
         .padding()
+        .fullScreenCover(isPresented: $isPresented) {
+            SignInView(isPresented: isPresented)
+        }
     }
 }
 
 #Preview {
     ProfileView(authManager: AuthManager())
 }
-

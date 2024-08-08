@@ -8,7 +8,7 @@ import SwiftUI
 
 struct AddSessionView: View {
     @StateObject private var viewModel = AddSessionViewModel()
-    @State var selectedTab :  Tabs
+    @Binding var selectedTab : Tabs
     
     var body: some View {
         VStack {
@@ -49,5 +49,5 @@ struct AddSessionView: View {
 }
 
 #Preview {
-    AddSessionView(selectedTab: .oldSessions)
+    AddSessionView(selectedTab: .constant(.addSession))
 }

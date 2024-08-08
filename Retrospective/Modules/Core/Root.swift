@@ -96,7 +96,7 @@ struct RetrospectiveApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     
     @StateObject private var authManager = AuthManager()
-    @State private var selectedTab: Tabs?
+    @State private var selectedTab: Tabs = .sessions
     
     var body: some Scene {
         WindowGroup {
@@ -113,7 +113,7 @@ struct RetrospectiveApp: App {
                     }
                     .tag(Tabs.oldSessions)
                 
-                AddSessionView(selectedTab: .addSession)
+                AddSessionView(selectedTab: $selectedTab)
                     .tabItem {
                         Label("Oturum Ekle", systemImage: "plus")
                     }
