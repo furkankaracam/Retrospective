@@ -18,6 +18,18 @@ class AuthManager: ObservableObject {
         configureAuthStateChanges()
     }
     
+    func signUp(username: String, password: String) async throws -> AuthDataResult? {
+        do {
+            let result = try await Auth.auth().createUser(withEmail: "\(username)@mail.com", password: password)
+            print("FirebaseAuthSuccess: Sign in anonymously, UID:(\(user?.email)")
+            return result
+        }
+        catch {
+            print("FirebaseAuthError: failed to sign in anonymously: \(error.localizedDescription)")
+            throw error
+        }
+    }
+    
     func signInAnonymously() async throws -> AuthDataResult? {
         do {
             let result = try await Auth.auth().signInAnonymously()
@@ -50,6 +62,22 @@ class AuthManager: ObservableObject {
             self.authState = isAnonymous ? .authenticated : .signedIn
         } else {
             self.authState = .signedOut
+        }
+    }
+    
+    func checkAuthState() -> Bool {
+        if ((user) != nil) {
+            return true
+        } else {
+            return false
+        }
+    }
+    
+    func signOut() {
+        do{
+            try Auth.auth().signOut()
+        }catch{
+            print("Error while signing out!")
         }
     }
 }

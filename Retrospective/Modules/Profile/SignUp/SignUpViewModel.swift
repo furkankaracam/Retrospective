@@ -7,10 +7,11 @@
 
 import Foundation
 
-final class ProfileViewController: ObservableObject {
+final class SignUpViewModel: ObservableObject {
     
     @Published var name: String = ""
     @Published var password: String = ""
+    @Published var rePassword: String = ""
     
     private var authManager: AuthManager
     
@@ -29,5 +30,20 @@ final class ProfileViewController: ObservableObject {
     
     func signUp() {
         print(self.authManager.authState)
+    }
+    
+    func checkPassword(rePassword: String) -> Bool {
+        if password == rePassword {
+            return false
+        }
+        return true
+    }
+    
+    func checkAuth() -> Bool {
+        authManager.checkAuthState()
+    }
+    
+    func logout() {
+        authManager.signOut()
     }
 }

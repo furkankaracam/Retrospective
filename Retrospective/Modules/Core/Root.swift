@@ -119,7 +119,7 @@ struct RetrospectiveApp: App {
                     }
                     .tag(Tabs.addSession)
                 
-                ProfileView(authManager: authManager)
+                SignUpView(authManager: authManager)
                     .tabItem {
                         Label("Profil", systemImage: "person")
                     }
