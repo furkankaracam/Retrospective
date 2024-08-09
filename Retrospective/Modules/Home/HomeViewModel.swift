@@ -10,7 +10,7 @@ import Firebase
 
 final class HomeViewModel: ObservableObject {
     
-    @Published var sessions: [Session] = []
+    @Published var sessions: [RetroSession] = []
     
     private let ref = Database.database().reference()
     
@@ -25,7 +25,7 @@ final class HomeViewModel: ObservableObject {
                 let data = try JSONSerialization.data(withJSONObject: value, options: [])
                 let decoder = JSONDecoder()
                 
-                let sessionsResponse = try decoder.decode([String: Session].self, from: data)
+                let sessionsResponse = try decoder.decode([String: RetroSession].self, from: data)
                 
                 DispatchQueue.main.async {
                     self.sessions = []

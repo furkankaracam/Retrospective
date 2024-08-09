@@ -15,6 +15,7 @@ final class SessionDetailViewModel: ObservableObject {
     @Published var timer: Timer?
     @Published var time: String?
     @Published var sessionKey: String = ""
+    @Published var anonymStatus: Bool?
     
     private let ref = Database.database().reference()
     
@@ -40,7 +41,6 @@ final class SessionDetailViewModel: ObservableObject {
     
     func startTimer(id: String) {
         let key = sessionKey
-        print(sessionKey)
         
         timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { _ in
             self.updateTime(key: key)
@@ -48,20 +48,17 @@ final class SessionDetailViewModel: ObservableObject {
     }
     
     private func updateTime(key: String) {
-        print("updatetime")
         ref.child("sessions/\(key)/settings/time").observeSingleEvent(of: .value) { snapshot in
             guard let currentTime = snapshot.value as? Int else {
                 print("Error: Could not retrieve time value.")
                 return
             }
             
-            let newTime = currentTime - 1
-            
-            self.ref.child("sessions/\(key)/settings/time").setValue(newTime) { error, _ in
+            self.ref.child("sessions/\(key)/settings/time").setValue(currentTime - 1) { error, _ in
                 if let error = error {
                     print("Error updating time value: \(error.localizedDescription)")
                 } else {
-                    self.time = TimeFormatterUtility.formatTime(seconds: newTime)
+                    self.time = TimeFormatterUtility.formatTime(seconds: currentTime - 1)
                 }
             }
         }
@@ -69,47 +66,42 @@ final class SessionDetailViewModel: ObservableObject {
     
     func deleteComment(sessionId: String, columnId: String, commentId: String) async {
         let commentRef = ref.child("sessions").child(sessionId).child("columns").child(columnId).child("comments").child(commentId)
-
+        
         do {
             try await commentRef.removeValue()
-            print("Yorum başarıyla silindi")
         } catch {
-            print("Yorum silme hatası: \(error)")
+            print(error)
         }
     }
     
     func fetchColumns(id: String) async {
+        
         let key = await withCheckedContinuation { continuation in
             getKey(id: id) { resultKey in
                 continuation.resume(returning: resultKey)
             }
         }
         
-        guard let key = key else {
-            print("Session key not found")
-            return
-        }
+        guard let key else { return }
         
         ref.child("sessions").child(key).observe(.value) { snapshot  in
-            print(snapshot)
-            guard let value = snapshot.value as? [String: Any] else {
-                print("Invalid data format")
-                return
-            }
+            
+            guard let value = snapshot.value as? [String: Any] else { return }
             
             do {
                 let data = try JSONSerialization.data(withJSONObject: value)
                 let decoder = JSONDecoder()
                 
-                let session = try decoder.decode(Session.self, from: data)
+                let session = try decoder.decode(RetroSession.self, from: data)
                 
                 DispatchQueue.main.async {
-                    if let columns = session.columns {
-                        var sortedColumns = Array(columns.values).sorted { $0.name ?? "" < $1.name ?? "" }
-                        self.columns = sortedColumns
-                        
-                    }
                     
+                    self.anonymStatus = session.settings?.anonymous ?? false
+                    
+                    if let columns = session.columns {
+                        let sortedColumns = Array(columns.values).sorted { $0.name ?? "" < $1.name ?? "" }
+                        self.columns = sortedColumns
+                    }
                 }
             } catch {
                 print("Decode error: \(error)")
@@ -132,35 +124,11 @@ final class SessionDetailViewModel: ObservableObject {
             return
         }
         
-        ref.child("sessions").child(key).observeSingleEvent(of: .value) { snapshot in
-            guard let value = snapshot.value as? [String: Any] else {
-                print("Invalid data format")
-                return
-            }
-            
-            do {
-                let data = try JSONSerialization.data(withJSONObject: value)
-                let decoder = JSONDecoder()
-                
-                let session = try decoder.decode(Session.self, from: data)
-                
-                DispatchQueue.main.async {
-                    if let columns = session.columns {
-                        self.columns = Array(columns.values).sorted(by: { $0.name ?? "" < $1.name ?? ""})
-                    }
-                    
-                }
-            } catch {
-                print("Decode error: \(error)")
-            }
-        }
-        
         do {
             try await ref.child("sessions/\(key)/columns/\(column)/comments/\(newCommentId)")
                 .setValue(["id": newComment.id, "author": newComment.author, "comment": newComment.comment])
         } catch {
             print("Error")
         }
-        
     }
 }

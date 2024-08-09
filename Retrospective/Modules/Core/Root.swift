@@ -124,9 +124,6 @@ struct RetrospectiveApp: App {
                     }
                     .tag(Tabs.profile)
             }
-            .onChange(of: selectedTab) { newValue in
-                print("Selected tab changed to: \(newValue)")
-            }
         }
     }
 }

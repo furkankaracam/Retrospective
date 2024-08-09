@@ -12,7 +12,7 @@ struct ColumnBody: View {
 
     var body: some View {
         ForEach(cards) { card in
-            CommentCard(isEditing: .constant(false), card: Comment(id: "1", author: "Furkan", comment: "Deneme"))
+            CommentCard(viewModel: SessionDetailViewModel(), isEditing: .constant(false), isAnonym: true, card: Comment(id: "1", author: "Furkan", comment: "Deneme"))
         }
     }
 }

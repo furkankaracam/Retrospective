@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CustomCell: View {
     
-    let session: Session
+    let session: RetroSession
     @State private var isNavigationActive = false
     
     var body: some View {
@@ -56,5 +56,5 @@ struct CustomCell: View {
 }
 
 #Preview {
-    CustomCell(session: Session(id: nil, columns: [:], createdBy: "Furkan", isActive: true, name: "Deneme", participants: ["Furkan": 1], settings: Settings(anonymous: false, authorVisibility: false, time: 4, password: "Password")))
+    CustomCell(session: RetroSession(id: nil, columns: [:], createdBy: "Furkan", isActive: true, name: "Deneme", participants: ["Furkan": 1], settings: Settings(anonymous: false, authorVisibility: false, time: 4, password: "Password")))
 }

@@ -16,7 +16,7 @@ struct SessionDetail: View {
     @State var sessionId: String
     @State var timer: Int
     @State var sessionName: String
-    
+
     var body: some View {
         VStack {
             HStack(alignment: .center, content: {
@@ -43,7 +43,7 @@ struct SessionDetail: View {
                     if let comments = column.comments {
                         if comments.count > 0 {
                             ForEach(Array(comments.values), id: \.id) { comment in
-                                CommentCard(isEditing: .constant(false), card: Comment(id: comment.id, author: comment.author, comment: comment.comment))
+                                CommentCard(viewModel: viewModel, isEditing: .constant(false), isAnonym: viewModel.anonymStatus ?? false, card: comment)
                             }.onDelete { indexSet in
                                 let columnId = column.id ?? ""
                                 indexSet.forEach { index in
@@ -102,10 +102,9 @@ struct SessionDetail: View {
                 viewModel.startTimer(id: sessionId)
             }
         }
-        
-        .onDisappear(perform: {
+        .onDisappear {
             viewModel.timer?.invalidate()
-        })
+        }
         .environment(\.editMode, isEditing ? .constant(.active) : .constant(.inactive))
         .listStyle(.plain)
     }

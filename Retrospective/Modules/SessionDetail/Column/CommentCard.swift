@@ -9,10 +9,12 @@ import SwiftUI
 
 struct CommentCard: View {
     
-    @StateObject private var viewModel: SessionDetailViewModel = SessionDetailViewModel()
+    @StateObject var viewModel: SessionDetailViewModel
     @Binding var isEditing: Bool
+    @State var isAnonym: Bool
     
     var card: Comment
+    
     var body: some View {
         HStack {
             if let comment = card.comment {
@@ -21,9 +23,12 @@ struct CommentCard: View {
                     .padding(.vertical)
             }
             Spacer()
-            if let author = card.author {
-                Text(author)
-                    .font(.caption)
+            
+            if !isAnonym {
+                if let author = card.author {
+                    Text(author)
+                        .font(.caption)
+                }
             }
             
             Image(systemName: "line.3.horizontal")
@@ -37,10 +42,9 @@ struct CommentCard: View {
                 }
         }
         .padding()
-        
     }
 }
 
 #Preview {
-    CommentCard(isEditing: .constant(false), card: Comment(id: "1", author: "Furkan", comment: "Yorum"))
+    CommentCard(viewModel: SessionDetailViewModel(), isEditing: .constant(false), isAnonym: true, card: Comment(id: "1", author: "Furkan", comment: "Yorum"))
 }

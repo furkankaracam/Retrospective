@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SessionsTable: View {
-    var sessions: [Session]
+    var sessions: [RetroSession]
     var body: some View {
         List {
             ForEach(sessions, id: \.id) { session in

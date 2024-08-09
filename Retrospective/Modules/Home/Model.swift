@@ -8,10 +8,10 @@
 import Foundation
 
 struct SessionResponse: Decodable {
-    let sessions: [String: Session]?
+    let sessions: [String: RetroSession]?
 }
 
-struct Session: Identifiable, Decodable {
+struct RetroSession: Identifiable, Decodable {
     let id: String?
     let columns: [String: Column]?
     let createdBy: String?
