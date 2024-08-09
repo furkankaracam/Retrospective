@@ -19,6 +19,8 @@ final class SessionDetailViewModel: ObservableObject {
     
     private let ref = Database.database().reference()
     
+    private var authManager = AuthManager.shared
+    
     func getKey(id: String, completion: @escaping (String?) -> Void) {
         ref.child("sessions").observeSingleEvent(of: .value) { snapshot in
             guard let value = snapshot.value as? [String: Any] else {
@@ -75,7 +77,6 @@ final class SessionDetailViewModel: ObservableObject {
     }
     
     func fetchColumns(id: String) async {
-        
         let key = await withCheckedContinuation { continuation in
             getKey(id: id) { resultKey in
                 continuation.resume(returning: resultKey)
@@ -84,8 +85,7 @@ final class SessionDetailViewModel: ObservableObject {
         
         guard let key else { return }
         
-        ref.child("sessions").child(key).observe(.value) { snapshot  in
-            
+        ref.child("sessions").child(key).observe(.value) { snapshot in
             guard let value = snapshot.value as? [String: Any] else { return }
             
             do {
@@ -95,7 +95,6 @@ final class SessionDetailViewModel: ObservableObject {
                 let session = try decoder.decode(RetroSession.self, from: data)
                 
                 DispatchQueue.main.async {
-                    
                     self.anonymStatus = session.settings?.anonymous ?? false
                     
                     if let columns = session.columns {
@@ -111,24 +110,35 @@ final class SessionDetailViewModel: ObservableObject {
     
     func addComment(sessionId: String, to column: String, comment: String) async {
         let newCommentId = UUID().uuidString
-        let newComment = Comment(id: newCommentId, author: "Kullanıcı", comment: comment)
+
+        var author = ""
         
+        if !UserDefaults.standard.bool(forKey: "isAnonymUser") {
+            author = "Anonim"
+        } else {
+            if let name = authManager.getUserName() {
+                author = name
+            }
+        }
+
+        let newComment = Comment(id: newCommentId, author: author, comment: comment)
+
         let key = await withCheckedContinuation { continuation in
             getKey(id: sessionId) { resultKey in
                 continuation.resume(returning: resultKey)
             }
         }
-        
+
         guard let key = key else {
             print("Session key not found")
             return
         }
-        
+
         do {
             try await ref.child("sessions/\(key)/columns/\(column)/comments/\(newCommentId)")
                 .setValue(["id": newComment.id, "author": newComment.author, "comment": newComment.comment])
         } catch {
-            print("Error")
+            print("Error adding comment: \(error)")
         }
     }
 }

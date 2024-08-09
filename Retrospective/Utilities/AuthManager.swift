@@ -14,7 +14,7 @@ class AuthManager: ObservableObject {
     @Published var authState = AuthState.signedOut
     
     private var authStateHandle: AuthStateDidChangeListenerHandle!
-    
+    static let shared = AuthManager()
     init() {
         configureAuthStateChanges()
     }
@@ -70,5 +70,9 @@ class AuthManager: ObservableObject {
         } catch {
             print("Error while signing out!")
         }
+    }
+    
+    func getUserName() -> String? {
+        return user?.email?.split(separator: "@").first.flatMap(String.init)
     }
 }
