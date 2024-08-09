@@ -83,7 +83,7 @@ final class SessionDetailViewModel: ObservableObject {
             }
         }
         
-        guard let key else { return }
+        guard let key = key else { return }
         
         ref.child("sessions").child(key).observe(.value) { snapshot in
             guard let value = snapshot.value as? [String: Any] else { return }
@@ -96,6 +96,25 @@ final class SessionDetailViewModel: ObservableObject {
                 
                 DispatchQueue.main.async {
                     self.anonymStatus = session.settings?.anonymous ?? false
+                    
+                    let currentUser = self.authManager.getUserName() ?? ""
+                    if var participants = session.participants {
+                        if participants[currentUser] == nil {
+                            participants[currentUser] = 1
+                            self.ref.child("sessions").child(key).child("participants").setValue(participants) { error, _ in
+                                if let error = error {
+                                    print("Error updating participants: \(error.localizedDescription)")
+                                }
+                            }
+                        }
+                    } else {
+                        let newParticipants: [String: Int] = [currentUser: 1]
+                        self.ref.child("sessions").child(key).child("participants").setValue(newParticipants) { error, _ in
+                            if let error = error {
+                                print("Error setting participants: \(error.localizedDescription)")
+                            }
+                        }
+                    }
                     
                     if let columns = session.columns {
                         let sortedColumns = Array(columns.values).sorted { $0.name ?? "" < $1.name ?? "" }
@@ -110,7 +129,7 @@ final class SessionDetailViewModel: ObservableObject {
     
     func addComment(sessionId: String, to column: String, comment: String) async {
         let newCommentId = UUID().uuidString
-
+        
         var author = ""
         
         if !UserDefaults.standard.bool(forKey: "isAnonymUser") {
@@ -120,20 +139,20 @@ final class SessionDetailViewModel: ObservableObject {
                 author = name
             }
         }
-
+        
         let newComment = Comment(id: newCommentId, author: author, comment: comment)
-
+        
         let key = await withCheckedContinuation { continuation in
             getKey(id: sessionId) { resultKey in
                 continuation.resume(returning: resultKey)
             }
         }
-
+        
         guard let key = key else {
             print("Session key not found")
             return
         }
-
+        
         do {
             try await ref.child("sessions/\(key)/columns/\(column)/comments/\(newCommentId)")
                 .setValue(["id": newComment.id, "author": newComment.author, "comment": newComment.comment])

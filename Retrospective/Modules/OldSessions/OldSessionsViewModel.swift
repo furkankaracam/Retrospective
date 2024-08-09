@@ -13,8 +13,11 @@ final class OldSessionsViewModel: ObservableObject {
     @Published var oldSessions: [RetroSession] = []
     
     private let ref = Database.database().reference()
+    private let authManager = AuthManager()
     
     func fetchData() async {
+        let currentUser = authManager.getUserName() ?? "Anonim"
+        
         ref.child("sessions").observe(.value) { snapshot in
             guard let value = snapshot.value as? [String: Any] else {
                 print("Error: Unable to cast snapshot value")
@@ -29,9 +32,9 @@ final class OldSessionsViewModel: ObservableObject {
                 
                 DispatchQueue.main.async {
                     self.oldSessions = []
-                    sessionsResponse.values.forEach { session in
-                        if let activeStatus = session.isActive {
-                            if !activeStatus {
+                    for session in sessionsResponse.values {
+                        if let activeStatus = session.isActive, !activeStatus {
+                            if let participants = session.participants, participants[currentUser] != nil {
                                 self.oldSessions.append(session)
                             }
                         }
@@ -39,10 +42,11 @@ final class OldSessionsViewModel: ObservableObject {
                 }
                 
             } catch {
-                print("Error home decoding data: \(error)")
+                print("Error decoding data: \(error)")
             }
         } withCancel: { error in
             print(error.localizedDescription)
         }
     }
+
 }

@@ -20,10 +20,8 @@ struct CustomCell: View {
                     Text(sessionName)
                         .frame(width: UIScreen.main.bounds.size.width / 3)
                 }
+                Spacer()
                 if let sessionActiveStatus = session.isActive {
-                    Text(sessionActiveStatus ? "Aktif" : "Pasif")
-                        .foregroundColor(sessionActiveStatus ? .blue : .gray)
-                        .frame(width: UIScreen.main.bounds.size.width / 3)
                     Group {
                         if sessionActiveStatus {
                             Button(action: {
@@ -64,6 +62,14 @@ struct CustomCell: View {
                 }
                     .hidden()
             )
+            .onAppear {
+                NotificationCenter.default.addObserver(forName: .sessionDetailDidDisappear, object: nil, queue: .main) { _ in
+                    isNavigationActive = false
+                }
+            }
+            .onDisappear {
+                NotificationCenter.default.removeObserver(self, name: .sessionDetailDidDisappear, object: nil)
+            }
         }
     }
 }

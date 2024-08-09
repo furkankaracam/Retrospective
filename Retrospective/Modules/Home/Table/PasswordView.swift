@@ -24,7 +24,6 @@ struct PasswordView: View {
                     .padding()
             }
             
-            
             SecureField("Oturuma katılım parolanızı giriniz!", text: $enteredPassword)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .padding()
