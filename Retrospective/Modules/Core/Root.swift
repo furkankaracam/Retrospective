@@ -24,7 +24,7 @@ final class SessionData: ObservableObject {
     @Published var createdBy: String = ""
     @Published var isActive: Bool = true
     @Published var name: String = ""
-    @Published var participants: [String: Int] = ["Kullanıcı adı": 4]
+    @Published var participants: [String: Int] = [:]
     @Published var settings: Settings = Settings()
     
     struct Settings {
@@ -32,8 +32,9 @@ final class SessionData: ObservableObject {
         var authorVisibility: Bool
         var time: Int
         var password: String
+        var endTime: Date?
         
-        init(anonymous: Bool = false, authorVisibility: Bool = true, time: Int = 0, password: String = "") {
+        init(anonymous: Bool = false, authorVisibility: Bool = true, time: Int = 15, password: String = "") {
             self.anonymous = anonymous
             self.authorVisibility = authorVisibility
             self.time = time
@@ -44,8 +45,9 @@ final class SessionData: ObservableObject {
             return [
                 "anonymous": anonymous,
                 "authorVisibility": authorVisibility,
-                "time": time,
-                "password": password
+                "time": time * 60,
+                "password": password,
+                "endTime": Date().addingTimeInterval(TimeInterval(time * 60)).timeIntervalSince1970 ?? 0
             ]
         }
     }

@@ -12,25 +12,24 @@ struct TableHeader: View {
         GeometryReader { geometry in
             Rectangle()
                 .fill(Color.blue)
-                .frame(width: geometry.size.width - 20, height: 50)
+                .frame(width: geometry.size.width - 20, height: 40)
                 .cornerRadius(15)
                 .padding(.horizontal, 10)
                 .overlay(
-                    HStack(alignment: .center) {
+                    HStack() {
                         Text("Retro İsmi")
-                            .frame(width: geometry.size.width / 3)
-                        Text("Durumu")
-                            .frame(width: geometry.size.width / 3)
+                            .frame(width: geometry.size.width / 2)
+                        Spacer()
                         Text("İşlemler")
-                            .frame(width: geometry.size.width / 3)
+                            .frame(width: geometry.size.width / 2)
                     }
                         .font(.title3)
                         .foregroundColor(.white)
                         .underline()
-                        .padding(.horizontal, 24)
+                        .padding(.horizontal)
                 )
         }
-        .frame(height: 50)
+        .frame(height: 40)
     }
 }
 

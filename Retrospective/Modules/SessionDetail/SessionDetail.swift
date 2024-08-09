@@ -13,10 +13,11 @@ struct SessionDetail: View {
     @State private var newComment: String = ""
     @State private var showingCommentInput: String? = ""
     
+    
     @State var sessionId: String
     @State var timer: Int
     @State var sessionName: String
-
+    
     var body: some View {
         VStack {
             HStack(alignment: .center, content: {
@@ -104,10 +105,15 @@ struct SessionDetail: View {
         }
         .onDisappear {
             viewModel.timer?.invalidate()
+            NotificationCenter.default.post(name: .sessionDetailDidDisappear, object: nil)
         }
         .environment(\.editMode, isEditing ? .constant(.active) : .constant(.inactive))
         .listStyle(.plain)
     }
+}
+
+extension Notification.Name {
+    static let sessionDetailDidDisappear = Notification.Name("sessionDetailDidDisappear")
 }
 
 #Preview {

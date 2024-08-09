@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SelectTimeView: View {
     
-    @State private var time: Int = 0
+    @State private var time: Int = 15
     @State private var password: String = ""
     @State private var isHidden: Bool = false
     
@@ -36,7 +36,7 @@ struct SelectTimeView: View {
                 Text("Gizli oturum")
             }
             .toggleStyle(.switch)
-            SecureField("Parola (İsteğe Bağlı)", text: $password)
+            SecureField("Parola (Zorunlu)", text: $password)
                 .padding()
                 .background(Color.black.opacity(0.1))
                 .cornerRadius(15)
