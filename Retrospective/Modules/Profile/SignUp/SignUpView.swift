@@ -12,13 +12,13 @@ struct SignUpView: View {
     @StateObject private var viewModel: SignUpViewModel
     @State private var isPresented: Bool = false
     @State private var authStatus: Bool = false
+    @State private var anonymStatus: Bool = false
     
     init(authManager: AuthManager) {
         _viewModel = StateObject(wrappedValue: SignUpViewModel(authManager: authManager))
     }
     
     var body: some View {
-        
         VStack(spacing: 5) {
             if !authStatus {
                 LogoView()
@@ -64,21 +64,28 @@ struct SignUpView: View {
                     HStack {
                         Text("Kullanıcı Adım: ")
                             .bold()
-                        TextField("Kullanıcı Adı", text: .constant("Selam"))
+                        TextField("Kullanıcı Adı", text: .constant(String(viewModel.user?.email?.split(separator: "@").first ?? "")))
                             .textFieldStyle(RoundedBorderTextFieldStyle())
                             .disabled(true)
+                            .multilineTextAlignment(.trailing)
                     }
                     HStack {
                         Text("Oturumlarda Adım Gözüksün: ")
                             .bold()
-                        Toggle("", isOn: .constant(true))
+                        Toggle("", isOn: $anonymStatus)
+                            .onChange(of: anonymStatus) { newValue in
+                                Task {
+                                    viewModel.changeAnonymStatus(isAnonym: newValue)
+                                    anonymStatus = viewModel.readAnonymStatus()
+                                }
+                            }
                     }
                     Text("Bu seçeneği açtığınızda, eğer oturum yöneticisi isimleri gizlemediyse isminiz gözükecektir.")
                         .font(.caption)
                     Button("Çıkış yap") {
-                        viewModel.logout()
                         Task {
-                            authStatus = await viewModel.checkAuth() // Update auth status after logout
+                            await viewModel.logout()
+                            authStatus = await viewModel.checkAuth()
                         }
                     }
                     .tint(.red)
@@ -86,7 +93,6 @@ struct SignUpView: View {
                     .padding()
                 }
                 .padding()
-                
             }
         }
         .padding()
@@ -95,6 +101,7 @@ struct SignUpView: View {
         }
         .onAppear {
             Task {
+                anonymStatus = viewModel.readAnonymStatus()
                 authStatus = await viewModel.checkAuth()
             }
         }

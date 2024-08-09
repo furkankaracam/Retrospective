@@ -9,6 +9,7 @@ import Foundation
 import FirebaseAuth
 
 class AuthManager: ObservableObject {
+    
     @Published var user: User?
     @Published var authState = AuthState.signedOut
     
@@ -21,11 +22,9 @@ class AuthManager: ObservableObject {
     func signUp(username: String, password: String) async throws -> AuthDataResult? {
         do {
             let result = try await Auth.auth().createUser(withEmail: "\(username)@mail.com", password: password)
-            print("FirebaseAuthSuccess: Sign in anonymously, UID:(\(user?.email)")
+            UserDefaults.standard.setValue(false, forKey: "isAnonymUser")
             return result
-        }
-        catch {
-            print("FirebaseAuthError: failed to sign in anonymously: \(error.localizedDescription)")
+        } catch {
             throw error
         }
     }
@@ -33,18 +32,14 @@ class AuthManager: ObservableObject {
     func signInAnonymously() async throws -> AuthDataResult? {
         do {
             let result = try await Auth.auth().signInAnonymously()
-            print("FirebaseAuthSuccess: Sign in anonymously, UID:(\(String(describing: result.user.uid)))")
             return result
-        }
-        catch {
-            print("FirebaseAuthError: failed to sign in anonymously: \(error.localizedDescription)")
+        } catch {
             throw error
         }
     }
     
     func configureAuthStateChanges() {
-        authStateHandle = Auth.auth().addStateDidChangeListener { auth, user in
-            print("Auth changed: \(user != nil)")
+        authStateHandle = Auth.auth().addStateDidChangeListener { _, user in
             self.updateState(user: user)
         }
     }
@@ -66,17 +61,13 @@ class AuthManager: ObservableObject {
     }
     
     func checkAuthState() -> Bool {
-        if ((user) != nil) {
-            return true
-        } else {
-            return false
-        }
+        user != nil ? true : false
     }
     
     func signOut() {
-        do{
+        do {
             try Auth.auth().signOut()
-        }catch{
+        } catch {
             print("Error while signing out!")
         }
     }

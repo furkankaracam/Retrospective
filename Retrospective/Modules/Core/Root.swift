@@ -118,7 +118,6 @@ struct RetrospectiveApp: App {
                         Label("Oturum Ekle", systemImage: "plus")
                     }
                     .tag(Tabs.addSession)
-                
                 SignUpView(authManager: authManager)
                     .tabItem {
                         Label("Profil", systemImage: "person")
