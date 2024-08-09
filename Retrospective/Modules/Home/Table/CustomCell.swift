@@ -8,9 +8,10 @@
 import SwiftUI
 
 struct CustomCell: View {
-    
     let session: RetroSession
     @State private var isNavigationActive = false
+    @State private var showPasswordSheet = false
+    @State private var isAuthenticated = false
     
     var body: some View {
         GeometryReader { geo in
@@ -26,21 +27,16 @@ struct CustomCell: View {
                     Group {
                         if sessionActiveStatus {
                             Button(action: {
-                                isNavigationActive = true
+                                showPasswordSheet = true
                             }) {
                                 Image(systemName: "eye")
                                     .padding()
                                     .background(Color.blue.opacity(0.2))
                                     .clipShape(Circle())
                                     .contentShape(Circle())
-                                    .background(
-                                        NavigationLink(destination: SessionDetail(sessionId: session.id ?? "", timer: 1, sessionName: session.name ?? ""), isActive: $isNavigationActive) {
-                                        }
-                                            .hidden()
-                                    )
                             }
                         }
-                        if !sessionActiveStatus{
+                        if !sessionActiveStatus {
                             Button(action: {
                             }) {
                                 Image(systemName: "trash")
@@ -51,6 +47,23 @@ struct CustomCell: View {
                 }
             }
             .frame(width: geo.size.width, height: geo.size.height)
+            .sheet(isPresented: $showPasswordSheet) {
+                PasswordView(isPresented: $showPasswordSheet, isAuthenticated: $isAuthenticated, correctPassword: session.settings?.password ?? "")
+                
+            }
+            .onChange(of: isAuthenticated) { newValue in
+                DispatchQueue.main.async {
+                    if newValue {
+                        isNavigationActive = true
+                    }
+                }
+            }
+            .background(
+                NavigationLink(destination: SessionDetail(sessionId: session.id ?? "", timer: 1, sessionName: session.name ?? ""), isActive: $isNavigationActive) {
+                    EmptyView()
+                }
+                    .hidden()
+            )
         }
     }
 }
