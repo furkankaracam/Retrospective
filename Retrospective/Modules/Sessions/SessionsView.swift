@@ -1,22 +1,21 @@
 //
-//  OldSessionView.swift
+//  HomeView.swift
 //  Retrospective
 //
-//  Created by Furkan Karaçam on 7.08.2024.
+//  Created by Furkan Karaçam on 22.07.2024.
 //
 
 import SwiftUI
 
-struct OldSessionView: View {
+struct SessionsView: View {
     
     @StateObject var viewModel = SessionViewModel()
     
     var body: some View {
         NavigationView {
-            VStack(alignment: .center, spacing: 20) {
-                PageHeader(image: "sessions", pageName: "Geçmiş oturumlar")
-                TableHeader(isOld: true)
-                
+            VStack(spacing: 20) {
+                PageHeader(image: "sessions", pageName: "Aktif oturumlar")
+                TableHeader(isOld: false)
                 if viewModel.isLoading {
                     LoadingView()
                 } else {
@@ -28,12 +27,12 @@ struct OldSessionView: View {
                 }
             }
             .task {
-                await viewModel.fetchData(type: .oldSession)
+                await viewModel.fetchData(type: .session)
             }
         }
     }
 }
 
 #Preview {
-    OldSessionView()
+    SessionsView()
 }

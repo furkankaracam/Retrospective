@@ -25,7 +25,12 @@ enum Tabs {
 }
 
 enum AuthState {
-    case authenticated // Anonymously authenticated in Firebase.
-    case signedIn // Authenticated in Firebase using one of service providers, and not anonymous.
-    case signedOut // Not authenticated in Firebase.
+    case authenticated
+    case signedIn
+    case signedOut
+}
+
+enum SessionType {
+    case session
+    case oldSession
 }

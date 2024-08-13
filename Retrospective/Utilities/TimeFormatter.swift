@@ -13,7 +13,7 @@ class TimeFormatterUtility {
         formatter.unitsStyle = .positional
         formatter.allowedUnits = [.minute, .second]
         formatter.zeroFormattingBehavior = .pad
-
+        
         return formatter.string(from: TimeInterval(seconds)) ?? "00:00"
     }
 }

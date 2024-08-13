@@ -63,4 +63,3 @@ final class SignUpViewModel: ObservableObject {
         UserDefaults.standard.set(isAnonym, forKey: "isAnonymUser")
     }
 }
-

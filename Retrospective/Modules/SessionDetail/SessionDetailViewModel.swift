@@ -10,7 +10,7 @@ import Firebase
 
 final class SessionDetailViewModel: ObservableObject {
     
-    @Published var columns: [Column] = []
+    @Published var items: [ListItem] = []
     @Published var sessionName: String = ""
     @Published var timer: Timer?
     @Published var time: String?
@@ -68,11 +68,11 @@ final class SessionDetailViewModel: ObservableObject {
     
     func deleteComment(sessionId: String, columnId: String, commentId: String) async {
         let commentRef = ref.child("sessions").child(sessionId).child("columns").child(columnId).child("comments").child(commentId)
-        
+        print("Çalışan \(commentRef)")
         do {
             try await commentRef.removeValue()
         } catch {
-            print(error)
+            print("Error deleting comment: \(error)")
         }
     }
     
@@ -116,10 +116,24 @@ final class SessionDetailViewModel: ObservableObject {
                         }
                     }
                     
+                    var newItems: [ListItem] = []
+                    
                     if let columns = session.columns {
-                        let sortedColumns = Array(columns.values).sorted { $0.name ?? "" < $1.name ?? "" }
-                        self.columns = sortedColumns
+                        let sortedColumns = columns.values.sorted { ($0.name ?? "") < ($1.name ?? "") }
+                        
+                        for column in sortedColumns {
+                            newItems.append(ListItem(id: column.id ?? "", isComment: false, comment: nil, column: column))
+                            
+                            if let comments = column.comments {
+                                let sortedComments = comments.values.sorted { ($0.order ?? 0) < ($1.order ?? 0) }
+                                
+                                for comment in sortedComments {
+                                    newItems.append(ListItem(id: comment.id ?? "", isComment: true, comment: comment, column: nil))
+                                }
+                            }
+                        }
                     }
+                    self.items = newItems
                 }
             } catch {
                 print("Decode error: \(error)")
@@ -140,24 +154,60 @@ final class SessionDetailViewModel: ObservableObject {
             }
         }
         
-        let newComment = Comment(id: newCommentId, author: author, comment: comment)
-        
-        let key = await withCheckedContinuation { continuation in
-            getKey(id: sessionId) { resultKey in
-                continuation.resume(returning: resultKey)
-            }
-        }
-        
-        guard let key = key else {
-            print("Session key not found")
-            return
-        }
+        var newComment = Comment(id: newCommentId, author: author, comment: comment, order: 1)
         
         do {
-            try await ref.child("sessions/\(key)/columns/\(column)/comments/\(newCommentId)")
-                .setValue(["id": newComment.id, "author": newComment.author, "comment": newComment.comment])
+            newComment.order = findMaxOrder(columnId: column) + 1
+                
+            let commentsRef = ref.child("sessions/\(sessionKey)/columns/\(column)/comments")
+            
+            try await commentsRef.child(newComment.id ?? "0").setValue([
+                "id": newComment.id,
+                "author": newComment.author,
+                "comment": newComment.comment,
+                "order": newComment.order
+            ])
         } catch {
             print("Error adding comment: \(error)")
         }
     }
+    
+    private func findMaxOrder(columnId: String) -> Int {
+        var max = 0
+        for item in items.reversed() {
+            if item.isComment && item.comment?.order ?? 0 > max {
+                max = item.comment?.order ?? 0
+            }
+            if !item.isComment && item.column?.id == columnId {
+                return max
+            }
+        }
+        return 0
+    }
+    
+    private func findColumnId(forCommentAt index: Int) -> String? {
+        guard index >= 0 else { return nil }
+        
+        for index in (0..<index).reversed() {
+            let item = self.items[safe: index]
+            if let item = item, !item.isComment, let id = item.column?.id {
+                return id
+            }
+        }
+        return nil
+    }
+    
+    func updateOrderInColumn(columnId: String, items: [ListItem]) async {
+        for (index, item) in items.enumerated() {
+            if item.isComment, let commentId = item.comment?.id {
+                let order = index + 1
+                do {
+                    try await ref.child("sessions/\(sessionKey)/columns/\(columnId)/comments/\(commentId)/order").setValue(order)
+                } catch {
+                    print("Error updating comment order: \(error)")
+                }
+            }
+        }
+    }
+    
 }
