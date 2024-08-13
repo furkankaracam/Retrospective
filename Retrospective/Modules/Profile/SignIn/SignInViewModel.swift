@@ -31,7 +31,6 @@ final class SignInViewModel: ObservableObject {
             }
         } else {
             errorMessage = "Lütfen tüm alanları doldurduğunuzdan ve şifrelerin eşleştiğinden emin olun."
-            print("Hata")
         }
     }
     
@@ -39,4 +38,3 @@ final class SignInViewModel: ObservableObject {
         return password == rePassword
     }
 }
-

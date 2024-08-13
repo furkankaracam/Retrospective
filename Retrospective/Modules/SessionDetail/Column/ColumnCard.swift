@@ -19,5 +19,5 @@ struct ColumnCard: View {
 }
 
 #Preview {
-    ColumnCard(title: "Başlık", cards: [Comment(id: "1", author: "Furkan", comment: "Yorum")])
+    ColumnCard(title: "Başlık", cards: [Comment(id: "1", author: "Furkan", comment: "Yorum", order: 1)])
 }

@@ -9,14 +9,14 @@ import SwiftUI
 
 struct ColumnBody: View {
     var cards: [Comment]
-
+    
     var body: some View {
         ForEach(cards) { card in
-            CommentCard(viewModel: SessionDetailViewModel(), isEditing: .constant(false), isAnonym: true, card: Comment(id: "1", author: "Furkan", comment: "Deneme"))
+            CommentCard(viewModel: SessionDetailViewModel(), isEditing: .constant(false), isAnonym: true, card: card)
         }
     }
 }
 
 #Preview {
-    ColumnBody(cards: [Comment(id: "1", author: "Furkan", comment: "Yorum")])
+    ColumnBody(cards: [Comment(id: "1", author: "Furkan", comment: "Yorum", order: 2)])
 }

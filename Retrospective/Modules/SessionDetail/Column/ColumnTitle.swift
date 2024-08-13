@@ -9,18 +9,21 @@ import SwiftUI
 
 struct ColumnTitle: View {
     var title: String
+    
     var body: some View {
-        VStack {
-            Text(title)
-                .padding()
-                .background(Color.white)
-                .foregroundColor(.black)
-                .bold()
-        }
-        .frame(width: UIScreen.main.bounds.width - 20)
-        .background(Color.white)
-        .border(Color.black, width: 1)
-        .cornerRadius(10)
+        RoundedRectangle(cornerRadius: 10)
+            .fill(Color.clear)
+            .overlay(
+                RoundedRectangle(cornerRadius: 10)
+                    .stroke(Color.blue, lineWidth: 2)
+                    .overlay(
+                        Text(title)
+                            .font(.title3)
+                            .foregroundColor(.blue)
+                    )
+            )
+            .padding(.horizontal)
+            .frame(width: UIScreen.main.bounds.width, height: 50)
     }
 }
 

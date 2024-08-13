@@ -8,13 +8,16 @@
 import Foundation
 import Firebase
 
-final class HomeViewModel: ObservableObject {
+final class SessionViewModel: ObservableObject {
     
     @Published var sessions: [RetroSession] = []
+    @Published var isLoading: Bool = true
+    @Published var isAuthenticated: Bool = false
     
+    private let correctPassword = ""
     private let ref = Database.database().reference()
     
-    func fetchData() async {
+    func fetchData(type: SessionType) async {
         ref.child("sessions").observe(.value) { snapshot, _  in
             guard let value = snapshot.value as? [String: Any] else {
                 print("Error: Unable to cast snapshot value")
@@ -31,8 +34,15 @@ final class HomeViewModel: ObservableObject {
                     self.sessions = []
                     sessionsResponse.values.forEach { session in
                         if let activeStatus = session.isActive {
-                            if activeStatus {
-                                self.sessions.append(session)
+                            switch type {
+                            case .session:
+                                if activeStatus {
+                                    self.sessions.append(session)
+                                }
+                            case .oldSession:
+                                if !activeStatus {
+                                    self.sessions.append(session)
+                                }
                             }
                         }
                     }
@@ -40,6 +50,8 @@ final class HomeViewModel: ObservableObject {
                     self.sessions = self.sessions.sorted {
                         $0.name ?? "" < $1.name ?? ""
                     }
+                    
+                    self.isLoading = false
                 }
                 
             } catch {
@@ -47,6 +59,15 @@ final class HomeViewModel: ObservableObject {
             }
         } withCancel: { error in
             print(error.localizedDescription)
+        }
+    }
+    
+    func authenticate(password: String) -> Bool {
+        if password == correctPassword {
+            isAuthenticated = true
+            return true
+        } else {
+            return false
         }
     }
 }

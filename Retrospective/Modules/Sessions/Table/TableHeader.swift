@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct TableHeader: View {
+    
+    var isOld: Bool
+    
     var body: some View {
         GeometryReader { geometry in
             Rectangle()
@@ -15,17 +18,25 @@ struct TableHeader: View {
                 .frame(width: geometry.size.width - 20, height: 40)
                 .cornerRadius(15)
                 .padding(.horizontal, 10)
+                .shadow(color: Color.black.opacity(0.2), radius: 5, x: 0, y: 2)
                 .overlay(
-                    HStack() {
+                    HStack {
                         Text("Retro İsmi")
-                            .frame(width: geometry.size.width / 2)
+                            .frame(width: geometry.size.width / 3)
+                            .font(.headline)
                         Spacer()
+                        if !isOld {
+                            Text("Zaman")
+                                .frame(width: geometry.size.width / 3)
+                                .font(.headline)
+                            Spacer()
+                        }
                         Text("İşlemler")
-                            .frame(width: geometry.size.width / 2)
+                            .frame(width: geometry.size.width / 3)
+                            .font(.headline)
                     }
                         .font(.title3)
                         .foregroundColor(.white)
-                        .underline()
                         .padding(.horizontal)
                 )
         }
@@ -34,5 +45,5 @@ struct TableHeader: View {
 }
 
 #Preview {
-    TableHeader()
+    TableHeader(isOld: false)
 }

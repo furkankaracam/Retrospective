@@ -104,7 +104,7 @@ final class AddSessionViewModel: ObservableObject {
             let ref = Database.database().reference()
             
             session.columns = columns
-
+            
             let data = session.toDictionary()
             ref.child("sessions").childByAutoId().setValue(data) { error, _ in
                 if let error = error {

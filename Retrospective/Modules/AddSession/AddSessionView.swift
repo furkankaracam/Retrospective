@@ -12,6 +12,7 @@ struct AddSessionView: View {
     
     var body: some View {
         VStack {
+            PageHeader(image: "sessions", pageName: "Oturum Ekle")
             PaginationView(viewModel: viewModel)
             
             ScrollViewReader { proxy in

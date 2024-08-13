@@ -25,4 +25,3 @@ struct ResultView: View {
 #Preview {
     ResultView(selectedTab: .constant(.sessions))
 }
-
