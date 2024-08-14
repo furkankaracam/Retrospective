@@ -16,8 +16,13 @@ struct OnboardingView: View {
         TabView(selection: $currentPage) {
             ForEach(0..<viewModel.onboardingItems.count) { index in
                 let item = viewModel.onboardingItems[index]
-                OnboardingPageView(title: item.title, description: item.description, lottieName: item.lottieName)
-                    .tag(index)
+                OnboardingPageView(
+                    title: item.title,
+                    description: item.description,
+                    lottieName: item.lottieName,
+                    isLastPage: index == viewModel.onboardingItems.count - 1
+                )
+                .tag(index)
             }
         }
         .tabViewStyle(PageTabViewStyle())

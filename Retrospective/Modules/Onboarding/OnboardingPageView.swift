@@ -11,9 +11,16 @@ struct OnboardingPageView: View {
     let title: String
     let description: String
     let lottieName: String
+    let isLastPage: Bool
     
     var body: some View {
         VStack {
+            if !isLastPage {
+                LottieView(fileName: "swipe")
+                    .frame(width: 100, height: 100)
+                    .clipShape(RoundedRectangle(cornerRadius: 20))
+                    .padding()
+            }
             LottieView(fileName: lottieName)
                 .frame(width: 250, height: 250)
                 .clipShape(RoundedRectangle(cornerRadius: 20))
@@ -32,5 +39,5 @@ struct OnboardingPageView: View {
 }
 
 #Preview {
-    OnboardingPageView(title: "Hoşgeldiniz", description: "Açıklama", lottieName: "lottie1")
+    OnboardingPageView(title: "Hoşgeldiniz", description: "Açıklama", lottieName: "lottie1", isLastPage: false)
 }
