@@ -20,36 +20,42 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 @main
 struct RetrospectiveApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
+    @AppStorage("hasOnboarded") private var hasOnboarded: Bool = false
     
     @StateObject private var authManager = AuthManager()
     @State private var selectedTab: Tabs = .sessions
     
     var body: some Scene {
         WindowGroup {
-            TabView(selection: $selectedTab) {
-                SessionsView()
-                    .tabItem {
-                        Label("Oturumlar", systemImage: "list.dash")
-                    }
-                    .tag(Tabs.sessions)
-                
-                OldSessionView()
-                    .tabItem {
-                        Label("Geçmiş Oturumlar", systemImage: "clock")
-                    }
-                    .tag(Tabs.oldSessions)
-                
-                AddSessionView(selectedTab: $selectedTab)
-                    .tabItem {
-                        Label("Oturum Ekle", systemImage: "plus")
-                    }
-                    .tag(Tabs.addSession)
-                SignUpView(authManager: authManager)
-                    .tabItem {
-                        Label("Profil", systemImage: "person")
-                    }
-                    .tag(Tabs.profile)
+            if hasOnboarded {
+                TabView(selection: $selectedTab) {
+                    SessionsView()
+                        .tabItem {
+                            Label("Oturumlar", systemImage: "list.dash")
+                        }
+                        .tag(Tabs.sessions)
+                    
+                    OldSessionView()
+                        .tabItem {
+                            Label("Geçmiş Oturumlar", systemImage: "clock")
+                        }
+                        .tag(Tabs.oldSessions)
+                    
+                    AddSessionView(selectedTab: $selectedTab)
+                        .tabItem {
+                            Label("Oturum Ekle", systemImage: "plus")
+                        }
+                        .tag(Tabs.addSession)
+                    SignUpView(authManager: authManager)
+                        .tabItem {
+                            Label("Profil", systemImage: "person")
+                        }
+                        .tag(Tabs.profile)
+                }
+            } else {
+                OnboardingView()
             }
+            
         }
     }
 }
