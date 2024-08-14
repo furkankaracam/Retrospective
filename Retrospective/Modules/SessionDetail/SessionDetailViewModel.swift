@@ -16,7 +16,7 @@ final class SessionDetailViewModel: ObservableObject {
     @Published var timer: Timer?
     @Published var time: String?
     @Published var sessionKey: String = ""
-    @Published var anonymStatus: Bool?
+    @Published var authorVisibilty: Bool?
     
     private let ref = Database.database().reference()
     private var authManager = AuthManager.shared
@@ -124,7 +124,7 @@ final class SessionDetailViewModel: ObservableObject {
                 
                 DispatchQueue.main.async {
                     self.session = session
-                    self.anonymStatus = session.settings?.anonymous ?? false
+                    self.authorVisibilty = session.settings?.authorVisibility ?? false
                     self.updateParticipants(for: session.participants, key: key)
                     self.items = self.createListItems(from: session)
                 }

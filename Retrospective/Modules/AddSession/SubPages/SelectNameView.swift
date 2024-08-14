@@ -30,7 +30,6 @@ struct SelectNameView: View {
             }
         }
         .onChange(of: name, {viewModel.session.name = name})
-        .background(.gray)
     }
 }
 

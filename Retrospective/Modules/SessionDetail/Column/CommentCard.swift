@@ -27,7 +27,7 @@ struct CommentCard: View {
                     }
                     Spacer()
                     
-                    if !isAnonym {
+                    if isAnonym {
                         if let author = card.author {
                             Text(author)
                                 .font(.caption)

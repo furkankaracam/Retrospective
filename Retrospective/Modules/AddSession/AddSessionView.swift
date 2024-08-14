@@ -36,7 +36,7 @@ struct AddSessionView: View {
                             proxy.scrollTo((AddSessionPages.allCases.firstIndex(of: viewModel.pageIndex)), anchor: .leading)
                         }
                     }
-            }.background(.red)
+            }
             if viewModel.pageIndex != .result {
                 NavigationButtons(viewModel: viewModel)
             }

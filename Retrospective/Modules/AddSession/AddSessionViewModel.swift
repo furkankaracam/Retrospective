@@ -58,7 +58,7 @@ final class AddSessionViewModel: ObservableObject {
     }
     
     func checkName() -> Bool {
-        if session.name.isEmpty {
+        if session.name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
             alertMessage = "İsim alanı boş bırakılamaz"
             showAlert = true
             return false

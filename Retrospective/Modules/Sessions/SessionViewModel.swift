@@ -23,7 +23,6 @@ final class SessionViewModel: ObservableObject {
                 print("Error: Unable to cast snapshot value")
                 return
             }
-            
             do {
                 let data = try JSONSerialization.data(withJSONObject: value, options: [])
                 let decoder = JSONDecoder()
@@ -46,7 +45,6 @@ final class SessionViewModel: ObservableObject {
                             }
                         }
                     }
-                    
                     self.sessions = self.sessions.sorted {
                         $0.name ?? "" < $1.name ?? ""
                     }
@@ -70,4 +68,5 @@ final class SessionViewModel: ObservableObject {
             return false
         }
     }
+
 }

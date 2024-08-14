@@ -36,7 +36,6 @@ struct Comment: Identifiable, Decodable {
 }
 
 struct Settings: Decodable {
-    let anonymous: Bool?
     let authorVisibility: Bool?
     let time: Int?
     let password: String?
@@ -58,14 +57,12 @@ final class SessionData: ObservableObject {
     @Published var settings: Settings = Settings()
     
     struct Settings {
-        var anonymous: Bool
         var authorVisibility: Bool
         var time: Int
         var password: String
         var endTime: Date?
         
-        init(anonymous: Bool = false, authorVisibility: Bool = true, time: Int = 15, password: String = "") {
-            self.anonymous = anonymous
+        init(authorVisibility: Bool = false, time: Int = 15, password: String = "") {
             self.authorVisibility = authorVisibility
             self.time = time
             self.password = password
@@ -73,8 +70,7 @@ final class SessionData: ObservableObject {
         
         func toDictionary() -> [String: Any] {
             return [
-                "anonymous": anonymous,
-                "authorVisibility": authorVisibility,
+                "authorVisibility": !authorVisibility,
                 "time": time * 60,
                 "password": password,
                 "endTime": Date().addingTimeInterval(TimeInterval(time * 60)).timeIntervalSince1970

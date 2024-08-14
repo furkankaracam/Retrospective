@@ -91,7 +91,7 @@ struct SessionDetail: View {
                             .hidden()
                         
                     } else {
-                        CommentCard(viewModel: viewModel, isEditing: .constant(false), isAnonym: viewModel.anonymStatus ?? false, card: item.comment ?? Comment(id: nil, author: nil, comment: nil, order: item.comment?.order))
+                        CommentCard(viewModel: viewModel, isEditing: .constant(false), isAnonym: viewModel.authorVisibilty ?? false, card: item.comment ?? Comment(id: nil, author: nil, comment: nil, order: item.comment?.order))
                     }
                 }
                 .onMove(perform: { indices, newOffset in

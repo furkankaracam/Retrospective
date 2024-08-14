@@ -50,7 +50,7 @@ struct SelectTimeView: View {
                 if !viewModel.session.settings.password.isEmpty {
                     self.password = viewModel.session.settings.password
                 }
-                if !viewModel.session.settings.authorVisibility {
+                if viewModel.session.settings.authorVisibility {
                     self.isHidden = viewModel.session.settings.authorVisibility
                 }
             }

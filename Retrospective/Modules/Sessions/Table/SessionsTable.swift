@@ -8,8 +8,10 @@
 import SwiftUI
 
 struct SessionsTable: View {
+    
     var sessions: [RetroSession]
     @ObservedObject var viewModel: SessionViewModel
+    
     var body: some View {
         List {
             ForEach(sessions, id: \.id) { session in

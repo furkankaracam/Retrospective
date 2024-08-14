@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct PasswordView: View {
+    
     @Binding var isPresented: Bool
     @Binding var isAuthenticated: Bool
     @State private var enteredPassword: String = ""
@@ -27,6 +28,7 @@ struct PasswordView: View {
             HStack(spacing: 15) {
                 Button(action: {
                     if viewModel.authenticate(password: enteredPassword) {
+                        isAuthenticated = true
                         isPresented = false
                     } else {
                         showAlert = true
@@ -65,6 +67,7 @@ struct PasswordView: View {
         }
     }
 }
+
 
 #Preview {
     PasswordView(isPresented: .constant(true), isAuthenticated: .constant(false), correctPassword: "password")
