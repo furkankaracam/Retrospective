@@ -44,10 +44,10 @@ struct SelectTimeView: View {
             
         }.padding(.horizontal)
             .onAppear {
-                if viewModel.time == 0 {
+                if viewModel.session.settings.time == 0 {
                     self.time = viewModel.session.settings.time
                 }
-                if !viewModel.password.isEmpty {
+                if !viewModel.session.settings.password.isEmpty {
                     self.password = viewModel.session.settings.password
                 }
                 if !viewModel.session.settings.authorVisibility {

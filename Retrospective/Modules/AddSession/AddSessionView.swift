@@ -7,14 +7,14 @@
 import SwiftUI
 
 struct AddSessionView: View {
+    
     @StateObject private var viewModel = AddSessionViewModel()
     @Binding var selectedTab : Tabs
     
     var body: some View {
-        VStack {
+        VStack(spacing: 10) {
             PageHeader(image: "sessions", pageName: "Oturum Ekle")
             PaginationView(viewModel: viewModel)
-            
             ScrollViewReader { proxy in
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 0) {
@@ -36,8 +36,7 @@ struct AddSessionView: View {
                             proxy.scrollTo((AddSessionPages.allCases.firstIndex(of: viewModel.pageIndex)), anchor: .leading)
                         }
                     }
-            }
-            
+            }.background(.red)
             if viewModel.pageIndex != .result {
                 NavigationButtons(viewModel: viewModel)
             }

@@ -73,7 +73,7 @@ struct SignUpView: View {
                         Text("Oturumlarda Adım Gözüksün: ")
                             .bold()
                         Toggle("", isOn: $anonymStatus)
-                            .onChange(of: anonymStatus) { newValue in
+                            .onChange(of: anonymStatus) { newValue, _ in
                                 Task {
                                     viewModel.changeAnonymStatus(isAnonym: newValue)
                                     anonymStatus = viewModel.readAnonymStatus()

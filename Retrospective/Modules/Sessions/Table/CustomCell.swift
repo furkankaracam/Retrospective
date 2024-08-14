@@ -37,19 +37,19 @@ struct CustomCell: View {
                             if let sessionActiveStatus = session.isActive {
                                 Group {
                                     HStack {
-                                        if sessionActiveStatus {
-                                            Button(action: {
-                                                showPasswordSheet = true
-                                            }) {
-                                                Image(systemName: "eye")
-                                                    .padding()
-                                                    .background(
-                                                        NavigationLink(destination: SessionDetail(sessionId: session.id ?? "", timer: 1, sessionName: session.name ?? ""), isActive: $isNavigationActive) {
-                                                        }
-                                                            .hidden()
-                                                    )
-                                            }
+                                        
+                                        Button(action: {
+                                            showPasswordSheet = true
+                                        }) {
+                                            Image(systemName: "eye")
+                                                .padding()
+                                                .background(
+                                                    NavigationLink(destination: SessionDetail(sessionId: session.id ?? "", timer: 1, sessionName: session.name ?? ""), isActive: $isNavigationActive) {
+                                                    }
+                                                        .hidden()
+                                                )
                                         }
+                                        
                                         if !sessionActiveStatus {
                                             Button(action: {
                                             }) {
@@ -72,7 +72,7 @@ struct CustomCell: View {
                 PasswordView(isPresented: $showPasswordSheet, isAuthenticated: $isAuthenticated, correctPassword: session.settings?.password ?? "")
                     .environmentObject(viewModel)
             }
-            .onChange(of: viewModel.isAuthenticated) { newValue in
+            .onChange(of: viewModel.isAuthenticated) { newValue, _ in
                 DispatchQueue.main.async {
                     if newValue {
                         isNavigationActive = true

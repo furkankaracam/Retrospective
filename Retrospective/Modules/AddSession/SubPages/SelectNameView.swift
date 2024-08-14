@@ -13,7 +13,7 @@ struct SelectNameView: View {
     @StateObject var viewModel: AddSessionViewModel
     
     var body: some View {
-        VStack {
+        VStack (spacing: 20) {
             Text("Merhaba Furkan")
                 .bold()
                 .padding(.top)
@@ -25,11 +25,12 @@ struct SelectNameView: View {
                 .cornerRadius(15)
                 .padding()
         }.onAppear {
-            if viewModel.name.isEmpty {
-                self.name = viewModel.name
+            if viewModel.session.name.isEmpty {
+                self.name = viewModel.session.name
             }
         }
         .onChange(of: name, {viewModel.session.name = name})
+        .background(.gray)
     }
 }
 

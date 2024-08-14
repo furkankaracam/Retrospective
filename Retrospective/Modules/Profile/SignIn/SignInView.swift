@@ -84,10 +84,10 @@ struct SignInView: View {
             }
         }
         .padding()
-        .onChange(of: viewModel.rePassword) { newValue in
+        .onChange(of: viewModel.rePassword) { newValue, _ in
             self.isPresentedPasswordWarning = !viewModel.checkPassword(rePassword: newValue)
         }
-        .onChange(of: viewModel.signStatus) { newValue in
+        .onChange(of: viewModel.signStatus) { newValue, _ in
             isPresented = !isPresented
         }
     }

@@ -11,16 +11,10 @@ import Firebase
 final class AddSessionViewModel: ObservableObject {
     
     @Published var showAlert: Bool = false
-    @Published var alertMessage: String = "Hata"
+    @Published var alertMessage: String = ""
     @Published var pageIndex: AddSessionPages = .name
-    
-    @Published var name: String = ""
-    @Published var time: Int = 0
-    @Published var isHidden: Bool = false
-    @Published var password: String = ""
+
     @Published var columns: [String: SessionData.Column] = [:]
-    @Published var participants: [String: Int] = ["Kullanıcı":1]
-    
     @Published var session = SessionData()
     
     let times = [15, 30, 45, 60, 90]
@@ -50,9 +44,7 @@ final class AddSessionViewModel: ObservableObject {
                 }
             }
         case .result:
-            if !checkName() {
-                return
-            }
+            return
         }
         
         switch type {
@@ -99,7 +91,6 @@ final class AddSessionViewModel: ObservableObject {
     }
     
     func save() {
-        print(session.name)
         if checkName() && checkColumns() {
             let ref = Database.database().reference()
             
