@@ -10,25 +10,11 @@ import SwiftUI
 struct SessionsTable: View {
     var sessions: [RetroSession]
     @ObservedObject var viewModel: SessionViewModel
-    @State private var selectedSession: RetroSession?
-    @State private var showingPasswordView = false
-
     var body: some View {
         List {
             ForEach(sessions, id: \.id) { session in
-                Button(action: {
-                    selectedSession = session
-                    showingPasswordView = true
-                }) {
-                    CustomCell(session: session, viewModel: viewModel, isOld: !(session.isActive ?? false))
-                }
-                .sheet(isPresented: $showingPasswordView) {
-                    if let selectedSession = selectedSession {
-                        PasswordView(session: selectedSession)
-                    }
-                }
-                .listRowSeparator(.hidden)
-            }
+                CustomCell(session: session, viewModel: viewModel, isOld: !(session.isActive ?? false))
+            }        .listRowSeparator(.hidden)
         }
         .listStyle(.plain)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -38,4 +24,3 @@ struct SessionsTable: View {
 #Preview {
     SessionsTable(sessions: [], viewModel: SessionViewModel())
 }
-
