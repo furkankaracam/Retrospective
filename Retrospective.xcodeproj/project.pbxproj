@@ -65,7 +65,6 @@
 		87D41C252C6CBCDF0091CF75 /* lottie4.json in Resources */ = {isa = PBXBuildFile; fileRef = 87D41C232C6CBCDF0091CF75 /* lottie4.json */; };
 		87D41C2F2C6CBEA20091CF75 /* lottie3.json in Resources */ = {isa = PBXBuildFile; fileRef = 87D41C2E2C6CBEA20091CF75 /* lottie3.json */; };
 		87D41C312C6CBEFD0091CF75 /* lottie2.json in Resources */ = {isa = PBXBuildFile; fileRef = 87D41C302C6CBEFD0091CF75 /* lottie2.json */; };
-		87D41C332C6CC21A0091CF75 /* swipe.json in Resources */ = {isa = PBXBuildFile; fileRef = 87D41C322C6CC2190091CF75 /* swipe.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -140,7 +139,6 @@
 		87D41C232C6CBCDF0091CF75 /* lottie4.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = lottie4.json; sourceTree = "<group>"; };
 		87D41C2E2C6CBEA20091CF75 /* lottie3.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = lottie3.json; sourceTree = "<group>"; };
 		87D41C302C6CBEFD0091CF75 /* lottie2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = lottie2.json; sourceTree = "<group>"; };
-		87D41C322C6CC2190091CF75 /* swipe.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = swipe.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -393,7 +391,6 @@
 		87D41C1F2C6CBBAB0091CF75 /* Lotties */ = {
 			isa = PBXGroup;
 			children = (
-				87D41C322C6CC2190091CF75 /* swipe.json */,
 				87D41C222C6CBCDF0091CF75 /* lottie1.json */,
 				87D41C302C6CBEFD0091CF75 /* lottie2.json */,
 				87D41C2E2C6CBEA20091CF75 /* lottie3.json */,
@@ -519,7 +516,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				87D41C332C6CC21A0091CF75 /* swipe.json in Resources */,
 				87D41C2F2C6CBEA20091CF75 /* lottie3.json in Resources */,
 				879FB9DB2C4FAA0700770753 /* .swiftlint.yml in Resources */,
 				87D41C242C6CBCDF0091CF75 /* lottie1.json in Resources */,
