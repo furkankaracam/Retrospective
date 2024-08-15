@@ -8,26 +8,24 @@
 import SwiftUI
 
 struct PasswordView: View {
-    @Binding var isPresented: Bool
-    @Binding var isAuthenticated: Bool
+    let session: RetroSession
+    @EnvironmentObject private var viewModel: SessionViewModel
     @State private var enteredPassword: String = ""
     @State private var showAlert = false
-    @EnvironmentObject private var viewModel: SessionViewModel
-    
-    var correctPassword: String
-    
+
     var body: some View {
-        PageHeader(image: "sessions", pageName: "Lütfen Oturum Parolasını Giriniz!")
-        
         VStack {
+            PageHeader(image: "sessions", pageName: "Lütfen Oturum Parolasını Giriniz!")
+            
             SecureField("Oturuma katılım parolanızı giriniz!", text: $enteredPassword)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .padding()
             
             HStack(spacing: 15) {
                 Button(action: {
-                    if viewModel.authenticate(password: enteredPassword) {
-                        isPresented = false
+                    if viewModel.authenticate(password: enteredPassword, for: session) {
+                        viewModel.isAuthenticated = true
+                        viewModel.selectedSession = session
                     } else {
                         showAlert = true
                     }
@@ -47,7 +45,7 @@ struct PasswordView: View {
                 }
                 
                 Button(action: {
-                    isPresented = false
+                    viewModel.isAuthenticated = false
                 }) {
                     Text("Vazgeç")
                         .frame(maxWidth: .infinity, maxHeight: 35)
@@ -60,13 +58,7 @@ struct PasswordView: View {
             .frame(maxWidth: .infinity)
         }
         .padding()
-        .onDisappear {
-            viewModel.isAuthenticated = false
-        }
     }
 }
 
-#Preview {
-    PasswordView(isPresented: .constant(true), isAuthenticated: .constant(false), correctPassword: "password")
-        .environmentObject(SessionViewModel())
-}
+

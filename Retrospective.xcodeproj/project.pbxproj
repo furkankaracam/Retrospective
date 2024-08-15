@@ -14,6 +14,7 @@
 		872ED6C62C5A1BE4001868F1 /* ColumnBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 872ED6C52C5A1BE4001868F1 /* ColumnBody.swift */; };
 		872ED6C82C5A1BED001868F1 /* ColumnCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 872ED6C72C5A1BED001868F1 /* ColumnCard.swift */; };
 		878CFCA12C53C62900A71D6F /* EmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878CFCA02C53C62900A71D6F /* EmptyView.swift */; };
+		879982A62C6E1A0B00ACE70D /* DotLottie in Frameworks */ = {isa = PBXBuildFile; productRef = 879982A52C6E1A0B00ACE70D /* DotLottie */; };
 		879FB98D2C4E70A700770753 /* Root.swift in Sources */ = {isa = PBXBuildFile; fileRef = 879FB98C2C4E70A700770753 /* Root.swift */; };
 		879FB9912C4E70A700770753 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 879FB9902C4E70A700770753 /* Assets.xcassets */; };
 		879FB9942C4E70A700770753 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 879FB9932C4E70A700770753 /* Preview Assets.xcassets */; };
@@ -59,7 +60,6 @@
 		87D41C152C6CA5320091CF75 /* OnboardingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87D41C142C6CA5320091CF75 /* OnboardingModel.swift */; };
 		87D41C172C6CA5590091CF75 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87D41C162C6CA5590091CF75 /* OnboardingView.swift */; };
 		87D41C192C6CA6A10091CF75 /* OnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87D41C182C6CA6A10091CF75 /* OnboardingViewModel.swift */; };
-		87D41C1C2C6CBADB0091CF75 /* DotLottie in Frameworks */ = {isa = PBXBuildFile; productRef = 87D41C1B2C6CBADB0091CF75 /* DotLottie */; };
 		87D41C1E2C6CBB800091CF75 /* LottieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87D41C1D2C6CBB800091CF75 /* LottieView.swift */; };
 		87D41C242C6CBCDF0091CF75 /* lottie1.json in Resources */ = {isa = PBXBuildFile; fileRef = 87D41C222C6CBCDF0091CF75 /* lottie1.json */; };
 		87D41C252C6CBCDF0091CF75 /* lottie4.json in Resources */ = {isa = PBXBuildFile; fileRef = 87D41C232C6CBCDF0091CF75 /* lottie4.json */; };
@@ -150,7 +150,7 @@
 				87D41C0A2C6CA4C00091CF75 /* FirebaseAnalytics in Frameworks */,
 				87D41C102C6CA4C00091CF75 /* FirebaseDatabase in Frameworks */,
 				87D41C0C2C6CA4C00091CF75 /* FirebaseAuth in Frameworks */,
-				87D41C1C2C6CBADB0091CF75 /* DotLottie in Frameworks */,
+				879982A62C6E1A0B00ACE70D /* DotLottie in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -422,7 +422,7 @@
 				87D41C0B2C6CA4C00091CF75 /* FirebaseAuth */,
 				87D41C0D2C6CA4C00091CF75 /* FirebaseCrashlytics */,
 				87D41C0F2C6CA4C00091CF75 /* FirebaseDatabase */,
-				87D41C1B2C6CBADB0091CF75 /* DotLottie */,
+				879982A52C6E1A0B00ACE70D /* DotLottie */,
 			);
 			productName = Retrospective;
 			productReference = 879FB9892C4E70A700770753 /* Retrospective.app */;
@@ -498,7 +498,7 @@
 			mainGroup = 879FB9802C4E70A600770753;
 			packageReferences = (
 				87D41C082C6CA4C00091CF75 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
-				87D41C1A2C6CBADB0091CF75 /* XCRemoteSwiftPackageReference "dotlottie-ios" */,
+				879982A42C6E1A0B00ACE70D /* XCRemoteSwiftPackageReference "dotlottie-ios" */,
 			);
 			productRefGroup = 879FB98A2C4E70A700770753 /* Products */;
 			projectDirPath = "";
@@ -964,6 +964,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		879982A42C6E1A0B00ACE70D /* XCRemoteSwiftPackageReference "dotlottie-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/LottieFiles/dotlottie-ios";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 		87D41C082C6CA4C00091CF75 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
@@ -972,17 +980,14 @@
 				minimumVersion = 11.0.0;
 			};
 		};
-		87D41C1A2C6CBADB0091CF75 /* XCRemoteSwiftPackageReference "dotlottie-ios" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/LottieFiles/dotlottie-ios";
-			requirement = {
-				branch = main;
-				kind = branch;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		879982A52C6E1A0B00ACE70D /* DotLottie */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 879982A42C6E1A0B00ACE70D /* XCRemoteSwiftPackageReference "dotlottie-ios" */;
+			productName = DotLottie;
+		};
 		87D41C092C6CA4C00091CF75 /* FirebaseAnalytics */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 87D41C082C6CA4C00091CF75 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
@@ -1002,11 +1007,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 87D41C082C6CA4C00091CF75 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseDatabase;
-		};
-		87D41C1B2C6CBADB0091CF75 /* DotLottie */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 87D41C1A2C6CBADB0091CF75 /* XCRemoteSwiftPackageReference "dotlottie-ios" */;
-			productName = DotLottie;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

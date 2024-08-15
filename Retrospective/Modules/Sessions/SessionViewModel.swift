@@ -13,17 +13,17 @@ final class SessionViewModel: ObservableObject {
     @Published var sessions: [RetroSession] = []
     @Published var isLoading: Bool = true
     @Published var isAuthenticated: Bool = false
+    @Published var selectedSession: RetroSession?
     
-    private let correctPassword = ""
+    private let correctPassword = "1234" // Replace with the actual correct password
     private let ref = Database.database().reference()
-    
+
     func fetchData(type: SessionType) async {
-        ref.child("sessions").observe(.value) { snapshot, _  in
+        ref.child("sessions").observe(.value) { snapshot, _ in
             guard let value = snapshot.value as? [String: Any] else {
                 print("Error: Unable to cast snapshot value")
                 return
             }
-            
             do {
                 let data = try JSONSerialization.data(withJSONObject: value, options: [])
                 let decoder = JSONDecoder()
@@ -46,7 +46,6 @@ final class SessionViewModel: ObservableObject {
                             }
                         }
                     }
-                    
                     self.sessions = self.sessions.sorted {
                         $0.name ?? "" < $1.name ?? ""
                     }
@@ -62,8 +61,9 @@ final class SessionViewModel: ObservableObject {
         }
     }
     
-    func authenticate(password: String) -> Bool {
+    func authenticate(password: String, for session: RetroSession) -> Bool {
         if password == correctPassword {
+            selectedSession = session
             isAuthenticated = true
             return true
         } else {
