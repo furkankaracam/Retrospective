@@ -82,11 +82,16 @@ Birimi ve UI testlerini çalıştırmak için aşağıdaki adımları izleyin:
 ### Oturum Ekle
 | Ekran Görüntüsü  | Açıklama  |
 | ---------------- | --------- |
-| ![Oturum Listesi](./readmeImages/add-session.gif) | Kullanıcının oturum eklediği ekran. |
+| ![Oturum Ekle](./readmeImages/add-session.gif) | Kullanıcının oturum eklediği ekran. |
 
 ### Oturum Detayları
 | Ekran Görüntüsü  | Açıklama  |
 | ---------------- | --------- |
+
+### Profil Ekranı
+| Ekran Görüntüsü  | Açıklama  |
+| ---------------- | --------- |
+| ![Profil Sayfası](./readmeImages/profile.gif) | Kullanıcının giriş kayıt işlemleri yaptığı ekran. |
 
 ## Katkıda Bulunma
 Katkıda bulunmak isterseniz, lütfen aşağıdaki adımları izleyin:
