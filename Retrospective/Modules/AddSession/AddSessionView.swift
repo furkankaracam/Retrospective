@@ -43,9 +43,7 @@ struct AddSessionView: View {
             }
         }
         .onDisappear(perform: {
-            viewModel.columns = [:]
-            viewModel.pageIndex = .name
-            viewModel.session = SessionData()
+            viewModel.clearData()
         })
         .onTapGesture {
             UIApplication.shared.endEditing()

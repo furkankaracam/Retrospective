@@ -38,27 +38,9 @@ struct ResultView: View {
         }
         .padding()
         .onAppear {
-            qrCodeImage = generateQRCode(from: createDeepLinkURL(sessionID: viewModel.session.name ?? "")?.absoluteString ?? "")
+            qrCodeImage = viewModel.generateQRCode(from: viewModel.createDeepLinkURL(sessionID: viewModel.session.name)?.absoluteString ?? "")
         }
     }
     
-    private func createDeepLinkURL(sessionID: String) -> URL? {
-        return URL(string: "retrospective://")
-    }
     
-    private func generateQRCode(from string: String) -> UIImage? {
-        let filter = CIFilter.qrCodeGenerator()
-        filter.message = Data(string.utf8)
-        
-        if let outputImage = filter.outputImage {
-            let transform = CGAffineTransform(scaleX: 10, y: 10)
-            let scaledImage = outputImage.transformed(by: transform)
-            
-            let context = CIContext()
-            if let cgImage = context.createCGImage(scaledImage, from: scaledImage.extent) {
-                return UIImage(cgImage: cgImage)
-            }
-        }
-        return nil
-    }
 }

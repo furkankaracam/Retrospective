@@ -14,7 +14,7 @@ struct SelectColumnsView: View {
     
     var body: some View {
         VStack {
-            Text("Merhaba Furkan")
+            Text("Merhaba")
                 .bold()
                 .font(.title)
             Text("Oluşturmak istediğin kolonları ekle")

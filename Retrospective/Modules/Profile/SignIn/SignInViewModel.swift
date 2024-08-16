@@ -9,6 +9,8 @@ import Foundation
 
 final class SignInViewModel: ObservableObject {
     
+    // MARK: - Variables
+    
     @Published var name: String = ""
     @Published var password: String = ""
     @Published var rePassword: String = ""
@@ -20,6 +22,8 @@ final class SignInViewModel: ObservableObject {
     init(authManager: AuthManager) {
         self.authManager = authManager
     }
+    
+    // MARK: - Auth functions
     
     func signUp() async {
         if !name.isEmpty && !password.isEmpty && checkPassword() {
@@ -39,6 +43,8 @@ final class SignInViewModel: ObservableObject {
             }
         }
     }
+    
+    // MARK: - Helpers
     
     func checkPassword() -> Bool {
         return password == rePassword

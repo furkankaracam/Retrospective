@@ -10,6 +10,7 @@ import Firebase
 
 final class SessionViewModel: ObservableObject {
     
+    // MARK: - Variables
     @Published var sessions: [RetroSession] = []
     @Published var isLoading: Bool = true
     @Published var isAuthenticated: Bool = false
@@ -18,6 +19,7 @@ final class SessionViewModel: ObservableObject {
     private let correctPassword = ""
     private let ref = Database.database().reference()
     
+    // MARK: - Data fetching
     func fetchData(type: SessionType) async {
         ref.child("sessions").observe(.value) { snapshot, _ in
             guard let value = snapshot.value as? [String: Any] else {
@@ -61,6 +63,7 @@ final class SessionViewModel: ObservableObject {
         }
     }
     
+    // MARK: - Authentication
     func authenticate(password: String, for session: RetroSession) -> Bool {
         if password == correctPassword {
             selectedSession = session

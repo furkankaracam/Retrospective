@@ -16,7 +16,6 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     }
     
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
-        print("açıldı")
         return true
     }
 }
@@ -26,24 +25,20 @@ struct RetrospectiveApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     @AppStorage("hasOnboarded") private var hasOnboarded: Bool = false
     
-    @StateObject private var authManager = AuthManager()
-    @State private var selectedTab: Tabs = .sessions
-    @State private var isConnected: Bool = true
-    @State private var showAlert: Bool = false
-    @State private var deepLinkSessionId: String?
+    @StateObject private var rootViewModel = RootViewModel()
     
     var body: some Scene {
         WindowGroup {
-            if isConnected {
+            if rootViewModel.isConnected {
                 if hasOnboarded {
-                    TabView(selection: $selectedTab) {
+                    TabView(selection: $rootViewModel.selectedTab) {
                         SessionsView()
                             .tabItem {
                                 Label("Oturumlar", systemImage: "list.dash")
                             }
                             .tag(Tabs.sessions)
                             .onAppear {
-                                checkInternetConnection()
+                                rootViewModel.checkInternetConnection()
                             }
                         
                         OldSessionView()
@@ -52,16 +47,16 @@ struct RetrospectiveApp: App {
                             }
                             .tag(Tabs.oldSessions)
                             .onAppear {
-                                checkInternetConnection()
+                                rootViewModel.checkInternetConnection()
                             }
                         
-                        AddSessionView(selectedTab: $selectedTab)
+                        AddSessionView(selectedTab: $rootViewModel.selectedTab)
                             .tabItem {
                                 Label("Oturum Ekle", systemImage: "plus")
                             }
                             .tag(Tabs.addSession)
                             .onAppear {
-                                checkInternetConnection()
+                                rootViewModel.checkInternetConnection()
                             }
                         
                         UserPage()
@@ -70,20 +65,20 @@ struct RetrospectiveApp: App {
                             }
                             .tag(Tabs.profile)
                             .onAppear {
-                                checkInternetConnection()
+                                rootViewModel.checkInternetConnection()
                             }
                     }
                 } else {
                     OnboardingView()
                         .onAppear {
-                            checkInternetConnection()
+                            rootViewModel.checkInternetConnection()
                         }
                 }
             } else {
                 VStack {
                     Text("İnternet bağlantısı yok.")
                     Button("Tekrar Dene") {
-                        checkInternetConnection()
+                        rootViewModel.checkInternetConnection()
                     }
                     .frame(maxWidth: .infinity, minHeight: 40)
                     .background(Color.blue)
@@ -94,19 +89,4 @@ struct RetrospectiveApp: App {
             }
         }
     }
-    
-    private func handleIncomingURL(url: URL) {
-        print("Received URL: \(url)")
-        if url.scheme == "retrospective", let host = url.host {
-            deepLinkSessionId = host
-            print("Deep link session ID: \(host)")
-        } else {
-            print("Invalid URL scheme or host")
-        }
-    }
-    
-    func checkInternetConnection() {
-        isConnected = Reachability.isConnectedToNetwork()
-    }
 }
-

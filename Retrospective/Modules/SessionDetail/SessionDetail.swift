@@ -34,7 +34,6 @@ struct SessionDetail: View {
                 })
             }
             .padding(.horizontal)
-            
             List {
                 ForEach($viewModel.items, id: \.id, editActions: [.move, .delete]) { $item in
                     if !item.isComment {
@@ -61,7 +60,6 @@ struct SessionDetail: View {
                                 .deleteDisabled(true)
                                 .padding(.horizontal)
                             }
-                            
                             if showingCommentInput == item.column?.id {
                                 VStack {
                                     TextField("Yeni yorumunuzu yazın", text: $newComment)
@@ -104,7 +102,6 @@ struct SessionDetail: View {
                             }
                         }
                         .moveDisabled(true)
-                        
                         Rectangle()
                             .frame(height: 10)
                             .listRowInsets(.init())
@@ -112,7 +109,7 @@ struct SessionDetail: View {
                             .deleteDisabled(true)
                             .hidden()
                     } else {
-                        CommentCard(viewModel: viewModel, isEditing: .constant(false), isAnonym: viewModel.anonymStatus ?? false, card: item.comment ?? Comment(id: nil, author: nil, comment: nil, order: item.comment?.order))
+                        CommentCard(viewModel: viewModel, isEditing: .constant(false), isAnonym: viewModel.authorVisibility, card: item.comment ?? Comment(id: nil, author: nil, comment: nil, order: item.comment?.order))
                     }
                 }
                 .onMove(perform: { indices, newOffset in
@@ -130,7 +127,6 @@ struct SessionDetail: View {
         .task {
             if !sessionId.isEmpty {
                 await viewModel.fetchColumns(id: sessionId)
-                
                 viewModel.startTimer(id: sessionId)
             }
         }
@@ -148,6 +144,5 @@ struct SessionDetail: View {
             }
         })
         .environment(\.editMode, isEditing ? .constant(.active) : .constant(.inactive))
-        
     }
 }

@@ -44,15 +44,17 @@ struct SelectTimeView: View {
             
         }.padding(.horizontal)
             .onAppear {
-                if viewModel.session.settings.time == 0 {
+                if viewModel.session.settings.time != 0 {
                     self.time = viewModel.session.settings.time
+                } else {
+                    self.time = 15
                 }
                 if !viewModel.session.settings.password.isEmpty {
                     self.password = viewModel.session.settings.password
+                } else {
+                    self.password = ""
                 }
-                if !viewModel.session.settings.authorVisibility {
-                    self.isHidden = viewModel.session.settings.authorVisibility
-                }
+                self.isHidden = viewModel.session.settings.authorVisibility
             }
             .onChange(of: time, {viewModel.session.settings.time = time})
             .onChange(of: password, {viewModel.session.settings.password = password})

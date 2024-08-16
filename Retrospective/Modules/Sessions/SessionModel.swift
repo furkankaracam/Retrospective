@@ -82,7 +82,7 @@ final class SessionData: ObservableObject {
         func toDictionary() -> [String: Any] {
             return [
                 "anonymous": anonymous,
-                "authorVisibility": authorVisibility,
+                "authorVisibility": !authorVisibility,
                 "time": time * 60,
                 "password": password,
                 "endTime": Date().addingTimeInterval(TimeInterval(time * 60)).timeIntervalSince1970
@@ -95,7 +95,7 @@ final class SessionData: ObservableObject {
         var id: String
         var name: String
         var comments: [String: Comment]
-        var order: Int // Added order field
+        var order: Int
         
         init(id: String = UUID().uuidString, name: String, comments: [String: Comment] = [:], order: Int = 0) {
             self.id = id

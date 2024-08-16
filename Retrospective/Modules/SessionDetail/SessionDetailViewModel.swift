@@ -9,19 +9,22 @@ import Foundation
 import Firebase
 
 final class SessionDetailViewModel: ObservableObject {
+    
+    // MARK: - Variables
+    
     @Published var session: RetroSession?
     @Published var items: [ListItem] = []
     @Published var sessionName: String = ""
     @Published var timer: Timer?
     @Published var time: String?
     @Published var sessionKey: String = ""
-    @Published var anonymStatus: Bool?
+    @Published var authorVisibility: Bool = true
     @Published var isSessionActive: Bool = true
     
     private let ref = Database.database().reference()
     private var authManager = AuthManager.shared
     
-    // MARK: - Fetch Session Key
+    // MARK: - Fetch session key
     private func getKey(id: String, completion: @escaping (String?) -> Void) {
         ref.child("sessions").observeSingleEvent(of: .value) { snapshot in
             guard let value = snapshot.value as? [String: Any] else {
@@ -37,12 +40,11 @@ final class SessionDetailViewModel: ObservableObject {
                     return
                 }
             }
-            
             completion(nil)
         }
     }
     
-    // MARK: - Timer Functions
+    // MARK: - Timer functions
     func startTimer(id: String) {
         timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { _ in
             self.updateTime()
@@ -57,7 +59,7 @@ final class SessionDetailViewModel: ObservableObject {
         
         if remainingTime == 0 {
             self.isSessionActive = false
-            self.timer?.invalidate() // Oturum bittiğinde sayacı durdur
+            self.timer?.invalidate()
             self.ref.child("sessions/\(sessionKey)/isActive").setValue(false) { error, _ in
                 if let error = error {
                     print("Error updating session status: \(error.localizedDescription)")
@@ -68,7 +70,8 @@ final class SessionDetailViewModel: ObservableObject {
         self.time = TimeFormatterUtility.formatTime(seconds: Int(remainingTime))
     }
     
-    // MARK: - Comments Management
+    // MARK: - Comments functions
+    
     private func deleteComment(sessionId: String, columnId: String, commentId: String) async {
         let commentRef = ref.child("sessions").child(sessionId).child("columns").child(columnId).child("comments").child(commentId)
         do {
@@ -106,7 +109,7 @@ final class SessionDetailViewModel: ObservableObject {
             .max() ?? 0
     }
     
-    // MARK: - Fetch Columns
+    // MARK: - Columns functions
     func fetchColumns(id: String) async {
         guard let key = await withCheckedContinuation({ continuation in
             getKey(id: id) { resultKey in
@@ -125,7 +128,7 @@ final class SessionDetailViewModel: ObservableObject {
                 
                 DispatchQueue.main.async {
                     self.session = session
-                    self.anonymStatus = session.settings?.anonymous ?? false
+                    self.authorVisibility = session.settings?.authorVisibility ?? true
                     self.updateParticipants(for: session.participants, key: key)
                     self.items = self.createListItems(from: session)
                 }
@@ -170,7 +173,8 @@ final class SessionDetailViewModel: ObservableObject {
         return newItems
     }
     
-    // MARK: - Move and Delete Items
+    // MARK: - Drag and drop functions
+    
     func moveItems(fromOffsets source: IndexSet, toOffset destination: Int) {
         var newItems = self.items
         
@@ -207,7 +211,6 @@ final class SessionDetailViewModel: ObservableObject {
         self.items = newItems
     }
     
-    
     func deleteItem(at index: Int) {
         let item = items[index]
         
@@ -223,6 +226,7 @@ final class SessionDetailViewModel: ObservableObject {
     }
     
     // MARK: - Helper Functions
+    
     private func findColumnId(forCommentAt index: Int) -> String? {
         guard index >= 0 else { return nil }
         

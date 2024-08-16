@@ -10,14 +10,17 @@ import Firebase
 
 final class AddSessionViewModel: ObservableObject {
     
+    // MARK: - Variables
+    
     @Published var showAlert: Bool = false
     @Published var alertMessage: String = ""
     @Published var pageIndex: AddSessionPages = .name
-    
     @Published var columns: [String: SessionData.Column] = [:]
     @Published var session = SessionData()
     
-    let times = [1,15, 30, 45, 60, 90]
+    let times = [15, 30, 45, 60, 90]
+    
+    // MARK: - Navigation functions
     
     func navigate(type: NavigateTo) {
         let allPages = AddSessionPages.allCases
@@ -52,6 +55,8 @@ final class AddSessionViewModel: ObservableObject {
         }
     }
     
+    // MARK: - Validation functions
+    
     private func checkName() -> Bool {
         if session.name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
             alertMessage = "İsim alanı boş bırakılamaz"
@@ -79,6 +84,8 @@ final class AddSessionViewModel: ObservableObject {
         return true
     }
     
+    // MARK: - Column management
+    
     func addColumn() {
         if let lastColumn = columns.values.sorted(by: { $0.order < $1.order }).last, lastColumn.name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
             alertMessage = "Son eklenen kolon boş. Yeni bir kolon eklemeden önce doldurmalısınız."
@@ -99,6 +106,8 @@ final class AddSessionViewModel: ObservableObject {
         columns.removeValue(forKey: key)
     }
     
+    // MARK: - Save session
+    
     func save() {
         if checkName() && checkColumns() {
             let ref = Database.database().reference()
@@ -115,5 +124,38 @@ final class AddSessionViewModel: ObservableObject {
             }
         }
     }
-}
+    
+    // MARK: - Deep link and QR code
+    
+    func createDeepLinkURL(sessionID: String) -> URL? {
+        return URL(string: "retrospective://")
+    }
+    
+    func generateQRCode(from string: String) -> UIImage? {
+        let filter = CIFilter.qrCodeGenerator()
+        filter.message = Data(string.utf8)
+        
+        if let outputImage = filter.outputImage {
+            let transform = CGAffineTransform(scaleX: 10, y: 10)
+            let scaledImage = outputImage.transformed(by: transform)
+            
+            let context = CIContext()
+            if let cgImage = context.createCGImage(scaledImage, from: scaledImage.extent) {
+                return UIImage(cgImage: cgImage)
+            }
+        }
+        return nil
+    }
+    
+    // MARK: - Clear data
+    
+    func clearData() {
+        columns = [:]
+        pageIndex = .name
+        session = SessionData()
+        session.settings.password = ""
+        session.settings.time = 15
+        session.settings.authorVisibility = false
+    }
 
+}

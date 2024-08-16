@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct UserPage: View {
+    
     @StateObject private var authManager = AuthManager()
     
     var body: some View {
@@ -17,7 +18,6 @@ struct UserPage: View {
             SignUpView(authManager: authManager)
         }
     }
-    
 }
 
 #Preview {

@@ -11,7 +11,7 @@ struct CommentCard: View {
     
     @StateObject var viewModel: SessionDetailViewModel
     @Binding var isEditing: Bool
-    @State var isAnonym: Bool
+    var isAnonym: Bool
     
     var card: Comment
     
@@ -41,13 +41,9 @@ struct CommentCard: View {
                             isEditing = true
                         }
                 }
-                    .padding(.horizontal)
+                .padding(.horizontal)
             )
             .foregroundColor(.white)
             .frame(height: 50)
     }
-}
-
-#Preview {
-    CommentCard(viewModel: SessionDetailViewModel(), isEditing: .constant(false), isAnonym: true, card: Comment(id: "1", author: "Furkan", comment: "Yorum", order: 3))
 }

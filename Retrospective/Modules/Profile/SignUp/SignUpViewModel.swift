@@ -10,6 +10,8 @@ import FirebaseAuth
 
 final class SignUpViewModel: ObservableObject {
     
+    // MARK: - Variables
+    
     @Published var name: String = ""
     @Published var password: String = ""
     @Published var rePassword: String = ""
@@ -22,6 +24,8 @@ final class SignUpViewModel: ObservableObject {
         self.authManager = authManager
         self.user = authManager.user
     }
+    
+    // MARK: - Auth functions
     
     func signIn() async {
         do {
@@ -49,6 +53,15 @@ final class SignUpViewModel: ObservableObject {
         }
     }
     
+    func logout() async {
+        authManager.signOut()
+        await MainActor.run {
+            self.user = nil
+        }
+    }
+    
+    // MARK: - Helper functions
+    
     private func checkPassword() -> Bool {
         return password == rePassword
     }
@@ -58,13 +71,8 @@ final class SignUpViewModel: ObservableObject {
             return self.authManager.authState == .signedIn
         }
     }
-    
-    func logout() async {
-        authManager.signOut()
-        await MainActor.run {
-            self.user = nil
-        }
-    }
+
+    // MARK: - Auth status functions
     
     func readAnonymStatus() -> Bool {
         UserDefaults.standard.bool(forKey: "isAnonymUser")
