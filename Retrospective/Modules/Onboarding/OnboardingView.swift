@@ -24,13 +24,12 @@ struct OnboardingView: View {
         .overlay(
             VStack {
                 Spacer()
-                
                 if currentPage == viewModel.onboardingItems.count - 1 {
                     Button(action: {
                         hasOnboarded = true
                     }) {
                         Text("Hadi Başlayalım!")
-                            .font(.title2)
+                            .font(.title3)
                             .bold()
                             .padding()
                             .background(Color.blue)

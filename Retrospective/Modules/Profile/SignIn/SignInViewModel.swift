@@ -21,20 +21,26 @@ final class SignInViewModel: ObservableObject {
         self.authManager = authManager
     }
     
-    func signIn() async {
-        if name != "" && password != "" && checkPassword(rePassword: rePassword) {
+    func signUp() async {
+        if !name.isEmpty && !password.isEmpty && checkPassword() {
             do {
                 try await authManager.signUp(username: name, password: password)
-                signStatus = true
+                DispatchQueue.main.async {
+                    self.signStatus = true
+                }
             } catch {
-                errorMessage = "Kayıt Başarısız \(error.localizedDescription)"
+                DispatchQueue.main.async {
+                    self.errorMessage = "Kayıt Başarısız: \(error.localizedDescription)"
+                }
             }
         } else {
-            errorMessage = "Lütfen tüm alanları doldurduğunuzdan ve şifrelerin eşleştiğinden emin olun."
+            DispatchQueue.main.async {
+                self.errorMessage = "Lütfen tüm alanları doldurduğunuzdan ve şifrelerin eşleştiğinden emin olun."
+            }
         }
     }
     
-    func checkPassword(rePassword: String) -> Bool {
+    func checkPassword() -> Bool {
         return password == rePassword
     }
 }

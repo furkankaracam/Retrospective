@@ -24,13 +24,13 @@ struct SelectNameView: View {
                 .background(Color.black.opacity(0.1))
                 .cornerRadius(15)
                 .padding()
+            Spacer()
         }.onAppear {
             if viewModel.session.name.isEmpty {
                 self.name = viewModel.session.name
             }
         }
         .onChange(of: name, {viewModel.session.name = name})
-        .background(.gray)
     }
 }
 

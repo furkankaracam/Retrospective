@@ -60,10 +60,13 @@ struct PasswordView: View {
             .frame(maxWidth: .infinity)
         }
         .padding()
+        
         .onDisappear {
             viewModel.isAuthenticated = false
         }
+        
     }
+    
 }
 
 #Preview {

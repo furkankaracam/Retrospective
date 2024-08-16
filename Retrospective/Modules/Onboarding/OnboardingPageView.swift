@@ -13,14 +13,16 @@ struct OnboardingPageView: View {
     let lottieName: String
     
     var body: some View {
-        VStack {
-            LottieView(fileName: lottieName)
-                .frame(width: 250, height: 250)
+        VStack (spacing: 10) {
+            LottieView(fileName: "swipe")
+                .frame(width: 80, height: 80)
                 .clipShape(RoundedRectangle(cornerRadius: 20))
-                .padding()
+            LottieView(fileName: lottieName)
+                .frame(width: 200, height: 200)
+                .clipShape(RoundedRectangle(cornerRadius: 20))
             Group {
                 Text(title)
-                    .font(.largeTitle)
+                    .font(.title)
                     .bold()
                 Text(description)
                     .font(.body)

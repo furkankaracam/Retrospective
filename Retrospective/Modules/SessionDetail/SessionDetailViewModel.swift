@@ -9,7 +9,6 @@ import Foundation
 import Firebase
 
 final class SessionDetailViewModel: ObservableObject {
-    
     @Published var session: RetroSession?
     @Published var items: [ListItem] = []
     @Published var sessionName: String = ""
@@ -82,6 +81,8 @@ final class SessionDetailViewModel: ObservableObject {
         let author = UserDefaults.standard.bool(forKey: "isAnonymUser") ? "Anonim" : (authManager.getUserName() ?? "")
         let newComment = Comment(id: newCommentId, author: author, comment: comment, order: findMaxOrder(columnId: column) + 1)
         
+        print("Adding comment: \(comment) to column: \(column)")
+        
         do {
             let commentsRef = ref.child("sessions/\(sessionKey)/columns/\(column)/comments")
             try await commentsRef.child(newComment.id ?? "0").setValue([
@@ -90,6 +91,7 @@ final class SessionDetailViewModel: ObservableObject {
                 "comment": String(newComment.comment!),
                 "order": Int(newComment.order!)
             ])
+            print("Comment added successfully")
         } catch {
             print("Error adding comment: \(error.localizedDescription)")
         }
@@ -97,10 +99,7 @@ final class SessionDetailViewModel: ObservableObject {
     
     private func findMaxOrder(columnId: String) -> Int {
         return items
-            .filter { !$0.isComment && $0.column?.id == columnId }
-            .flatMap { column in
-                items.filter { $0.isComment && $0.comment?.order ?? 0 > 0 }
-            }
+            .filter { $0.isComment && $0.column?.id == columnId }
             .map { $0.comment?.order ?? 0 }
             .max() ?? 0
     }
@@ -161,7 +160,7 @@ final class SessionDetailViewModel: ObservableObject {
                     let sortedComments = comments.values.sorted { ($0.order ?? 0) < ($1.order ?? 0) }
                     
                     for comment in sortedComments {
-                        newItems.append(ListItem(id: comment.id ?? "", isComment: true, comment: comment, column: nil))
+                        newItems.append(ListItem(id: comment.id ?? "", isComment: true, comment: comment, column: column))
                     }
                 }
             }
@@ -177,14 +176,13 @@ final class SessionDetailViewModel: ObservableObject {
             print("Invalid source or destination index")
             return
         }
-
+        
         let movedItem = newItems.remove(at: sourceIndex)
         newItems.insert(movedItem, at: destination)
-
+        
         let oldColumnId = findColumnId(forCommentAt: sourceIndex)
         let newColumnId = findColumnId(forCommentAt: destination)
-        
-        // Create a copy for async operations
+
         let itemsCopy = newItems
         
         Task {

@@ -15,6 +15,7 @@ class AuthManager: ObservableObject {
     
     private var authStateHandle: AuthStateDidChangeListenerHandle!
     static let shared = AuthManager()
+    
     init() {
         configureAuthStateChanges()
     }
@@ -23,15 +24,18 @@ class AuthManager: ObservableObject {
         do {
             let result = try await Auth.auth().createUser(withEmail: "\(username)@mail.com", password: password)
             UserDefaults.standard.setValue(false, forKey: "isAnonymUser")
+            updateState(user: result.user)
             return result
         } catch {
             throw error
         }
     }
-    
-    func signInAnonymously() async throws -> AuthDataResult? {
+
+    func signIn(username: String, password: String) async throws -> AuthDataResult? {
         do {
-            let result = try await Auth.auth().signInAnonymously()
+            let result = try await Auth.auth().signIn(withEmail: "\(username)@mail.com", password: password)
+            updateState(user: result.user)
+            print(result)
             return result
         } catch {
             throw error
@@ -67,6 +71,7 @@ class AuthManager: ObservableObject {
     func signOut() {
         do {
             try Auth.auth().signOut()
+            updateState(user: nil)
         } catch {
             print("Error while signing out!")
         }

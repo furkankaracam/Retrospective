@@ -12,8 +12,8 @@ struct SignInView: View {
     @StateObject var viewModel: SignInViewModel
     
     @Binding var isPresented: Bool
-    @State var isPresentedAlert: Bool
-    @State var isPresentedPasswordWarning: Bool
+    @State var isPresentedAlert: Bool = false
+    @State var isPresentedPasswordWarning: Bool = false
     
     var body: some View {
         VStack(spacing: 15) {
@@ -58,23 +58,36 @@ struct SignInView: View {
             if isPresentedPasswordWarning {
                 Text("Şifreler uyuşmuyor!")
                     .font(.caption)
-                    .foregroundStyle(.red)
+                    .foregroundColor(.red)
             }
             
             HStack {
+                Spacer()
+                
                 Button("Kaydol") {
                     Task {
-                        await viewModel.signIn()
+                        await viewModel.signUp()
                         if viewModel.errorMessage != nil {
                             isPresentedAlert = true
                         }
                     }
                 }
+                .frame(maxWidth: .infinity, minHeight: 40)
+                .background(Color.blue)
+                .foregroundColor(.white)
+                .cornerRadius(10)
+                Spacer()
                 Button("Vazgeç") {
                     isPresented = false
                 }
-                .tint(.red)
+                .frame(maxWidth: .infinity, minHeight: 40)
+                .background(Color.red)
+                .foregroundColor(.white)
+                .cornerRadius(10)
+                
+                Spacer()
             }
+            .frame(maxWidth: .infinity, minHeight: 40)
             .buttonStyle(.bordered)
             .padding()
             .alert("Hata", isPresented: $isPresentedAlert) {
@@ -84,15 +97,21 @@ struct SignInView: View {
             }
         }
         .padding()
-        .onChange(of: viewModel.rePassword) { newValue, _ in
-            self.isPresentedPasswordWarning = !viewModel.checkPassword(rePassword: newValue)
+        .onChange(of: viewModel.rePassword) { newValue in
+            self.isPresentedPasswordWarning = !viewModel.checkPassword()
         }
-        .onChange(of: viewModel.signStatus) { newValue, _ in
-            isPresented = !isPresented
+        .onChange(of: viewModel.signStatus) { newValue in
+            if newValue {
+                isPresented = false
+            }
+        }
+        .onTapGesture {
+            UIApplication.shared.endEditing()
         }
     }
+    
 }
 
 #Preview {
-    SignInView(viewModel: SignInViewModel(authManager: AuthManager()), isPresented: .constant(false), isPresentedAlert: false, isPresentedPasswordWarning: false)
+    SignInView(viewModel: SignInViewModel(authManager: AuthManager()), isPresented: .constant(false))
 }

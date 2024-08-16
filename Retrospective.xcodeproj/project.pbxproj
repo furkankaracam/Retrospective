@@ -15,6 +15,9 @@
 		872ED6C82C5A1BED001868F1 /* ColumnCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 872ED6C72C5A1BED001868F1 /* ColumnCard.swift */; };
 		878CFCA12C53C62900A71D6F /* EmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878CFCA02C53C62900A71D6F /* EmptyView.swift */; };
 		879982A62C6E1A0B00ACE70D /* DotLottie in Frameworks */ = {isa = PBXBuildFile; productRef = 879982A52C6E1A0B00ACE70D /* DotLottie */; };
+		879982AE2C6EBECB00ACE70D /* swipe.json in Resources */ = {isa = PBXBuildFile; fileRef = 879982AD2C6EBECB00ACE70D /* swipe.json */; };
+		879982B02C6EC9CF00ACE70D /* Keyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 879982AF2C6EC9CF00ACE70D /* Keyboard.swift */; };
+		879982B22C6ED88700ACE70D /* Reachibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 879982B12C6ED88700ACE70D /* Reachibility.swift */; };
 		879FB98D2C4E70A700770753 /* Root.swift in Sources */ = {isa = PBXBuildFile; fileRef = 879FB98C2C4E70A700770753 /* Root.swift */; };
 		879FB9912C4E70A700770753 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 879FB9902C4E70A700770753 /* Assets.xcassets */; };
 		879FB9942C4E70A700770753 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 879FB9932C4E70A700770753 /* Preview Assets.xcassets */; };
@@ -92,6 +95,9 @@
 		872ED6C52C5A1BE4001868F1 /* ColumnBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColumnBody.swift; sourceTree = "<group>"; };
 		872ED6C72C5A1BED001868F1 /* ColumnCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColumnCard.swift; sourceTree = "<group>"; };
 		878CFCA02C53C62900A71D6F /* EmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyView.swift; sourceTree = "<group>"; };
+		879982AD2C6EBECB00ACE70D /* swipe.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = swipe.json; sourceTree = "<group>"; };
+		879982AF2C6EC9CF00ACE70D /* Keyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keyboard.swift; sourceTree = "<group>"; };
+		879982B12C6ED88700ACE70D /* Reachibility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reachibility.swift; sourceTree = "<group>"; };
 		879FB9892C4E70A700770753 /* Retrospective.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Retrospective.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		879FB98C2C4E70A700770753 /* Root.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Root.swift; sourceTree = "<group>"; };
 		879FB9902C4E70A700770753 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -255,6 +261,7 @@
 			children = (
 				87D41C112C6CA4C90091CF75 /* Onboarding */,
 				87D41B822C6385FD0091CF75 /* Profile */,
+				87D41BAB2C6505E20091CF75 /* LogoView.swift */,
 				872ED6BE2C5A16F8001868F1 /* SessionDetail */,
 				87A3A98F2C52627100C39550 /* AddSession */,
 				87A3A97F2C51283800C39550 /* Core */,
@@ -327,6 +334,8 @@
 				87D41B9F2C63A3590091CF75 /* AuthManager.swift */,
 				87D41BF72C6B37610091CF75 /* Extensions.swift */,
 				87D41BF92C6B8B290091CF75 /* LoadingView.swift */,
+				879982AF2C6EC9CF00ACE70D /* Keyboard.swift */,
+				879982B12C6ED88700ACE70D /* Reachibility.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -344,7 +353,6 @@
 			children = (
 				87D41BA82C64D7670091CF75 /* SignUp */,
 				87D41BA72C64D7590091CF75 /* SignIn */,
-				87D41BAB2C6505E20091CF75 /* LogoView.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -391,6 +399,7 @@
 		87D41C1F2C6CBBAB0091CF75 /* Lotties */ = {
 			isa = PBXGroup;
 			children = (
+				879982AD2C6EBECB00ACE70D /* swipe.json */,
 				87D41C222C6CBCDF0091CF75 /* lottie1.json */,
 				87D41C302C6CBEFD0091CF75 /* lottie2.json */,
 				87D41C2E2C6CBEA20091CF75 /* lottie3.json */,
@@ -516,6 +525,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				879982AE2C6EBECB00ACE70D /* swipe.json in Resources */,
 				87D41C2F2C6CBEA20091CF75 /* lottie3.json in Resources */,
 				879FB9DB2C4FAA0700770753 /* .swiftlint.yml in Resources */,
 				87D41C242C6CBCDF0091CF75 /* lottie1.json in Resources */,
@@ -607,6 +617,7 @@
 				872ED6BA2C58EE3D001868F1 /* Enums.swift in Sources */,
 				87D41C172C6CA5590091CF75 /* OnboardingView.swift in Sources */,
 				87D41C152C6CA5320091CF75 /* OnboardingModel.swift in Sources */,
+				879982B22C6ED88700ACE70D /* Reachibility.swift in Sources */,
 				87A3A98A2C524A6100C39550 /* TableHeader.swift in Sources */,
 				872ED6C42C5A1805001868F1 /* ColumnTitle.swift in Sources */,
 				87A3A99F2C528E4900C39550 /* SelectColumnsView.swift in Sources */,
@@ -622,6 +633,7 @@
 				872ED6C82C5A1BED001868F1 /* ColumnCard.swift in Sources */,
 				87A3A9932C5262C900C39550 /* AddSessionViewModel.swift in Sources */,
 				872ED6C22C5A1713001868F1 /* SessionDetail.swift in Sources */,
+				879982B02C6EC9CF00ACE70D /* Keyboard.swift in Sources */,
 				87D41B762C5A55200091CF75 /* CommentCard.swift in Sources */,
 				879FB9C62C4E7E5500770753 /* SessionViewModel.swift in Sources */,
 				87D41BA62C64D61D0091CF75 /* SignInViewModel.swift in Sources */,

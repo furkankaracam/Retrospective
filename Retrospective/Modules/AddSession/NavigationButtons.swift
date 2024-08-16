@@ -19,27 +19,38 @@ struct NavigationButtons: View {
                         Button("Geri Dön") {
                             viewModel.navigate(type: .previous)
                         }
-                        .tint(.red)
+                        .frame(maxWidth: .infinity, minHeight: 40)
+                        .background(Color.red)
+                        .foregroundColor(.white)
+                        .cornerRadius(10)
                     }
                     if viewModel.pageIndex != .columns {
                         Button("Devam Et") {
                             viewModel.navigate(type: .next)
                         }
+                        .frame(maxWidth: .infinity, minHeight: 40)
+                        .background(Color.blue)
+                        .foregroundColor(.white)
+                        .cornerRadius(10)
                     } else {
                         Button("Kaydet") {
                             viewModel.save()
                         }
+                        .frame(maxWidth: .infinity, minHeight: 40)
+                        .background(Color.green)
+                        .foregroundColor(.white)
+                        .cornerRadius(10)
                     }
                 }
                 .padding(.horizontal, 10)
                 .padding(.vertical, 5)
                 .bold()
-                .buttonStyle(.bordered)
             }
             .alert(isPresented: $viewModel.showAlert) {
                 Alert(title: Text("Hata"), message: Text(viewModel.alertMessage), dismissButton: .default(Text("Tamam")))
             }
         }
+        .padding(.horizontal)
     }
 }
 

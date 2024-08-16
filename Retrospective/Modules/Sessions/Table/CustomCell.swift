@@ -33,35 +33,13 @@ struct CustomCell: View {
                                 Text(TimeFormatterUtility.formatTime(seconds: session.settings?.time ?? 0))
                                     .frame(width: UIScreen.main.bounds.size.width / (isOld ? 2 : 3))
                             }
-                            
-                            if let sessionActiveStatus = session.isActive {
-                                Group {
-                                    HStack {
-                                        
-                                        Button(action: {
-                                            showPasswordSheet = true
-                                        }) {
-                                            Image(systemName: "eye")
-                                                .padding()
-                                                .background(
-                                                    NavigationLink(destination: SessionDetail(sessionId: session.id ?? "", timer: 1, sessionName: session.name ?? ""), isActive: $isNavigationActive) {
-                                                    }
-                                                        .hidden()
-                                                )
-                                        }
-                                        
-                                        if !sessionActiveStatus {
-                                            Button(action: {
-                                            }) {
-                                                Image(systemName: "trash")
-                                            }
-                                        }
-                                    }
-                                    .padding(.trailing)
-                                }
-                                .frame(width: UIScreen.main.bounds.size.width / 3)
-                            }
                         }
+                            .background(
+                                NavigationLink(destination: SessionDetail(sessionId: session.id ?? "", timer: 1, sessionName: session.name ?? ""), isActive: $isNavigationActive) {
+                                    EmptyView()
+                                }
+                                    .hidden()
+                            )
                             .padding(.horizontal)
                     )
             )
@@ -72,11 +50,9 @@ struct CustomCell: View {
                 PasswordView(isPresented: $showPasswordSheet, isAuthenticated: $isAuthenticated, correctPassword: session.settings?.password ?? "")
                     .environmentObject(viewModel)
             }
-            .onChange(of: viewModel.isAuthenticated) { newValue, _ in
-                DispatchQueue.main.async {
-                    if newValue {
-                        isNavigationActive = true
-                    }
+            .onChange(of: isAuthenticated) { newValue in
+                if newValue {
+                    isNavigationActive = true
                 }
             }
             .onAppear {
@@ -86,6 +62,13 @@ struct CustomCell: View {
             }
             .onDisappear {
                 NotificationCenter.default.removeObserver(self, name: .sessionDetailDidDisappear, object: nil)
+            }
+            .onTapGesture {
+                if session.settings?.password?.isEmpty == false {
+                    showPasswordSheet = true
+                } else {
+                    isNavigationActive = true
+                }
             }
     }
 }

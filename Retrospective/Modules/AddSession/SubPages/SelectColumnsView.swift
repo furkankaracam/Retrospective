@@ -10,6 +10,7 @@ import SwiftUI
 struct SelectColumnsView: View {
     
     @StateObject var viewModel: AddSessionViewModel
+    @State private var lastColumnKey: String?
     
     var body: some View {
         VStack {
@@ -22,7 +23,7 @@ struct SelectColumnsView: View {
             ScrollViewReader { proxy in
                 ScrollView {
                     VStack(alignment: .leading, spacing: 16) {
-                        ForEach(Array(viewModel.columns), id: \.value.id) { key, column in
+                        ForEach(viewModel.columns.sorted(by: { $0.value.order < $1.value.order }), id: \.key) { key, column in
                             HStack {
                                 TextField("Kolon metni girin", text: Binding(
                                     get: { column.name },
@@ -32,32 +33,46 @@ struct SelectColumnsView: View {
                                 ))
                                 .textFieldStyle(RoundedBorderTextFieldStyle())
                                 .padding()
+                                .padding()
                                 Button("Sil") {
                                     viewModel.deleteColumn(at: key)
                                 }
                                 .tint(.red)
                             }
                             .padding(.horizontal)
+                            .id(key)
                         }
                     }
                 }
-                /**.onChange(of: viewModel.columns) { _ in
-                 withAnimation {
-                 if let lastIndex = viewModel.columns.indices.last {
-                 proxy.scrollTo(lastIndex, anchor: .bottom)
-                 }
-                 }
-                 }*/
+                .onChange(of: viewModel.columns.count) { _ in
+                    if let lastColumnKey = lastColumnKey {
+                        withAnimation {
+                            proxy.scrollTo(lastColumnKey, anchor: .bottom)
+                        }
+                    }
+                }
             }
             
-            Button(action: viewModel.addColumn) {
+            Button(action: {
+                viewModel.addColumn()
+                if let lastColumnKey = viewModel.columns.keys.sorted(by: { viewModel.columns[$0]?.order ?? 0 < viewModel.columns[$1]?.order ?? 0 }).last {
+                    self.lastColumnKey = lastColumnKey
+                    withAnimation {
+                        ScrollViewReader { proxy in
+                            // proxy.scrollTo(lastColumnKey, anchor: .bottom)
+                        }
+                    }
+                }
+            }) {
                 Text("Yeni Kolon Ekle")
-                    .padding()
+                    .frame(maxWidth: .infinity, minHeight: 40)
                     .background(Color.blue)
                     .foregroundColor(.white)
                     .cornerRadius(10)
+                    .bold()
             }
             .padding()
+            Spacer()
         }
         .onAppear(perform: {
             viewModel.addColumn()

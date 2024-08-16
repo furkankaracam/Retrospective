@@ -25,6 +25,7 @@ struct SessionsView: View {
                         SessionsTable(sessions: viewModel.sessions, viewModel: viewModel)
                     }
                 }
+                Spacer()
             }
             .task {
                 await viewModel.fetchData(type: .session)

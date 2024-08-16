@@ -38,60 +38,85 @@ struct SessionDetail: View {
                 ForEach($viewModel.items, id: \.id, editActions: [.move, .delete]) { $item in
                     
                     if !item.isComment {
-                        ColumnTitle(title: item.column?.name ?? "")
-                            .moveDisabled(true)
-                            .deleteDisabled(true)
-                        
-                        if showingCommentInput == item.column?.id {
-                            TextField("Yeni yorumunuzu yazın", text: $newComment)
-                                .textFieldStyle(RoundedBorderTextFieldStyle())
-                                .padding()
+                        VStack(alignment: .leading) {
+                            ColumnTitle(title: item.column?.name ?? "")
                                 .moveDisabled(true)
                                 .deleteDisabled(true)
-                            
-                            HStack {
-                                Button("Vazgeç") {
-                                    showingCommentInput = nil
-                                    newComment = ""
-                                }
-                                .tint(.red)
-                                
-                                Button("Yorum Gönder") {
-                                    Task {
-                                        if !newComment.isEmpty {
-                                            await viewModel.addComment(sessionId: sessionId, to: item.column?.id ?? "", comment: newComment)
-                                            newComment = ""
-                                            showingCommentInput = nil
-                                        }
-                                    }
-                                }
-                                .buttonStyle(.bordered)
-                                .padding()
-                            }.moveDisabled(true)
-                                .deleteDisabled(true)
                         }
-                        
-                        Button("Yeni Ekle") {
-                            if showingCommentInput == item.column?.id {
-                                showingCommentInput = nil
-                                newComment = ""
-                            } else {
-                                showingCommentInput = item.column?.id
-                            }
-                        }
-                        .padding()
-                        .moveDisabled(true)
-                        .deleteDisabled(true)
-                        
+                         
                         Rectangle()
                             .frame(height: 20)
                             .listRowInsets(.init())
                             .padding(0)
                             .deleteDisabled(true)
                             .hidden()
-                        
                     } else {
                         CommentCard(viewModel: viewModel, isEditing: .constant(false), isAnonym: viewModel.anonymStatus ?? false, card: item.comment ?? Comment(id: nil, author: nil, comment: nil, order: item.comment?.order))
+                        
+                        if item.isComment && item.id == viewModel.items.last(where: { $0.column?.id == item.column?.id })?.id {
+                            
+                            if showingCommentInput != item.column?.id {
+                                Button("+ Yeni Ekle") {
+                                    if showingCommentInput == item.column?.id {
+                                        showingCommentInput = nil
+                                        newComment = ""
+                                    } else {
+                                        showingCommentInput = item.column?.id
+                                    }
+                                }
+                                .frame(maxWidth: .infinity)
+                                .padding()
+                                .background(Color.green)
+                                .foregroundColor(.white)
+                                .bold()
+                                .cornerRadius(10)
+                                .moveDisabled(true)
+                                .deleteDisabled(true)
+                            }
+                            
+                            if showingCommentInput == item.column?.id {
+                                VStack {
+                                    TextField("Yeni yorumunuzu yazın", text: $newComment)
+                                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                                        .padding()
+                                        .background(Color.gray.opacity(0.2))
+                                        .cornerRadius(10)
+                                        .moveDisabled(true)
+                                        .deleteDisabled(true)
+                                    HStack {
+                                        Button("Vazgeç") {
+                                            showingCommentInput = nil
+                                            newComment = ""
+                                        }
+                                        .tint(.red)
+                                        .frame(maxWidth: .infinity)
+                                        .frame(height: 40)
+                                        .background(Color.red)
+                                        .foregroundColor(.white)
+                                        .cornerRadius(10)
+                                        Button("Yorum Gönder") {
+                                            Task {
+                                                if !newComment.isEmpty {
+                                                    await viewModel.addComment(sessionId: sessionId, to: item.column?.id ?? "", comment: newComment)
+                                                    newComment = ""
+                                                    showingCommentInput = nil
+                                                }
+                                            }
+                                        }
+                                        .buttonStyle(.bordered)
+                                        .padding()
+                                        .frame(maxWidth: .infinity)
+                                        .frame(height: 40)
+                                        .background(Color.blue)
+                                        .foregroundColor(.white)
+                                        .cornerRadius(10)
+                                    }
+                                    .moveDisabled(true)
+                                    .deleteDisabled(true)
+                                }
+                            }
+                        }
+                        
                     }
                 }
                 .onMove(perform: { indices, newOffset in
@@ -117,6 +142,7 @@ struct SessionDetail: View {
             NotificationCenter.default.post(name: .sessionDetailDidDisappear, object: nil)
         }
         .environment(\.editMode, isEditing ? .constant(.active) : .constant(.inactive))
+        
     }
 }
 

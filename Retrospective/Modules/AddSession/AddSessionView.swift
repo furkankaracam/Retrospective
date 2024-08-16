@@ -36,7 +36,7 @@ struct AddSessionView: View {
                             proxy.scrollTo((AddSessionPages.allCases.firstIndex(of: viewModel.pageIndex)), anchor: .leading)
                         }
                     }
-            }.background(.red)
+            }
             if viewModel.pageIndex != .result {
                 NavigationButtons(viewModel: viewModel)
             }
@@ -44,7 +44,11 @@ struct AddSessionView: View {
         .onDisappear(perform: {
             viewModel.columns = [:]
             viewModel.pageIndex = .name
+            viewModel.session = SessionData()
         })
+        .onTapGesture {
+            UIApplication.shared.endEditing()
+        }
     }
 }
 

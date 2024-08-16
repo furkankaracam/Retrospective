@@ -19,7 +19,7 @@ struct SignUpView: View {
     }
     
     var body: some View {
-        VStack(spacing: 5) {
+        VStack(spacing: 15) {
             if !authStatus {
                 LogoView()
                 Text("Kullanıcı Giriş Ekranı")
@@ -32,7 +32,6 @@ struct SignUpView: View {
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .padding()
                 }
-                
                 HStack {
                     Text("Parola:")
                         .bold()
@@ -41,22 +40,44 @@ struct SignUpView: View {
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .padding()
                 }
-                
                 HStack {
+                    Spacer()
                     Button("Giriş Yap") {
                         Task {
                             await viewModel.signIn()
                             authStatus = await viewModel.checkAuth()
                         }
                     }
+                    .frame(maxWidth: .infinity, minHeight: 40)
+                    .background(Color.blue)
+                    .foregroundColor(.white)
+                    .cornerRadius(10)
+                    
+                    Spacer()
+                    
                     Button("Kaydol") {
                         isPresented = true
                     }
-                    .tint(.green)
+                    .frame(maxWidth: .infinity, minHeight: 40)
+                    .background(Color.green)
+                    .foregroundColor(.white)
+                    .cornerRadius(10)
+                    
+                    Spacer()
                 }
-                .buttonStyle(.bordered)
                 .padding()
+                .alert(isPresented: Binding<Bool>(
+                    get: { viewModel.errorMessage != nil },
+                    set: { if !$0 { viewModel.errorMessage = nil } }
+                )) {
+                    Alert(
+                        title: Text("Hata"),
+                        message: Text(viewModel.errorMessage ?? "Bilinmeyen bir hata oluştu"),
+                        dismissButton: .default(Text("Tamam"))
+                    )
+                }
             } else {
+                // Profil ekranı
                 VStack(spacing: 15) {
                     LogoView()
                     Text("HOŞGELDİNİZ!")
@@ -73,7 +94,7 @@ struct SignUpView: View {
                         Text("Oturumlarda Adım Gözüksün: ")
                             .bold()
                         Toggle("", isOn: $anonymStatus)
-                            .onChange(of: anonymStatus) { newValue, _ in
+                            .onChange(of: anonymStatus) { newValue in
                                 Task {
                                     viewModel.changeAnonymStatus(isAnonym: newValue)
                                     anonymStatus = viewModel.readAnonymStatus()
@@ -88,8 +109,10 @@ struct SignUpView: View {
                             authStatus = await viewModel.checkAuth()
                         }
                     }
-                    .tint(.red)
-                    .buttonStyle(.bordered)
+                    .frame(maxWidth: .infinity, minHeight: 40)
+                    .background(Color.red)
+                    .foregroundColor(.white)
+                    .cornerRadius(10)
                     .padding()
                 }
                 .padding()
@@ -97,13 +120,16 @@ struct SignUpView: View {
         }
         .padding()
         .fullScreenCover(isPresented: $isPresented) {
-            SignInView(viewModel: SignInViewModel(authManager: AuthManager()), isPresented: $isPresented, isPresentedAlert: false, isPresentedPasswordWarning: false)
+            SignInView(viewModel: SignInViewModel(authManager: AuthManager()), isPresented: $isPresented)
         }
         .onAppear {
             Task {
                 anonymStatus = viewModel.readAnonymStatus()
                 authStatus = await viewModel.checkAuth()
             }
+        }
+        .onTapGesture {
+            UIApplication.shared.endEditing()
         }
     }
 }

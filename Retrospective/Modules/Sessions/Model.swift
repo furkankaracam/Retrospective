@@ -25,7 +25,14 @@ struct Column: Identifiable, Decodable {
     let id: String?
     let name: String?
     var comments: [String: Comment]?
+    var order: Int?
     
+    init(id: String? = nil, name: String, comments: [String: Comment]? = nil, order: Int = 0) {
+        self.id = id ?? UUID().uuidString
+        self.name = name
+        self.comments = comments
+        self.order = order
+    }
 }
 
 struct Comment: Identifiable, Decodable {
@@ -42,7 +49,7 @@ struct Settings: Decodable {
     let password: String?
 }
 
-struct ListItem {    
+struct ListItem {
     let id: String
     let isComment: Bool
     let comment: Comment?
@@ -84,15 +91,24 @@ final class SessionData: ObservableObject {
     
     struct Column {
         
-        var id: String?
+        var id: String
         var name: String
         var comments: [String: Comment]
+        var order: Int // Added order field
+        
+        init(id: String = UUID().uuidString, name: String, comments: [String: Comment] = [:], order: Int = 0) {
+            self.id = id
+            self.name = name
+            self.comments = comments
+            self.order = order
+        }
         
         func toDictionary() -> [String: Any] {
             return [
-                "id": id ?? UUID().uuidString,
+                "id": id,
                 "name": name,
-                "comments": comments.mapValues { $0.toDictionary() }
+                "comments": comments.mapValues { $0.toDictionary() },
+                "order": order
             ]
         }
     }

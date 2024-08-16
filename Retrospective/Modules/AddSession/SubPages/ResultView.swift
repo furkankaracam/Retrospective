@@ -11,14 +11,20 @@ struct ResultView: View {
     @Binding var selectedTab: Tabs
     
     var body: some View {
-        VStack(alignment: .leading) {
+        VStack(alignment: .leading, spacing: 16) {
             Text("Tebrikler! Oturum başarıyla oluşturuldu.")
+                .font(.title2)
+            
             Button("Oturumları Gör") {
-                print("selectedTab eskisi: \(selectedTab)")
                 selectedTab = .sessions
-                print("selectedTab yenisi: \(selectedTab)")
             }
+            .frame(maxWidth: .infinity, minHeight: 40)
+            .background(Color.blue)
+            .foregroundColor(.white)
+            .cornerRadius(10)
+            
         }
+        .padding()
     }
 }
 

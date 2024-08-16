@@ -14,6 +14,7 @@ final class SignUpViewModel: ObservableObject {
     @Published var password: String = ""
     @Published var rePassword: String = ""
     @Published var user: User?
+    @Published var errorMessage: String?
     
     private var authManager: AuthManager
     
@@ -24,27 +25,37 @@ final class SignUpViewModel: ObservableObject {
     
     func signIn() async {
         do {
-            try await authManager.signInAnonymously()
-            print("Giriş başarılı")
+            try await authManager.signIn(username: name, password: password)
             await MainActor.run {
                 self.user = self.authManager.user
             }
         } catch {
-            print("Giriş başarısız: \(error.localizedDescription)")
+            await MainActor.run {
+                self.errorMessage = "Giriş başarısız: \(error.localizedDescription)"
+            }
         }
     }
     
-    func signUp() {
-        print(self.authManager.authState)
+    func signUp() async {
+        do {
+            try await authManager.signUp(username: name, password: password)
+            await MainActor.run {
+                self.user = self.authManager.user
+            }
+        } catch {
+            await MainActor.run {
+                self.errorMessage = "Kayıt başarısız: \(error.localizedDescription)"
+            }
+        }
     }
     
     func checkPassword() -> Bool {
-        return password != rePassword
+        return password == rePassword
     }
     
     func checkAuth() async -> Bool {
         await MainActor.run {
-            self.authManager.checkAuthState()
+            return self.authManager.authState == .signedIn
         }
     }
     

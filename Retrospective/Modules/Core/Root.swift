@@ -24,38 +24,74 @@ struct RetrospectiveApp: App {
     
     @StateObject private var authManager = AuthManager()
     @State private var selectedTab: Tabs = .sessions
+    @State private var isConnected: Bool = true
+    @State private var showAlert: Bool = false
     
     var body: some Scene {
         WindowGroup {
-            if hasOnboarded {
-                TabView(selection: $selectedTab) {
-                    SessionsView()
-                        .tabItem {
-                            Label("Oturumlar", systemImage: "list.dash")
+            if isConnected {
+                if hasOnboarded {
+                    TabView(selection: $selectedTab) {
+                        SessionsView()
+                            .tabItem {
+                                Label("Oturumlar", systemImage: "list.dash")
+                            }
+                            .tag(Tabs.sessions)
+                            .onAppear {
+                                checkInternetConnection()
+                            }
+                        
+                        OldSessionView()
+                            .tabItem {
+                                Label("Geçmiş Oturumlar", systemImage: "clock")
+                            }
+                            .tag(Tabs.oldSessions)
+                            .onAppear {
+                                checkInternetConnection()
+                            }
+                        
+                        AddSessionView(selectedTab: $selectedTab)
+                            .tabItem {
+                                Label("Oturum Ekle", systemImage: "plus")
+                            }
+                            .tag(Tabs.addSession)
+                            .onAppear {
+                                checkInternetConnection()
+                            }
+                        
+                        SignUpView(authManager: authManager)
+                            .tabItem {
+                                Label("Profil", systemImage: "person")
+                            }
+                            .tag(Tabs.profile)
+                            .onAppear {
+                                checkInternetConnection()
+                            }
+                    }
+                } else {
+                    OnboardingView()
+                        .onAppear {
+                            checkInternetConnection()
                         }
-                        .tag(Tabs.sessions)
-                    
-                    OldSessionView()
-                        .tabItem {
-                            Label("Geçmiş Oturumlar", systemImage: "clock")
-                        }
-                        .tag(Tabs.oldSessions)
-                    
-                    AddSessionView(selectedTab: $selectedTab)
-                        .tabItem {
-                            Label("Oturum Ekle", systemImage: "plus")
-                        }
-                        .tag(Tabs.addSession)
-                    SignUpView(authManager: authManager)
-                        .tabItem {
-                            Label("Profil", systemImage: "person")
-                        }
-                        .tag(Tabs.profile)
                 }
             } else {
-                OnboardingView()
+                VStack {
+                    Text("İnternet bağlantısı yok.")
+                    Button("Tekrar Dene") {
+                        checkInternetConnection()
+                    }
+                    .frame(maxWidth: .infinity, minHeight: 40)
+                    .background(Color.blue)
+                    .foregroundColor(.white)
+                    .cornerRadius(10)
+                    .padding()
+                }
+                
             }
-            
         }
+    }
+    
+    func checkInternetConnection() {
+        isConnected = Reachability.isConnectedToNetwork()
     }
 }

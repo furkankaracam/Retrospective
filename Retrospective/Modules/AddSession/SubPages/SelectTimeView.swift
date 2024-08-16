@@ -40,7 +40,7 @@ struct SelectTimeView: View {
                 .padding()
                 .background(Color.black.opacity(0.1))
                 .cornerRadius(15)
-                .padding()
+            Spacer()
             
         }.padding(.horizontal)
             .onAppear {
