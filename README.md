@@ -79,15 +79,31 @@ Birimi ve UI testlerini çalıştırmak için aşağıdaki adımları izleyin:
 | ---------------- | --------- |
 | ![Onboarding](./readmeImages/onboarding.gif) | Kurulum ekranı. |
 
+### İnternet Kontrolü
+| Ekran Görüntüsü  | Açıklama  |
+| ---------------- | --------- |
+| ![Check Internet](./readmeImages/internet.png) | İnternet kontrolü. |
+
 ### Ana Ekran
 | Ekran Görüntüsü  | Açıklama  |
 | ---------------- | --------- |
-| ![Ana Ekran](./readmeImages/ana-ekran.png) | Ana ekranın genel görünümü. Uygulama başlatıldığında kullanıcıları karşılayan ekran. |
+| ![Ana Ekran](./readmeImages/sessions.png) | Ana ekranın genel görünümü. Uygulama başlatıldığında kullanıcıları karşılayan ekran. |
+
+
+### Boş Tablo
+| Ekran Görüntüsü  | Açıklama  |
+| ---------------- | --------- |
+| ![Empty Table](./readmeImages/empty.png) | Oturumlar tablosunun boş olduğunu gösteren ekran. |
 
 ### Oturum Ekle
 | Ekran Görüntüsü  | Açıklama  |
 | ---------------- | --------- |
 | ![Oturum Ekle](./readmeImages/add-session.gif) | Kullanıcının oturum eklediği ekran. |
+
+### Oturum Girişi
+| Ekran Görüntüsü  | Açıklama  |
+| ---------------- | --------- |
+| ![Parola](./readmeImages/password.gif) | Kullanıcıdan oturum girişinde şifre alımı. |
 
 ### Oturum Detayları
 | Ekran Görüntüsü  | Açıklama  |

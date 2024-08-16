@@ -23,6 +23,10 @@
 		879982C52C6F8FBC00ACE70D /* add-session.gif in Resources */ = {isa = PBXBuildFile; fileRef = 879982C42C6F8FBC00ACE70D /* add-session.gif */; };
 		879982C72C6F914A00ACE70D /* profile.gif in Resources */ = {isa = PBXBuildFile; fileRef = 879982C62C6F914A00ACE70D /* profile.gif */; };
 		879982C92C6F941000ACE70D /* onboarding.gif in Resources */ = {isa = PBXBuildFile; fileRef = 879982C82C6F941000ACE70D /* onboarding.gif */; };
+		879982CD2C6F955A00ACE70D /* internet.png in Resources */ = {isa = PBXBuildFile; fileRef = 879982CC2C6F955A00ACE70D /* internet.png */; };
+		879982D12C6F965400ACE70D /* sessions.png in Resources */ = {isa = PBXBuildFile; fileRef = 879982CE2C6F965400ACE70D /* sessions.png */; };
+		879982D22C6F965400ACE70D /* password.png in Resources */ = {isa = PBXBuildFile; fileRef = 879982CF2C6F965400ACE70D /* password.png */; };
+		879982D32C6F965400ACE70D /* empty.png in Resources */ = {isa = PBXBuildFile; fileRef = 879982D02C6F965400ACE70D /* empty.png */; };
 		879FB98D2C4E70A700770753 /* Root.swift in Sources */ = {isa = PBXBuildFile; fileRef = 879FB98C2C4E70A700770753 /* Root.swift */; };
 		879FB9912C4E70A700770753 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 879FB9902C4E70A700770753 /* Assets.xcassets */; };
 		879FB9942C4E70A700770753 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 879FB9932C4E70A700770753 /* Preview Assets.xcassets */; };
@@ -110,6 +114,10 @@
 		879982C42C6F8FBC00ACE70D /* add-session.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "add-session.gif"; sourceTree = "<group>"; };
 		879982C62C6F914A00ACE70D /* profile.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = profile.gif; sourceTree = "<group>"; };
 		879982C82C6F941000ACE70D /* onboarding.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = onboarding.gif; sourceTree = "<group>"; };
+		879982CC2C6F955A00ACE70D /* internet.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = internet.png; sourceTree = "<group>"; };
+		879982CE2C6F965400ACE70D /* sessions.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sessions.png; sourceTree = "<group>"; };
+		879982CF2C6F965400ACE70D /* password.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = password.png; sourceTree = "<group>"; };
+		879982D02C6F965400ACE70D /* empty.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = empty.png; sourceTree = "<group>"; };
 		879FB9892C4E70A700770753 /* Retrospective.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Retrospective.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		879FB98C2C4E70A700770753 /* Root.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Root.swift; sourceTree = "<group>"; };
 		879FB9902C4E70A700770753 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -216,6 +224,10 @@
 				879982C82C6F941000ACE70D /* onboarding.gif */,
 				879982C62C6F914A00ACE70D /* profile.gif */,
 				879982C42C6F8FBC00ACE70D /* add-session.gif */,
+				879982CC2C6F955A00ACE70D /* internet.png */,
+				879982D02C6F965400ACE70D /* empty.png */,
+				879982CF2C6F965400ACE70D /* password.png */,
+				879982CE2C6F965400ACE70D /* sessions.png */,
 			);
 			path = readmeImages;
 			sourceTree = "<group>";
@@ -556,12 +568,16 @@
 				879982C92C6F941000ACE70D /* onboarding.gif in Resources */,
 				879982C52C6F8FBC00ACE70D /* add-session.gif in Resources */,
 				87D41C2F2C6CBEA20091CF75 /* lottie3.json in Resources */,
+				879982D12C6F965400ACE70D /* sessions.png in Resources */,
+				879982CD2C6F955A00ACE70D /* internet.png in Resources */,
 				879FB9DB2C4FAA0700770753 /* .swiftlint.yml in Resources */,
 				87D41C242C6CBCDF0091CF75 /* lottie1.json in Resources */,
 				87D41BA22C63AF650091CF75 /* GoogleService-Info.plist in Resources */,
 				87D41C252C6CBCDF0091CF75 /* lottie4.json in Resources */,
 				879FB9942C4E70A700770753 /* Preview Assets.xcassets in Resources */,
+				879982D32C6F965400ACE70D /* empty.png in Resources */,
 				879982C72C6F914A00ACE70D /* profile.gif in Resources */,
+				879982D22C6F965400ACE70D /* password.png in Resources */,
 				879FB9912C4E70A700770753 /* Assets.xcassets in Resources */,
 				87D41C312C6CBEFD0091CF75 /* lottie2.json in Resources */,
 			);
