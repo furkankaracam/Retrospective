@@ -4,6 +4,7 @@
 //
 //  Created by Furkan Karaçam on 25.07.2024.
 //
+
 import SwiftUI
 
 struct AddSessionView: View {
@@ -25,7 +26,7 @@ struct AddSessionView: View {
                                 .id(1)
                             SelectColumnsView(viewModel: viewModel)
                                 .id(2)
-                            ResultView(selectedTab: $selectedTab)
+                            ResultView(selectedTab: $selectedTab, viewModel: viewModel)
                                 .id(3)
                         }.frame(width: UIScreen.main.bounds.width)
                     }

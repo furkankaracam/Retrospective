@@ -35,14 +35,13 @@ class AuthManager: ObservableObject {
         do {
             let result = try await Auth.auth().signIn(withEmail: "\(username)@mail.com", password: password)
             updateState(user: result.user)
-            print(result)
             return result
         } catch {
             throw error
         }
     }
     
-    func configureAuthStateChanges() {
+    private func configureAuthStateChanges() {
         authStateHandle = Auth.auth().addStateDidChangeListener { _, user in
             self.updateState(user: user)
         }
@@ -52,7 +51,7 @@ class AuthManager: ObservableObject {
         Auth.auth().removeStateDidChangeListener(authStateHandle)
     }
     
-    func updateState(user: User?) {
+    private func updateState(user: User?) {
         self.user = user
         let isAuthenticatedUser = user != nil
         let isAnonymous = user?.isAnonymous ?? false
@@ -65,7 +64,7 @@ class AuthManager: ObservableObject {
     }
     
     func checkAuthState() -> Bool {
-        user != nil ? true : false
+        return user != nil
     }
     
     func signOut() {

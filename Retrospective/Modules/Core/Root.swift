@@ -66,7 +66,7 @@ struct RetrospectiveApp: App {
                                 checkInternetConnection()
                             }
                         
-                        SignUpView(authManager: authManager)
+                        UserPage()
                             .tabItem {
                                 Label("Profil", systemImage: "person")
                             }
