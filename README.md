@@ -103,7 +103,7 @@ Birimi ve UI testlerini çalıştırmak için aşağıdaki adımları izleyin:
 ### Oturum Girişi
 | Ekran Görüntüsü  | Açıklama  |
 | ---------------- | --------- |
-| ![Parola](./readmeImages/password.gif) | Kullanıcıdan oturum girişinde şifre alımı. |
+| ![Parola](./readmeImages/password.png) | Kullanıcıdan oturum girişinde şifre alımı. |
 
 ### Oturum Detayları
 | Ekran Görüntüsü  | Açıklama  |
