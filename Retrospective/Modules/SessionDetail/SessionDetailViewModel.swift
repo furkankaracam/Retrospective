@@ -44,29 +44,29 @@ final class SessionDetailViewModel: ObservableObject {
     
     // MARK: - Timer Functions
     func startTimer(id: String) {
-           timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { _ in
-               self.updateTime()
-           }
-       }
-       
-       private func updateTime() {
-           guard let endTime = session?.settings?.endTime else { return }
-           
-           let currentTime = Date().timeIntervalSince1970
-           let remainingTime = max(0, endTime - currentTime)
-           
-           if remainingTime == 0 {
-               self.isSessionActive = false
-               self.timer?.invalidate() // Oturum bittiğinde sayacı durdur
-               self.ref.child("sessions/\(sessionKey)/isActive").setValue(false) { error, _ in
-                   if let error = error {
-                       print("Error updating session status: \(error.localizedDescription)")
-                   }
-               }
-           }
-
-           self.time = TimeFormatterUtility.formatTime(seconds: Int(remainingTime))
-       }
+        timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { _ in
+            self.updateTime()
+        }
+    }
+    
+    private func updateTime() {
+        guard let endTime = session?.settings?.endTime else { return }
+        
+        let currentTime = Date().timeIntervalSince1970
+        let remainingTime = max(0, endTime - currentTime)
+        
+        if remainingTime == 0 {
+            self.isSessionActive = false
+            self.timer?.invalidate() // Oturum bittiğinde sayacı durdur
+            self.ref.child("sessions/\(sessionKey)/isActive").setValue(false) { error, _ in
+                if let error = error {
+                    print("Error updating session status: \(error.localizedDescription)")
+                }
+            }
+        }
+        
+        self.time = TimeFormatterUtility.formatTime(seconds: Int(remainingTime))
+    }
     
     // MARK: - Comments Management
     func deleteComment(sessionId: String, columnId: String, commentId: String) async {
@@ -173,27 +173,27 @@ final class SessionDetailViewModel: ObservableObject {
     // MARK: - Move and Delete Items
     func moveItems(fromOffsets source: IndexSet, toOffset destination: Int) {
         var newItems = self.items
-
+        
         guard let sourceIndex = source.first else {
             print("Source index not found")
             return
         }
         
         let adjustedDestination = destination > sourceIndex ? destination - 1 : destination
-
+        
         guard sourceIndex < newItems.count, adjustedDestination <= newItems.count else {
             print("Invalid source or destination index")
             return
         }
-
+        
         let movedItem = newItems.remove(at: sourceIndex)
         newItems.insert(movedItem, at: adjustedDestination)
-
+        
         let oldColumnId = findColumnId(forCommentAt: sourceIndex)
         let newColumnId = findColumnId(forCommentAt: adjustedDestination)
-
+        
         let itemsCopy = newItems
-
+        
         Task {
             if oldColumnId != newColumnId {
                 if let movedComment = movedItem.comment {
@@ -201,13 +201,13 @@ final class SessionDetailViewModel: ObservableObject {
                     await addComment(sessionId: sessionKey, to: newColumnId ?? "", comment: movedComment.comment ?? "")
                 }
             }
-            await updateOrderInColumn(columnId: oldColumnId ?? "", items: itemsCopy.filter { $0.column?.id == oldColumnId })
             await updateOrderInColumn(columnId: newColumnId ?? "", items: itemsCopy.filter { $0.column?.id == newColumnId })
         }
-
+        
         self.items = newItems
     }
-
+    
+    
     func deleteItem(at index: Int) {
         let item = items[index]
         

@@ -97,7 +97,7 @@ struct SessionDetail: View {
                                         .background(Color.blue)
                                         .foregroundColor(.white)
                                         .cornerRadius(10)
-                                    }
+                                        }
                                     .moveDisabled(true)
                                     .deleteDisabled(true)
                                 }

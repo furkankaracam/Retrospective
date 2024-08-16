@@ -19,7 +19,6 @@
 		879982B22C6ED88700ACE70D /* Reachibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 879982B12C6ED88700ACE70D /* Reachibility.swift */; };
 		879982BA2C6F71FF00ACE70D /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 879982B92C6F71FF00ACE70D /* ProfileView.swift */; };
 		879982BC2C6F726700ACE70D /* UserPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 879982BB2C6F726700ACE70D /* UserPage.swift */; };
-		879982C12C6F8C5E00ACE70D /* DotLottie in Frameworks */ = {isa = PBXBuildFile; productRef = 879982C02C6F8C5E00ACE70D /* DotLottie */; };
 		879982C52C6F8FBC00ACE70D /* add-session.gif in Resources */ = {isa = PBXBuildFile; fileRef = 879982C42C6F8FBC00ACE70D /* add-session.gif */; };
 		879982C72C6F914A00ACE70D /* profile.gif in Resources */ = {isa = PBXBuildFile; fileRef = 879982C62C6F914A00ACE70D /* profile.gif */; };
 		879982C92C6F941000ACE70D /* onboarding.gif in Resources */ = {isa = PBXBuildFile; fileRef = 879982C82C6F941000ACE70D /* onboarding.gif */; };
@@ -28,6 +27,7 @@
 		879982D22C6F965400ACE70D /* password.png in Resources */ = {isa = PBXBuildFile; fileRef = 879982CF2C6F965400ACE70D /* password.png */; };
 		879982D32C6F965400ACE70D /* empty.png in Resources */ = {isa = PBXBuildFile; fileRef = 879982D02C6F965400ACE70D /* empty.png */; };
 		879982D52C6FB2DB00ACE70D /* session-detail.gif in Resources */ = {isa = PBXBuildFile; fileRef = 879982D42C6FB2DB00ACE70D /* session-detail.gif */; };
+		879982D82C6FB39E00ACE70D /* DotLottie in Frameworks */ = {isa = PBXBuildFile; productRef = 879982D72C6FB39E00ACE70D /* DotLottie */; };
 		879FB98D2C4E70A700770753 /* Root.swift in Sources */ = {isa = PBXBuildFile; fileRef = 879FB98C2C4E70A700770753 /* Root.swift */; };
 		879FB9912C4E70A700770753 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 879FB9902C4E70A700770753 /* Assets.xcassets */; };
 		879FB9942C4E70A700770753 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 879FB9932C4E70A700770753 /* Preview Assets.xcassets */; };
@@ -178,7 +178,7 @@
 				87D41C0A2C6CA4C00091CF75 /* FirebaseAnalytics in Frameworks */,
 				87D41C102C6CA4C00091CF75 /* FirebaseDatabase in Frameworks */,
 				87D41C0C2C6CA4C00091CF75 /* FirebaseAuth in Frameworks */,
-				879982C12C6F8C5E00ACE70D /* DotLottie in Frameworks */,
+				879982D82C6FB39E00ACE70D /* DotLottie in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -473,7 +473,7 @@
 				87D41C0B2C6CA4C00091CF75 /* FirebaseAuth */,
 				87D41C0D2C6CA4C00091CF75 /* FirebaseCrashlytics */,
 				87D41C0F2C6CA4C00091CF75 /* FirebaseDatabase */,
-				879982C02C6F8C5E00ACE70D /* DotLottie */,
+				879982D72C6FB39E00ACE70D /* DotLottie */,
 			);
 			productName = Retrospective;
 			productReference = 879FB9892C4E70A700770753 /* Retrospective.app */;
@@ -549,7 +549,7 @@
 			mainGroup = 879FB9802C4E70A600770753;
 			packageReferences = (
 				87D41C082C6CA4C00091CF75 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
-				879982BF2C6F8C5E00ACE70D /* XCRemoteSwiftPackageReference "dotlottie-ios" */,
+				879982D62C6FB39E00ACE70D /* XCRemoteSwiftPackageReference "dotlottie-ios" */,
 			);
 			productRefGroup = 879FB98A2C4E70A700770753 /* Products */;
 			projectDirPath = "";
@@ -1030,7 +1030,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		879982BF2C6F8C5E00ACE70D /* XCRemoteSwiftPackageReference "dotlottie-ios" */ = {
+		879982D62C6FB39E00ACE70D /* XCRemoteSwiftPackageReference "dotlottie-ios" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/LottieFiles/dotlottie-ios";
 			requirement = {
@@ -1049,9 +1049,9 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		879982C02C6F8C5E00ACE70D /* DotLottie */ = {
+		879982D72C6FB39E00ACE70D /* DotLottie */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 879982BF2C6F8C5E00ACE70D /* XCRemoteSwiftPackageReference "dotlottie-ios" */;
+			package = 879982D62C6FB39E00ACE70D /* XCRemoteSwiftPackageReference "dotlottie-ios" */;
 			productName = DotLottie;
 		};
 		87D41C092C6CA4C00091CF75 /* FirebaseAnalytics */ = {
