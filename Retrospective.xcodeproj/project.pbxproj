@@ -17,9 +17,10 @@
 		879982AE2C6EBECB00ACE70D /* swipe.json in Resources */ = {isa = PBXBuildFile; fileRef = 879982AD2C6EBECB00ACE70D /* swipe.json */; };
 		879982B02C6EC9CF00ACE70D /* Keyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 879982AF2C6EC9CF00ACE70D /* Keyboard.swift */; };
 		879982B22C6ED88700ACE70D /* Reachibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 879982B12C6ED88700ACE70D /* Reachibility.swift */; };
-		879982B52C6F332E00ACE70D /* DotLottie in Frameworks */ = {isa = PBXBuildFile; productRef = 879982B42C6F332E00ACE70D /* DotLottie */; };
 		879982BA2C6F71FF00ACE70D /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 879982B92C6F71FF00ACE70D /* ProfileView.swift */; };
 		879982BC2C6F726700ACE70D /* UserPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 879982BB2C6F726700ACE70D /* UserPage.swift */; };
+		879982C12C6F8C5E00ACE70D /* DotLottie in Frameworks */ = {isa = PBXBuildFile; productRef = 879982C02C6F8C5E00ACE70D /* DotLottie */; };
+		879982C32C6F8EDC00ACE70D /* add-session.gif in Resources */ = {isa = PBXBuildFile; fileRef = 879982C22C6F8EDC00ACE70D /* add-session.gif */; };
 		879FB98D2C4E70A700770753 /* Root.swift in Sources */ = {isa = PBXBuildFile; fileRef = 879FB98C2C4E70A700770753 /* Root.swift */; };
 		879FB9912C4E70A700770753 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 879FB9902C4E70A700770753 /* Assets.xcassets */; };
 		879FB9942C4E70A700770753 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 879FB9932C4E70A700770753 /* Preview Assets.xcassets */; };
@@ -103,6 +104,8 @@
 		879982B62C6F5EE200ACE70D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		879982B92C6F71FF00ACE70D /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		879982BB2C6F726700ACE70D /* UserPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPage.swift; sourceTree = "<group>"; };
+		879982BD2C6F889300ACE70D /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		879982C22C6F8EDC00ACE70D /* add-session.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "add-session.gif"; sourceTree = "<group>"; };
 		879FB9892C4E70A700770753 /* Retrospective.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Retrospective.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		879FB98C2C4E70A700770753 /* Root.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Root.swift; sourceTree = "<group>"; };
 		879FB9902C4E70A700770753 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -161,7 +164,7 @@
 				87D41C0A2C6CA4C00091CF75 /* FirebaseAnalytics in Frameworks */,
 				87D41C102C6CA4C00091CF75 /* FirebaseDatabase in Frameworks */,
 				87D41C0C2C6CA4C00091CF75 /* FirebaseAuth in Frameworks */,
-				879982B52C6F332E00ACE70D /* DotLottie in Frameworks */,
+				879982C12C6F8C5E00ACE70D /* DotLottie in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -203,9 +206,19 @@
 			path = Column;
 			sourceTree = "<group>";
 		};
+		879982BE2C6F8B2400ACE70D /* readmeImages */ = {
+			isa = PBXGroup;
+			children = (
+				879982C22C6F8EDC00ACE70D /* add-session.gif */,
+			);
+			path = readmeImages;
+			sourceTree = "<group>";
+		};
 		879FB9802C4E70A600770753 = {
 			isa = PBXGroup;
 			children = (
+				879982BE2C6F8B2400ACE70D /* readmeImages */,
+				879982BD2C6F889300ACE70D /* README.md */,
 				879FB98B2C4E70A700770753 /* Retrospective */,
 				879FB99C2C4E70A700770753 /* RetrospectiveTests */,
 				879FB9A62C4E70A700770753 /* RetrospectiveUITests */,
@@ -439,7 +452,7 @@
 				87D41C0B2C6CA4C00091CF75 /* FirebaseAuth */,
 				87D41C0D2C6CA4C00091CF75 /* FirebaseCrashlytics */,
 				87D41C0F2C6CA4C00091CF75 /* FirebaseDatabase */,
-				879982B42C6F332E00ACE70D /* DotLottie */,
+				879982C02C6F8C5E00ACE70D /* DotLottie */,
 			);
 			productName = Retrospective;
 			productReference = 879FB9892C4E70A700770753 /* Retrospective.app */;
@@ -515,7 +528,7 @@
 			mainGroup = 879FB9802C4E70A600770753;
 			packageReferences = (
 				87D41C082C6CA4C00091CF75 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
-				879982B32C6F332E00ACE70D /* XCRemoteSwiftPackageReference "dotlottie-ios" */,
+				879982BF2C6F8C5E00ACE70D /* XCRemoteSwiftPackageReference "dotlottie-ios" */,
 			);
 			productRefGroup = 879FB98A2C4E70A700770753 /* Products */;
 			projectDirPath = "";
@@ -534,6 +547,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				879982AE2C6EBECB00ACE70D /* swipe.json in Resources */,
+				879982C32C6F8EDC00ACE70D /* add-session.gif in Resources */,
 				87D41C2F2C6CBEA20091CF75 /* lottie3.json in Resources */,
 				879FB9DB2C4FAA0700770753 /* .swiftlint.yml in Resources */,
 				87D41C242C6CBCDF0091CF75 /* lottie1.json in Resources */,
@@ -988,7 +1002,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		879982B32C6F332E00ACE70D /* XCRemoteSwiftPackageReference "dotlottie-ios" */ = {
+		879982BF2C6F8C5E00ACE70D /* XCRemoteSwiftPackageReference "dotlottie-ios" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/LottieFiles/dotlottie-ios";
 			requirement = {
@@ -1007,9 +1021,9 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		879982B42C6F332E00ACE70D /* DotLottie */ = {
+		879982C02C6F8C5E00ACE70D /* DotLottie */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 879982B32C6F332E00ACE70D /* XCRemoteSwiftPackageReference "dotlottie-ios" */;
+			package = 879982BF2C6F8C5E00ACE70D /* XCRemoteSwiftPackageReference "dotlottie-ios" */;
 			productName = DotLottie;
 		};
 		87D41C092C6CA4C00091CF75 /* FirebaseAnalytics */ = {
