@@ -74,6 +74,11 @@ Birimi ve UI testlerini çalıştırmak için aşağıdaki adımları izleyin:
 
 ## Ekran Görüntüleri
 
+### Onboarding
+| Ekran Görüntüsü  | Açıklama  |
+| ---------------- | --------- |
+| ![Onboarding](./readmeImages/onboarding.gif) | Kurulum ekranı. |
+
 ### Ana Ekran
 | Ekran Görüntüsü  | Açıklama  |
 | ---------------- | --------- |
