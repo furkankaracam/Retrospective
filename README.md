@@ -108,6 +108,7 @@ Birimi ve UI testlerini çalıştırmak için aşağıdaki adımları izleyin:
 ### Oturum Detayları
 | Ekran Görüntüsü  | Açıklama  |
 | ---------------- | --------- |
+| ![Oturum Detay](./readmeImages/session-detail.gif) | Kullanıcının giriş kayıt işlemleri yaptığı ekran. |
 
 ### Profil Ekranı
 | Ekran Görüntüsü  | Açıklama  |

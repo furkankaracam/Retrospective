@@ -37,24 +37,11 @@ struct SessionDetail: View {
             
             List {
                 ForEach($viewModel.items, id: \.id, editActions: [.move, .delete]) { $item in
-                    
                     if !item.isComment {
                         VStack(alignment: .leading) {
                             ColumnTitle(title: item.column?.name ?? "")
                                 .moveDisabled(true)
                                 .deleteDisabled(true)
-                        }
-                         
-                        Rectangle()
-                            .frame(height: 20)
-                            .listRowInsets(.init())
-                            .padding(0)
-                            .deleteDisabled(true)
-                            .hidden()
-                    } else {
-                        CommentCard(viewModel: viewModel, isEditing: .constant(false), isAnonym: viewModel.anonymStatus ?? false, card: item.comment ?? Comment(id: nil, author: nil, comment: nil, order: item.comment?.order))
-                        
-                        if item.isComment && item.id == viewModel.items.last(where: { $0.column?.id == item.column?.id })?.id {
                             
                             if showingCommentInput != item.column?.id {
                                 Button("+ Yeni Ekle") {
@@ -65,21 +52,21 @@ struct SessionDetail: View {
                                         showingCommentInput = item.column?.id
                                     }
                                 }
-                                .frame(maxWidth: .infinity)
-                                .padding()
+                                .frame(maxWidth: .infinity, minHeight: 40)
                                 .background(Color.green)
                                 .foregroundColor(.white)
                                 .bold()
                                 .cornerRadius(10)
                                 .moveDisabled(true)
                                 .deleteDisabled(true)
+                                .padding(.horizontal)
                             }
+                            
                             
                             if showingCommentInput == item.column?.id {
                                 VStack {
                                     TextField("Yeni yorumunuzu yazın", text: $newComment)
                                         .textFieldStyle(RoundedBorderTextFieldStyle())
-                                        .padding()
                                         .background(Color.gray.opacity(0.2))
                                         .cornerRadius(10)
                                         .moveDisabled(true)
@@ -105,7 +92,6 @@ struct SessionDetail: View {
                                             }
                                         }
                                         .buttonStyle(.bordered)
-                                        .padding()
                                         .frame(maxWidth: .infinity)
                                         .frame(height: 40)
                                         .background(Color.blue)
@@ -115,9 +101,19 @@ struct SessionDetail: View {
                                     .moveDisabled(true)
                                     .deleteDisabled(true)
                                 }
+                                .padding(.horizontal)
                             }
                         }
+                        .moveDisabled(true)
                         
+                        Rectangle()
+                            .frame(height: 10)
+                            .listRowInsets(.init())
+                            .moveDisabled(true)
+                            .deleteDisabled(true)
+                            .hidden()
+                    } else {
+                        CommentCard(viewModel: viewModel, isEditing: .constant(false), isAnonym: viewModel.anonymStatus ?? false, card: item.comment ?? Comment(id: nil, author: nil, comment: nil, order: item.comment?.order))
                     }
                 }
                 .onMove(perform: { indices, newOffset in
@@ -130,6 +126,7 @@ struct SessionDetail: View {
             }
             .environment(\.defaultMinListRowHeight, 10)
             .listStyle(.plain)
+            
         }
         .task {
             if !sessionId.isEmpty {
@@ -143,19 +140,15 @@ struct SessionDetail: View {
             NotificationCenter.default.post(name: .sessionDetailDidDisappear, object: nil)
         }
         .navigationBarBackButtonHidden(true)
-                .navigationBarItems(leading: Button(action: {
-                    presentationMode.wrappedValue.dismiss()
-                }) {
-                    HStack {
-                        Image(systemName: "chevron.left")
-                        Text("Oturumlar")
-                    }
-                })
+        .navigationBarItems(leading: Button(action: {
+            presentationMode.wrappedValue.dismiss()
+        }) {
+            HStack {
+                Image(systemName: "chevron.left")
+                Text("Oturumlar")
+            }
+        })
         .environment(\.editMode, isEditing ? .constant(.active) : .constant(.inactive))
         
     }
-}
-
-#Preview {
-    SessionDetail(sessionId: "-O3XEnBJtrBjIc4O1m-x", timer: 60, sessionName: "Sezon")
 }
