@@ -12,10 +12,16 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         FirebaseApp.configure()
-        
+        return true
+    }
+    
+    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+        print("açıldı")
         return true
     }
 }
+
+
 
 @main
 struct RetrospectiveApp: App {
@@ -26,7 +32,8 @@ struct RetrospectiveApp: App {
     @State private var selectedTab: Tabs = .sessions
     @State private var isConnected: Bool = true
     @State private var showAlert: Bool = false
-    
+    @State private var deepLinkSessionId: String?
+
     var body: some Scene {
         WindowGroup {
             if isConnected {
@@ -86,12 +93,22 @@ struct RetrospectiveApp: App {
                     .cornerRadius(10)
                     .padding()
                 }
-                
             }
         }
     }
     
+    private func handleIncomingURL(url: URL) {
+        print("Received URL: \(url)")
+        if url.scheme == "retrospective", let host = url.host {
+            deepLinkSessionId = host
+            print("Deep link session ID: \(host)")
+        } else {
+            print("Invalid URL scheme or host")
+        }
+    }
+
     func checkInternetConnection() {
         isConnected = Reachability.isConnectedToNetwork()
     }
 }
+

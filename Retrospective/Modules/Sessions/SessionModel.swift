@@ -46,6 +46,7 @@ struct Settings: Decodable {
     let anonymous: Bool?
     let authorVisibility: Bool?
     let time: Int?
+    let endTime: TimeInterval?
     let password: String?
 }
 

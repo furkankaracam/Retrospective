@@ -40,7 +40,7 @@
 		87A3A99F2C528E4900C39550 /* SelectColumnsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87A3A99E2C528E4900C39550 /* SelectColumnsView.swift */; };
 		87A3A9A12C5296B000C39550 /* ResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87A3A9A02C5296B000C39550 /* ResultView.swift */; };
 		87A3A9A32C5297A100C39550 /* SelectTimeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87A3A9A22C5297A100C39550 /* SelectTimeView.swift */; };
-		87A3A9AA2C53ACB800C39550 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87A3A9A92C53ACB800C39550 /* Model.swift */; };
+		87A3A9AA2C53ACB800C39550 /* SessionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87A3A9A92C53ACB800C39550 /* SessionModel.swift */; };
 		87D41B762C5A55200091CF75 /* CommentCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87D41B752C5A55200091CF75 /* CommentCard.swift */; };
 		87D41B792C636DEE0091CF75 /* TimeFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87D41B782C636DEE0091CF75 /* TimeFormatter.swift */; };
 		87D41B7C2C636FC00091CF75 /* OldSessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87D41B7B2C636FC00091CF75 /* OldSessionView.swift */; };
@@ -98,6 +98,7 @@
 		879982AD2C6EBECB00ACE70D /* swipe.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = swipe.json; sourceTree = "<group>"; };
 		879982AF2C6EC9CF00ACE70D /* Keyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keyboard.swift; sourceTree = "<group>"; };
 		879982B12C6ED88700ACE70D /* Reachibility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reachibility.swift; sourceTree = "<group>"; };
+		879982B62C6F5EE200ACE70D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		879FB9892C4E70A700770753 /* Retrospective.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Retrospective.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		879FB98C2C4E70A700770753 /* Root.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Root.swift; sourceTree = "<group>"; };
 		879FB9902C4E70A700770753 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -121,7 +122,7 @@
 		87A3A99E2C528E4900C39550 /* SelectColumnsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectColumnsView.swift; sourceTree = "<group>"; };
 		87A3A9A02C5296B000C39550 /* ResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultView.swift; sourceTree = "<group>"; };
 		87A3A9A22C5297A100C39550 /* SelectTimeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectTimeView.swift; sourceTree = "<group>"; };
-		87A3A9A92C53ACB800C39550 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
+		87A3A9A92C53ACB800C39550 /* SessionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionModel.swift; sourceTree = "<group>"; };
 		87D41B752C5A55200091CF75 /* CommentCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentCard.swift; sourceTree = "<group>"; };
 		87D41B782C636DEE0091CF75 /* TimeFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeFormatter.swift; sourceTree = "<group>"; };
 		87D41B7B2C636FC00091CF75 /* OldSessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OldSessionView.swift; sourceTree = "<group>"; };
@@ -221,6 +222,7 @@
 		879FB98B2C4E70A700770753 /* Retrospective */ = {
 			isa = PBXGroup;
 			children = (
+				879982B62C6F5EE200ACE70D /* Info.plist */,
 				87D41B772C636DDE0091CF75 /* Utilities */,
 				879FB9B72C4E733000770753 /* Modules */,
 				879FB9902C4E70A700770753 /* Assets.xcassets */,
@@ -276,7 +278,7 @@
 				87D41BFD2C6BDD450091CF75 /* ActiveSessions */,
 				87A3A9852C5167AB00C39550 /* Table */,
 				879FB9C52C4E7E5500770753 /* SessionViewModel.swift */,
-				87A3A9A92C53ACB800C39550 /* Model.swift */,
+				87A3A9A92C53ACB800C39550 /* SessionModel.swift */,
 			);
 			path = Sessions;
 			sourceTree = "<group>";
@@ -623,7 +625,7 @@
 				87A3A99F2C528E4900C39550 /* SelectColumnsView.swift in Sources */,
 				87D41BAC2C6505E20091CF75 /* LogoView.swift in Sources */,
 				87D41B862C63861C0091CF75 /* SignUpView.swift in Sources */,
-				87A3A9AA2C53ACB800C39550 /* Model.swift in Sources */,
+				87A3A9AA2C53ACB800C39550 /* SessionModel.swift in Sources */,
 				87D41C192C6CA6A10091CF75 /* OnboardingViewModel.swift in Sources */,
 				87A3A9972C526F2600C39550 /* SelectNameView.swift in Sources */,
 				87A3A9A32C5297A100C39550 /* SelectTimeView.swift in Sources */,
@@ -811,6 +813,7 @@
 				DEVELOPMENT_TEAM = HMM6UTB9C8;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Retrospective/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -840,6 +843,7 @@
 				DEVELOPMENT_TEAM = HMM6UTB9C8;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Retrospective/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

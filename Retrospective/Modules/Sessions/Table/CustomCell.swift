@@ -34,12 +34,7 @@ struct CustomCell: View {
                                     .frame(width: UIScreen.main.bounds.size.width / (isOld ? 2 : 3))
                             }
                         }
-                            .background(
-                                NavigationLink(destination: SessionDetail(sessionId: session.id ?? "", timer: 1, sessionName: session.name ?? ""), isActive: $isNavigationActive) {
-                                    EmptyView()
-                                }
-                                    .hidden()
-                            )
+                            
                             .padding(.horizontal)
                     )
             )
@@ -71,5 +66,11 @@ struct CustomCell: View {
                     isNavigationActive = true
                 }
             }
+            .background(
+                NavigationLink(destination: SessionDetail(sessionId: session.id ?? "", timer: 1, sessionName: session.name ?? ""), isActive: $isNavigationActive) {
+                    EmptyView()
+                }
+                    .hidden()
+            )
     }
 }

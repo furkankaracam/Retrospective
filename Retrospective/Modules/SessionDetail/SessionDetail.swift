@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct SessionDetail: View {
+    @Environment(\.presentationMode) var presentationMode
     @StateObject private var viewModel = SessionDetailViewModel()
     @State private var isEditing: Bool = false
     @State private var newComment: String = ""
@@ -141,6 +142,15 @@ struct SessionDetail: View {
             viewModel.timer?.invalidate()
             NotificationCenter.default.post(name: .sessionDetailDidDisappear, object: nil)
         }
+        .navigationBarBackButtonHidden(true)
+                .navigationBarItems(leading: Button(action: {
+                    presentationMode.wrappedValue.dismiss()
+                }) {
+                    HStack {
+                        Image(systemName: "chevron.left")
+                        Text("Oturumlar")
+                    }
+                })
         .environment(\.editMode, isEditing ? .constant(.active) : .constant(.inactive))
         
     }
