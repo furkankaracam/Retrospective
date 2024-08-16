@@ -59,6 +59,7 @@ struct CustomCell: View {
                 NotificationCenter.default.addObserver(forName: .sessionDetailDidDisappear, object: nil, queue: .main) { _ in
                     isNavigationActive = false
                 }
+                isAuthenticated = false
             }
             .onDisappear {
                 NotificationCenter.default.removeObserver(self, name: .sessionDetailDidDisappear, object: nil)

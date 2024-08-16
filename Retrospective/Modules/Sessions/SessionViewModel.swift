@@ -9,12 +9,10 @@ import Foundation
 import Firebase
 
 final class SessionViewModel: ObservableObject {
-    
     @Published var sessions: [RetroSession] = []
     @Published var isLoading: Bool = true
     @Published var isAuthenticated: Bool = false
     
-    private let correctPassword = ""
     private let ref = Database.database().reference()
     
     func fetchData(type: SessionType) async {
@@ -59,15 +57,6 @@ final class SessionViewModel: ObservableObject {
             }
         } withCancel: { error in
             print(error.localizedDescription)
-        }
-    }
-    
-    func authenticate(password: String) -> Bool {
-        if password == correctPassword {
-            isAuthenticated = true
-            return true
-        } else {
-            return false
         }
     }
 }

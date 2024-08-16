@@ -17,16 +17,17 @@ struct PasswordView: View {
     var correctPassword: String
     
     var body: some View {
-        PageHeader(image: "sessions", pageName: "Lütfen Oturum Parolasını Giriniz!")
-        
         VStack {
+            PageHeader(image: "sessions", pageName: "Lütfen Oturum Parolasını Giriniz!")
+            
             SecureField("Oturuma katılım parolanızı giriniz!", text: $enteredPassword)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .padding()
             
             HStack(spacing: 15) {
                 Button(action: {
-                    if viewModel.authenticate(password: enteredPassword) {
+                    if enteredPassword == correctPassword {
+                        isAuthenticated = true
                         isPresented = false
                     } else {
                         showAlert = true
@@ -60,16 +61,8 @@ struct PasswordView: View {
             .frame(maxWidth: .infinity)
         }
         .padding()
-        
-        .onDisappear {
-            viewModel.isAuthenticated = false
+        .onAppear {
+            enteredPassword = ""
         }
-        
     }
-    
-}
-
-#Preview {
-    PasswordView(isPresented: .constant(true), isAuthenticated: .constant(false), correctPassword: "password")
-        .environmentObject(SessionViewModel())
 }
