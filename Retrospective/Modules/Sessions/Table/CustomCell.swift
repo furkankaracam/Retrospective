@@ -34,7 +34,7 @@ struct CustomCell: View {
                                     .frame(width: UIScreen.main.bounds.size.width / (isOld ? 2 : 3))
                             }
                         }
-                            
+                        
                             .padding(.horizontal)
                     )
             )

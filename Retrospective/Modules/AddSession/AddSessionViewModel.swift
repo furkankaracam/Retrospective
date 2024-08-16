@@ -24,7 +24,7 @@ final class AddSessionViewModel: ObservableObject {
         guard let currentIndex = allPages.firstIndex(of: pageIndex) else {
             return
         }
-
+        
         switch pageIndex {
         case .name:
             if type == .next && !checkName() {
@@ -41,7 +41,7 @@ final class AddSessionViewModel: ObservableObject {
         case .result:
             return
         }
-
+        
         switch type {
         case .previous:
             let previousIndex = max(currentIndex - 1, 0)
@@ -51,8 +51,8 @@ final class AddSessionViewModel: ObservableObject {
             self.pageIndex = allPages[nextIndex]
         }
     }
-
-    func checkName() -> Bool {
+    
+    private func checkName() -> Bool {
         if session.name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
             alertMessage = "İsim alanı boş bırakılamaz"
             showAlert = true
@@ -61,7 +61,7 @@ final class AddSessionViewModel: ObservableObject {
         return true
     }
     
-    func checkSettings() -> Bool {
+    private func checkSettings() -> Bool {
         if session.settings.password.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
             alertMessage = "Şifre alanı boş bırakılamaz"
             showAlert = true
@@ -70,7 +70,7 @@ final class AddSessionViewModel: ObservableObject {
         return true
     }
     
-    func checkColumns() -> Bool {
+    private func checkColumns() -> Bool {
         if columns.values.contains(where: { $0.name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty }) || columns.count == 0 {
             alertMessage = "Boş kolon hatası"
             showAlert = true
@@ -116,3 +116,4 @@ final class AddSessionViewModel: ObservableObject {
         }
     }
 }
+

@@ -8,7 +8,7 @@
 import Foundation
 import FirebaseAuth
 
-class AuthManager: ObservableObject {
+final class AuthManager: ObservableObject {
     
     @Published var user: User?
     @Published var authState = AuthState.signedOut
@@ -30,7 +30,7 @@ class AuthManager: ObservableObject {
             throw error
         }
     }
-
+    
     func signIn(username: String, password: String) async throws -> AuthDataResult? {
         do {
             let result = try await Auth.auth().signIn(withEmail: "\(username)@mail.com", password: password)
@@ -47,7 +47,7 @@ class AuthManager: ObservableObject {
         }
     }
     
-    func removeAuthStateListener() {
+    private func removeAuthStateListener() {
         Auth.auth().removeStateDidChangeListener(authStateHandle)
     }
     
@@ -63,7 +63,7 @@ class AuthManager: ObservableObject {
         }
     }
     
-    func checkAuthState() -> Bool {
+    private func checkAuthState() -> Bool {
         return user != nil
     }
     

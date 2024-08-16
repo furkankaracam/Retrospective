@@ -21,8 +21,6 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     }
 }
 
-
-
 @main
 struct RetrospectiveApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
@@ -33,7 +31,7 @@ struct RetrospectiveApp: App {
     @State private var isConnected: Bool = true
     @State private var showAlert: Bool = false
     @State private var deepLinkSessionId: String?
-
+    
     var body: some Scene {
         WindowGroup {
             if isConnected {
@@ -106,7 +104,7 @@ struct RetrospectiveApp: App {
             print("Invalid URL scheme or host")
         }
     }
-
+    
     func checkInternetConnection() {
         isConnected = Reachability.isConnectedToNetwork()
     }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-class TimeFormatterUtility {    
+final class TimeFormatterUtility {    
     static func formatTime(seconds: Int) -> String {
         let formatter = DateComponentsFormatter()
         formatter.unitsStyle = .positional

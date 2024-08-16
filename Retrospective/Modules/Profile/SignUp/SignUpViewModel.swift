@@ -36,7 +36,7 @@ final class SignUpViewModel: ObservableObject {
         }
     }
     
-    func signUp() async {
+    private func signUp() async {
         do {
             try await authManager.signUp(username: name, password: password)
             await MainActor.run {
@@ -49,11 +49,11 @@ final class SignUpViewModel: ObservableObject {
         }
     }
     
-    func checkPassword() -> Bool {
+    private func checkPassword() -> Bool {
         return password == rePassword
     }
     
-    func checkAuth() async -> Bool {
+    private func checkAuth() async -> Bool {
         await MainActor.run {
             return self.authManager.authState == .signedIn
         }

@@ -17,7 +17,7 @@ final class SessionViewModel: ObservableObject {
     
     private let correctPassword = ""
     private let ref = Database.database().reference()
-
+    
     func fetchData(type: SessionType) async {
         ref.child("sessions").observe(.value) { snapshot, _ in
             guard let value = snapshot.value as? [String: Any] else {

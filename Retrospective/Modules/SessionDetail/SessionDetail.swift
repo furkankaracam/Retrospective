@@ -62,7 +62,6 @@ struct SessionDetail: View {
                                 .padding(.horizontal)
                             }
                             
-                            
                             if showingCommentInput == item.column?.id {
                                 VStack {
                                     TextField("Yeni yorumunuzu yazın", text: $newComment)
@@ -97,7 +96,7 @@ struct SessionDetail: View {
                                         .background(Color.blue)
                                         .foregroundColor(.white)
                                         .cornerRadius(10)
-                                        }
+                                    }
                                     .moveDisabled(true)
                                     .deleteDisabled(true)
                                 }

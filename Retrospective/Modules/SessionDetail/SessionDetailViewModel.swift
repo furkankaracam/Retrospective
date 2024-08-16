@@ -22,7 +22,7 @@ final class SessionDetailViewModel: ObservableObject {
     private var authManager = AuthManager.shared
     
     // MARK: - Fetch Session Key
-    func getKey(id: String, completion: @escaping (String?) -> Void) {
+    private func getKey(id: String, completion: @escaping (String?) -> Void) {
         ref.child("sessions").observeSingleEvent(of: .value) { snapshot in
             guard let value = snapshot.value as? [String: Any] else {
                 print("Invalid data format")
@@ -69,7 +69,7 @@ final class SessionDetailViewModel: ObservableObject {
     }
     
     // MARK: - Comments Management
-    func deleteComment(sessionId: String, columnId: String, commentId: String) async {
+    private func deleteComment(sessionId: String, columnId: String, commentId: String) async {
         let commentRef = ref.child("sessions").child(sessionId).child("columns").child(columnId).child("comments").child(commentId)
         do {
             try await commentRef.removeValue()
@@ -223,7 +223,7 @@ final class SessionDetailViewModel: ObservableObject {
     }
     
     // MARK: - Helper Functions
-    func findColumnId(forCommentAt index: Int) -> String? {
+    private func findColumnId(forCommentAt index: Int) -> String? {
         guard index >= 0 else { return nil }
         
         for index in (0..<index).reversed() {
@@ -235,7 +235,7 @@ final class SessionDetailViewModel: ObservableObject {
         return nil
     }
     
-    func updateOrderInColumn(columnId: String, items: [ListItem]) async {
+    private func updateOrderInColumn(columnId: String, items: [ListItem]) async {
         for (index, item) in items.enumerated() {
             if item.isComment, let commentId = item.comment?.id {
                 let order = index + 1
